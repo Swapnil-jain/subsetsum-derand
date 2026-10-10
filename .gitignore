@@ -1,0 +1,4 @@
+__pycache__/
+lean/.lake/
+lean/axioms.check
+lean/build_peak.log

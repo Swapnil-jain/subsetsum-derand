@@ -1,0 +1,26 @@
+Deterministic Subset Sum below meet-in-the-middle
+Copyright 2026 Swapnil Jain. Private draft; not published.
+
+This work builds on, and does not modify, the following:
+
+- Xi Chen, Ce Jin, Tim Randolph and Rocco A. Servedio, arXiv 2301.07134: the Representation-OV algorithm of their
+  Sec. 4, its model, constants (Equations (3), (4)), Lemmas 2, 3, 5, 6, 8, Observations 1, 2, 4, footnote 8, and the
+  cost accounting of their Theorem 2. Stage 1 replaces only their random prime and their s(l) random residues.
+- Ye and Li, arXiv 2610.10446 (v1): the prefix representation, layers, partial-match subroutine and hardcoded
+  circuit (Cor. 3.2, Cor. 3.3), the few-sums branch, the exponent table of Sec. 4, and Prop. 4.2. Stage 2 replaces
+  only their randomized filter and repetitions.
+- Alman and Li (AL25), arXiv 2509.14489 (FOCS 2025): Thm B.2, used inside Ye-Li Prop. 4.2 (Thm 6.1, which
+  Prop. 4.2 also cites, is replaced here by PROOF/stage2.md Lemma 9.1).
+- Per Austrin, Petteri Kaski, Mikko Koivisto and Jesper Nederlof (AKKN16), Lemma 3.2: the few-sums branch.
+- Ellis Horowitz and Sartaj Sahni, JACM 1974: meet-in-the-middle.
+- Greedy set cover: David S. Johnson 1974, László Lovász 1975, Vašek Chvátal 1979 (Lemma 2.3 of Stage 1).
+- OpenAI, openai/math preprint (October 2026): the randomized 2^{0.489995 n} Subset Sum construction (#138); our
+  randomness audit of it led to the covering tool used here. It is not derandomised here.
+- Mathlib (leanprover-community) and Lean 4; the log-series bounds of lean/SubsetsumLean/Basic.lean are copied from
+  our 3SUM package and rest on Mathlib's Real.abs_log_sub_add_sum_range_le and Real.binEntropy.
+
+New here: the deterministic prime with injectivity on W(C) (Stage 1 Lemma 2.1), the simultaneous bound on W'(T)
+(Lemma 2.2), the universal residue covering over (restriction, shift) with the best rotation (Lemmas 2.3, 2.4) and
+its use as a filter in both stages; the collision-bounded prime and residue-threshold layer families of Stage 2;
+the re-derivation of Ye-Li's exponent at a general prefix and the choice pi = 0.2499; the inclusion-exclusion
+replacement for Alman-Li Thm 6.1 (Stage 2 Sec. 9); the certificates and their Lean kernel checks.

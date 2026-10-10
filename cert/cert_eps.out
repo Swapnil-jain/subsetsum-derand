@@ -1,0 +1,39 @@
+[A] pi = 0.2499, xi' = 2.0035e-5 (table), eps_PM = 1e-9
+    T_prefix  <= 0.249900000000
+    T_prime   <= 0.499800000000
+    T_layers  <= 0.499800000000
+    T_cover   <= 0.499800000000
+    T_hist    <= 0.396091500000
+    T_left    <= 0.374950000000
+    T_right   <= 0.437425000000
+    T_few     <= 0.499998331085
+    T_many    <= 0.499998331585
+    max E    <= 0.499998331585  (T_many);  gain 1/2 - E >= 0.000001668415
+    margin to 0.49999834: 0.000000008415
+    PASS
+[B] pi = 0.2499, xi' = 2e-5 (same dL, dR table bounds as [A]; only checks the xi_cap bookkeeping), eps_PM = 1e-9
+    T_prefix  <= 0.249900000000
+    T_prime   <= 0.499800000000
+    T_layers  <= 0.499800000000
+    T_cover   <= 0.499800000000
+    T_hist    <= 0.396091500000
+    T_left    <= 0.374950000000
+    T_right   <= 0.437425000000
+    T_few     <= 0.499998334000
+    T_many    <= 0.499998334500
+    max E    <= 0.499998334500  (T_many);  gain 1/2 - E >= 0.000001665500
+    margin to 0.49999834: 0.000000005500
+    PASS
+    pair used: dL' + dR' = 0.499959929549 <= 1/2 - 2 xi' = 0.499959930000
+    info: pi* = 3/(12+2xi) = 0.249999165202 ; there 2 pi* = 1/2 - xi pi*/3 = 0.499998330404
+    Cor. 3.2: condition (1) gives kappa >= 3.9415e+09; condition (2) gives kappa >= 1.4844e+11 (binding); least even kappa = 148444531984; N' = kappa^2 + 2 kappa = 2.2036e+22 (>= 2.2e22)
+    info: condition (1) alone would give N' >= 1.55e+19 (not tight)
+[C1] claim E <= 0.49999833 at [A]: rejected (ok)
+[C2] prefix pi = 1/4: rejected (ok)
+[C3] prefix pi = 1/3 (Ye-Li's split): rejected (ok)
+[C4] eps_PM = 1e-6: rejected (ok)
+[C5] xi' = 0: rejected (ok)
+[C6] pair rounded down: rejected (ok)
+[C7] [B] claiming xi' = 2.1e-5 (pair too large for it): rejected (ok)
+[C8] [B] with a pair rounded down below the upper bounds: rejected (ok)
+CERTIFICATE PASS
