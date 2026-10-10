@@ -1,9 +1,9 @@
 # What the Lean files check, and what they do not
 
 Lean 4 v4.34.1 with Mathlib v4.34.1. No `sorry`, no `native_decide`, no `admit`, and no added axioms.
-`SubsetsumLean/Axioms.lean` prints the axioms of all 94 theorems listed below. Each one uses only `propext`,
+`SubsetsumLean/Axioms.lean` prints the axioms of all 141 theorems listed below. Each one uses only `propext`,
 `Classical.choice` and `Quot.sound`, or a subset of them (`axioms.out`). `lake env leanchecker
-SubsetsumLean.<Module>` replays every module through the kernel, and all 11 pass. `--fresh`, which would also re-check Mathlib, was not run.
+SubsetsumLean.<Module>` replays every module through the kernel, and all 13 pass. `--fresh`, which would also re-check Mathlib, was not run.
 
 ## Kernel-checked
 
@@ -97,6 +97,34 @@ against its anchor.
 | `ladder_gain_D4` | the D4 ladder's n0 is at least 100 times smaller than the D4 POS row's |
 | `B16_D1`, `B16_D2`, `K1`, `K2`, `K4` to `K8` | the scripts' must-fail controls, each proved false. K7 is checked for every e' of the script's grid, not only the best one. K1 is proved for every natural k |
 
+**Stage 3 (`Stage3Defs.lean`, `Stage3.lean`) covers `cert/cert_stage3.py` in full: the re-tuned xi certificate, the
+exponent, the fallbacks and the controls.** These two modules contribute 47 of the 141 theorems and 2 of the 13 modules counted above.
+
+`Stage3Defs.lean` proves the general facts once:
+- Gibbs' inequality `h(n, k) <= k (-log2 p) + (n - k)(-log2 (1 - p))` (`gibbs_nat`, `ent_le`, from `log x <= x - 1`);
+- rational enclosures of `h(c, x)` (`hh_mem`);
+- `h(c, k) = c H(k/c)` and `h(n, k) <= n`;
+- the vertex bound for affine functions on the colour polygon (`quad_le`);
+- `line_of_U`: the six majorant bounds and A > 0 imply Ye-Li Lemma 3.4's hypothesis
+  `min(tau L + (1 - tau) R, tau, (1 - tau)/2) <= line(tau)` for every tau in [0, 1] and every colour, where L is the
+  true max of the three left terms, with `max(A, 0)`;
+- `xi_le_of_F1`: lower bounds just outside the crossings bound xi for every valid line.
+
+`gen_stage3.py` re-checks every log enclosure with the kernel's formulas before writing `Stage3.lean`.
+
+| theorem | statement |
+|---|---|
+| `s3_params`, `s3_E1`, `s3_Hr`, `s3_Apos` | [P]; enclosures of E1 and H(1/r); A(mu) > 0 on [a1, a1 + a0] |
+| `s3_U{1,2,3}_t{1,2}` | [U] g_i(t1) <= t1 and g_i(t2) <= (1 - t2)/2 at every real point of the polygon |
+| `s3_line`, `s3_xi` | [L] Lemma 3.4's hypothesis for the re-tuned circuit; dL = line(1), dR = line(0) >= 0, xi_cert = 1/4 - (dL + dR)/2 |
+| `s3_F1` | [F1] every line satisfying that hypothesis has xi <= xi_max < xi_cert (1 + 1e-4) |
+| `s3_E3`, `s3_gain` | [S3] Theorem 3: Lemma 3.5's hypotheses, the fit and every cost term <= E3 = 0.499990922021, with no Ye-Li table input; the gain is >= 9.0779e-6 |
+| `s3_fit_tail`, `s3_fit_small` | the fit for n >= 414 (closed form) and for each 202 <= n < 414 at m = 2 floor(pi n/2) |
+| `s3_K` | Cor. 3.2 at the new pair: kappa_0 = 148444531984 meets both conditions, and kappa_0 - 2 fails the second |
+| `s3_FA`, `s3_FB` | fallbacks E <= 0.499994991801 (table hypotheses as in `stage2_A`) and E <= 0.4999950006 (xi > 2e-5) |
+| `s3_K1` to `s3_K11`, `s3_C34` | the script's must-fail controls, each proved false |
+
+
 ## Paper proof only (not in Lean)
 
 - **The cost model itself.** That g, and the nine terms of Stage 2, are the running-time exponents of the
@@ -122,6 +150,13 @@ against its anchor.
   half-set balanced for four leaf patterns) and its control K3 stay in Python; they are finite enumerations, not
   inequalities. The choice of each row's N0 and e' (a search) is not checked: any choice that passes gives a valid
   bound.
+- **Stage 3.** Several steps are proved on paper only (`PROOF/stage3.md` Secs. 2 to 4):
+  - that g_1, g_2 and g_3 over the polygon are the colour profile of the generalised Sec. 3.5;
+  - the rounding (rho) and window steps;
+  - Ye-Li Lemma 3.4 and Cor. 3.2/3.3 themselves;
+  - that the nine terms are DET3's running-time exponents.
+  The majorant controls C1 and C2 stay in Python. A failed majorant is not a false claim, so `s3_F1` is the
+  refuted statement behind them. `check_stage3.py` and `check_circuit.py` also stay in Python.
 - **Stage 2 minimality of kappa_0.** This uses the fact that log2(k+1)/k decreases for k >= 1, which is on paper.
   Lean checks the value at kappa_0 and at kappa_0 - 2.
 - `check_stage1.py` and `check_stage2.py`, the brute-force logic checks, stay in Python.

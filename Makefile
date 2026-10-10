@@ -1,10 +1,10 @@
 PYTHON ?= python3
-.PHONY: check certs logic explicit lean lean-sync all
+.PHONY: check certs logic explicit stage3 lean lean-sync all
 
 # One command: the certificates and the brute-force logic checks (pure standard-library Python, one core,
 # well under 1 GB; about 4 minutes). Each script exits 0 only on PASS, and the certificate output is compared
 # with the committed transcript.
-check: certs logic explicit
+check: certs logic explicit stage3
 
 certs:
 	cd cert && $(PYTHON) cert_gamma.py | cmp - cert_gamma.out && $(PYTHON) cert_eps.py | cmp - cert_eps.out
@@ -23,10 +23,17 @@ explicit:
 		&& $(PYTHON) cert_explicit_b17.py | cmp - cert_explicit_b17.out
 	@echo "explicit (Stage 2b) certificates and toy test: PASS"
 
+# Stage 3: the certificate against its transcript, the brute-force logic check and the gate-level test of the
+# re-tuned Ye-Li circuit (about 3 min, < 200 MB).
+stage3:
+	cd cert && $(PYTHON) cert_stage3.py | cmp - cert_stage3.out && $(PYTHON) check_stage3.py > /dev/null \
+		&& $(PYTHON) check_circuit.py > /dev/null
+	@echo "Stage 3 certificate, logic check and circuit test: PASS"
+
 # The generated Lean point files must be exactly what the generators produce from cert/.
 lean-sync:
 	cd lean && $(PYTHON) gen_stage1.py > /dev/null && $(PYTHON) gen_stage2.py > /dev/null \
-		&& $(PYTHON) gen_explicit.py > /dev/null && $(PYTHON) gen_explicit_n0.py > /dev/null
+		&& $(PYTHON) gen_explicit.py > /dev/null && $(PYTHON) gen_stage3.py > /dev/null && $(PYTHON) gen_explicit_n0.py > /dev/null
 	git diff --exit-code -- lean/SubsetsumLean && echo "lean sources in sync with cert/: PASS"
 
 # Lean 4 kernel check (lean/LEAN_SCOPE.md). Needs elan with Lean v4.34.1; fetches prebuilt Mathlib oleans
@@ -42,7 +49,8 @@ lean:
 			$$(grep -c '^#print axioms' SubsetsumLean/Axioms.lean) \
 		&& grep -q "'SS.explicit_A' depends on axioms" axioms.check \
 		&& test $$(grep -c "'SS.explicit_" axioms.check) -eq 13 \
+		&& test $$(grep -c "'SS.s3_" axioms.check) -eq 34 && grep -q "'SS.s3_E3' depends" axioms.check \
 		&& test $$(grep -c "'SS.N0\." axioms.check) -eq 42 \
-		&& echo "lean: PASS (standard axioms only; Stage 2b certificates, Secs. 12-13 included)"
+		&& echo "lean: PASS (standard axioms only; Stage 2b certificates, Secs. 12-13 and Stage 3 included)"
 
 all: check lean-sync lean

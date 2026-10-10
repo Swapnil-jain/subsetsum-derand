@@ -3,7 +3,7 @@
 **Swapnil Jain. Private draft, not published.**
 
 Horowitz and Sahni's meet-in-the-middle (1974) decides Subset Sum deterministically in 2^{n/2} poly(n) time.
-Every known algorithm that beats it is randomized. We give two deterministic results.
+Every known algorithm that beats it is randomized. We give three deterministic results.
 
 **Stage 1.** This derandomises Chen, Jin, Randolph and Servedio (CJRS, arXiv 2301.07134, Sec. 4).
 
@@ -43,6 +43,31 @@ Every known algorithm that beats it is randomized. We give two deterministic res
   So at Theorem 2's exponent (E <= 0.4999983345, S2 Certificate 7.2[B]) the smallest proved n0 is 1.20e32; the
   smallest n0 overall, 4.90e10, needs the weaker E <= 0.4999985715. The full table, with the E3 and POS-only rows,
   is in `PROOF/stage2b-explicit.md` Sec. 13.
+
+**Stage 3.** This combines Stage 2 with two improvements, each refereed separately (`PROOF/stage3.md`).
+
+- **Result.** Subset Sum is decided deterministically in poly(n, L) 2^{E3 n} with **E3 <= 0.499990922021** (gain
+  >= 9.0779e-6, about 5.4 times Stage 2's). Non-explicit, as Stage 2. A solution is found in the same time.
+- **What changed.**
+  - *Outside-sum dedupe.* The record lists hold distinct block sums, which repays the filter's 1/N loss for every
+    N. The few-sums branch goes, and the gain becomes xi'/(4 + 2 xi').
+  - *Re-tuned Ye–Li circuit.* Their Sec. 3.5 is re-derived with lookup sets of size ceil(r u) and unequal zero/one
+    counts outside D, at (a0, a1, 1-b, r) = (1/1842, 1/1474, 1/83, 29/17). This gives xi >= 3.6314576e-5, against the
+    table's 2.0035e-5.
+- **Conditional forms, stated honestly.**
+  - *Headline.* E3 rests on a **modified proof** of Ye–Li Prop. 4.2, not on Prop. 4.2 as stated. That proof is the
+    generalised Sec. 3.5 (re-derived; the rounding and window steps are argued, not proved) followed by Ye–Li's
+    Lemma 3.4, Lemma 3.1, Cor. 3.2 and Cor. 3.3 as cited. No number from Ye–Li's table is used.
+  - *Fallback.* With Ye–Li Prop. 4.2 as stated, conditional exactly as Stage 2, the dedupe alone gives
+    E <= 0.499994991801. From the statement xi > 0.00002 alone (with the table's dL, dR still used as upper
+    bounds, as in Stage 2), it gives E <= 0.4999950006.
+- **Review.** Each component had two clean referee passes, CONFIRMED WITH FIXES, and all fixes are applied. The
+  combined package has not been refereed as a whole.
+- **Lean.** Every inequality of `cert/cert_stage3.py` is kernel-checked. This includes the xi certificate itself:
+  Gibbs majorants over the whole colour polygon, Lemma 3.4's line hypothesis, and the refuted "no line beats
+  xi_max". Standard axioms only. These are 47 more theorems in 2 more modules than the counts in Sec. 2 below.
+- **Checks.** `make stage3` runs the certificate, a brute-force check with sorted merges and solution recovery, and a
+  gate-level test of the re-tuned circuit.
 
 ## Status
 

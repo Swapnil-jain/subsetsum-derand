@@ -9,3 +9,5 @@ import SubsetsumLean.Explicit
 import SubsetsumLean.ExplicitN0Defs
 import SubsetsumLean.ExplicitAnchors
 import SubsetsumLean.ExplicitN0
+import SubsetsumLean.Stage3Defs
+import SubsetsumLean.Stage3

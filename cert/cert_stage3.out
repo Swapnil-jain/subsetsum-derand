@@ -1,0 +1,64 @@
+== The re-tuned Sec. 3.5 circuit
+[P] (a0, a1, 1-b, r) = (1/1842, 1/1474, 1/83, 29/17): PASS
+    E1 in [0.006423804372930, 0.006423804372931], H(1/r) in [0.978449329268618, 0.978449329268619]
+[U] g_1(t1) <= 0.33014400592939 <= c = 0.33113713552533: PASS (margin 9.93e-04)
+[U] g_2(t1) <= 0.32913965344135 <= c = 0.33113713552533: PASS (margin 2.00e-03)
+[U] g_3(t1) <= 0.33113713537733 <= c = 0.33113713552533: PASS (margin 1.48e-10)
+[U] g_1(t2) <= 0.24750579925872 <= c = 0.24905889854460: PASS (margin 1.55e-03)
+[U] g_2(t2) <= 0.24600827411865 <= c = 0.24905889854460: PASS (margin 3.05e-03)
+[U] g_3(t2) <= 0.24905889757294 <= c = 0.24905889854460: PASS (margin 9.72e-10)
+[Apos] A(mu) >= (1-b) H(a1/(1-b)) - r (a0+a1) H(1/r) >= 0.001727948250 > 0 on [a1, a1+a0]: PASS
+[L] slope -0.480706344 in (-1/2, 1); dL = line(1) = 0.009610513769265, dR = line(0) = 0.490316857077164: PASS
+    xi_cert = 1/4 - line(1/2) = 0.000036314576785
+[F1] V(s1) >= 0.33113713590615 > s1 = 0.33113713442532; V(s2) >= 0.24905886393323 > (1-s2)/2 = 0.24905886354455: PASS
+[F1] no valid line has xi > xi_max = 0.000036315930411; xi_cert <= xi_max < xi_cert (1 + 1e-4): PASS
+== [S3] Stage 3 at the re-tuned pair
+    pair (dL', dR') = (0.009610513770, 0.490316857078); xi' = (1/2 - dL' - dR')/2 = 0.0000363145760 <= xi_cert: True
+    pi* = (1/2)/(2 + xi' - 2 eps) = 0.2499954610105; grid pi = 0.24999546
+      T_blocks         <= 0.249995460000
+      T_cover          <= 0.499990920000
+      T_hist           <= 0.396242804100
+      T_outside        <= 0.250013620000
+      T_left1          <= 0.374993190000
+      T_left2          <= 0.375011350000
+      T_right1         <= 0.448135022050
+      T_right2         <= 0.448116862050
+      T_many           <= 0.499990922021
+      max E <= 0.499990922021 (T_many); gain 1/2 - E >= 0.000009077979
+    THEOREM 3: E3 <= 0.499990922021  (exact max 48827238478599521/97656250000000000); 2 pi* = 0.4999909220208: PASS
+    closed form xi'/(4 + 2 xi') = 0.0000090784791; gain 1/2 - E3 >= 0.000009077979
+    fit (Lemma 3.3): the sufficient condition holds for every n >= 202 (exhaustively below 414, by the closed form from 414 on); it fails at n = 201
+    Lemma 3.5 hypotheses (dL' >= dL, dR' >= dR, 0 <= dL', dR', dL'+dR' <= 1/2 - 2xi', pi <= 1/3): PASS
+    Cor. 3.2 at (dL', dR'): condition (1) kappa >= 3.92253e+09; condition (2) kappa >= 1.48445e+11 (binds); kappa_0 = 148444531984; N' = 22035779076245688040224: PASS
+== [FA] fallback: Ye-Li Prop. 4.2 as in Stage 2 (table pair as upper bounds), xi' = 2.0035e-5
+      T_blocks         <= 0.249997490000
+      T_cover          <= 0.499994980000
+      T_hist           <= 0.396246021650
+      T_outside        <= 0.250007530000
+      T_left1          <= 0.374996235000
+      T_left2          <= 0.375006275000
+      T_right1         <= 0.448130540825
+      T_right2         <= 0.448120500825
+      T_many           <= 0.499994991801
+      max E <= 0.499994991801 (T_many); gain 1/2 - E >= 0.000005008199
+    grid pi = 0.24999749; E <= 0.499994991801: PASS; the fit holds for every n >= 274 (closed form from 547 on)
+== [FB] fallback, statement only (xi > 2e-5), xi' = 2e-5
+    grid pi = 0.24999750; E <= 0.499995000550 <= 0.4999950006: PASS
+== must-fail controls
+    [K1 E3 claim 1e-12 lower]: rejected (ok)
+    [K2 pi = 0.2501]: rejected (ok)
+    [K3 pi = 1/3]: rejected (ok)
+    [K4 xi' = 0]: rejected (ok)
+    [K5 eps = 1e-6]: rejected (ok)
+    [K6 one-sided dedupe at N = 1]: rejected (ok)
+    [K7 pi one grid step above]: rejected (ok)
+    [K8 pair rounded below (dL, dR)]: rejected (ok)
+    [K9 xi' = xi_cert + 1e-12]: rejected (ok)
+    [K10 re-tuned xi' with Ye-Li's pair]: rejected (ok)
+    [K11 fallback claim 1e-12 lower]: rejected (ok)
+    [C1 [U] g_3 at t1 - 1e-8]: rejected (ok)
+    [C2 [U] g_3 at t2 + 1e-6]: rejected (ok)
+    [C3 r(a0+a1) > 1-b]: rejected (ok)
+    [C4 r < 1]: rejected (ok)
+    [C5 kappa_0 - 2 meets condition (2)]: rejected (ok)
+CERTIFICATE PASS

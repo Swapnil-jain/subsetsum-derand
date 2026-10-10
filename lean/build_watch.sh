@@ -12,7 +12,7 @@ cd "$(dirname "$0")"
 # A bare `build` would let lake run independent modules in parallel (two Lean processes, above 3 GB here), so
 # build the modules one at a time, in import order.
 if [ $# -eq 1 ] && [ "$1" = build ]; then
-  for m in Basic Stage1Defs Stage1Points Stage1 Stage2Defs Stage2 ExplicitDefs Explicit ExplicitN0Defs ExplicitAnchors ExplicitN0; do
+  for m in Basic Stage1Defs Stage1Points Stage1 Stage2Defs Stage2 ExplicitDefs Explicit ExplicitN0Defs ExplicitAnchors ExplicitN0 Stage3Defs Stage3; do
     "$0" build "SubsetsumLean.$m" || exit $?
   done
   exec "$0" build SubsetsumLean

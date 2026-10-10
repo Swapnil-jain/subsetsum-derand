@@ -1,6 +1,7 @@
 import SubsetsumLean.Stage1
 import SubsetsumLean.Stage2
 import SubsetsumLean.Explicit
+import SubsetsumLean.Stage3
 import SubsetsumLean.ExplicitN0
 
 /-! Every checked theorem depends only on Lean's standard axioms (no `sorryAx`, no `native_decide`, no `ofReduceBool`). -/
@@ -99,3 +100,50 @@ import SubsetsumLean.ExplicitN0
 #print axioms SS.N0.ladder_gain_D4
 #print axioms SS.N0.K7
 #print axioms SS.N0.K8
+#print axioms SS.gibbs_nat
+#print axioms SS.hh_le_gibbs
+#print axioms SS.hh_le_self
+#print axioms SS.hh_eq_mul_Hb
+#print axioms SS.ent_le
+#print axioms SS.hh_mem
+#print axioms SS.lin_le
+#print axioms SS.quad_le
+#print axioms SS.affine_mid
+#print axioms SS.line_of_U
+#print axioms SS.xi_le_of_F1
+#print axioms SS.s3Terms_le
+#print axioms SS.s3_many_mem
+#print axioms SS.s3_cover_mem
+#print axioms SS.fit_tail
+#print axioms SS.s3_E1
+#print axioms SS.s3_Hr
+#print axioms SS.s3_params
+#print axioms SS.s3_Apos
+#print axioms SS.s3_U1_t1
+#print axioms SS.s3_U2_t1
+#print axioms SS.s3_U3_t1
+#print axioms SS.s3_U1_t2
+#print axioms SS.s3_U2_t2
+#print axioms SS.s3_U3_t2
+#print axioms SS.s3_line
+#print axioms SS.s3_xi
+#print axioms SS.s3_F1
+#print axioms SS.s3_E3
+#print axioms SS.s3_gain
+#print axioms SS.s3_fit_tail
+#print axioms SS.s3_fit_small
+#print axioms SS.s3_K
+#print axioms SS.s3_FA
+#print axioms SS.s3_FB
+#print axioms SS.s3_K1
+#print axioms SS.s3_K2
+#print axioms SS.s3_K3
+#print axioms SS.s3_K4
+#print axioms SS.s3_K5
+#print axioms SS.s3_K6
+#print axioms SS.s3_K7
+#print axioms SS.s3_K8
+#print axioms SS.s3_K9
+#print axioms SS.s3_K10
+#print axioms SS.s3_K11
+#print axioms SS.s3_C34
