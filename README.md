@@ -92,10 +92,10 @@ The theorem has three conditions:
 The deterministic covering costs 2^{2m}, which forces the prefix down from Ye–Li's n/3 to 0.2499 n. So the saving
 is about xi/12, against Ye–Li's randomized xi/9.
 
-**Erratum found by the Lean check.** `PROOF/stage2.md` (lines 92 and 500) states N' >= 2.2036e22. The exact value
-is N' = 22035779076245688040224 = 2.20358e22, so the true bound is N' >= 2.2035e22 (`stage2_K`). The figure
-2.2036e22 is proved false (`stage2_K_fails_N`). Nothing else depends on it: N' only measures how far the circuit is
-from explicit.
+**Correction found by the Lean check.** An earlier draft stated N' >= 2.2036e22. The exact value is
+N' = 22035779076245688040224, about 2.20358e22, so the bound is N' >= 2.2035e22 (`stage2_K`). The figure 2.2036e22
+is proved false (`stage2_K_fails_N`), and the text now carries the corrected figure. Nothing else depends on it:
+N' only measures how far the circuit is from explicit.
 
 ## 2. How to verify
 

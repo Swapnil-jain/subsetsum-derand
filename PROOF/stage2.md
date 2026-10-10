@@ -89,7 +89,7 @@ and D7 to our own notes are also applied.
 
 *Referee fixes (2026-10-10, two independent referees J1, J2).*
 - (R1) The block length kappa uses both conditions of Cor. 3.2. The second, log2(kappa+1)/kappa <= eps/4,
-  binds: kappa >= 1.4844e11, N' >= 2.2036e22 (was 1.55e19). Sec. 7, Sec. 8; `cert_eps.py`.
+  binds: kappa >= 1.4844e11, N' >= 2.2035e22 (was 1.55e19). Sec. 7, Sec. 8; `cert_eps.py`.
 - (R2) Remark 5.4: coverage needs coll_p <= 3N (Lemma 3.4, Lemma 5.1), not only nonempty K_c.
 - (R3) Certificate 7.2[B] now uses only the stated xi > 0.00002 for xi. The table enters [B] only as upper
   bounds on dL and dR, and the pair (dL', dR') is a rational just above them (Cor. 3.2's conditions are restated
@@ -497,7 +497,7 @@ rational pi = 0.2499 instead, which has a margin.
   Prop. 4.2 (not only its statement) gives Ye-Li's pair in K(1/2), and K is closed upward, so (dL', dR') is in K(1/2). Its two conditions for the pair, at eps = 1e-9, are
   (2/kappa)(max(dL', dR') + eps/4) <= eps/4 and log2(kappa + 1)/kappa <= eps/4. The first gives
   kappa >= 8 (dR' + eps/4)/eps = 3.9415e9. The second is monotone for kappa >= 1 and gives kappa >= 1.4844e11,
-  so it is the binding one. The least even kappa is 148444531984, and N' = kappa^2 + 2 kappa >= 2.2036e22.
+  so it is the binding one. The least even kappa is 148444531984, and N' = kappa^2 + 2 kappa = 22035779076245688040224 >= 2.2035e22 (Lean: `stage2_K`).
   (The second condition was missed in the first write-up, which stated N' >= 1.55e19; that was a true but loose
   lower bound.) [proof by computation; the second condition is evaluated by bisection in 60-digit decimals]
 - Must-fail controls (each rejected by the same checker):
