@@ -28,6 +28,21 @@ Every known algorithm that beats it is randomized. We give two deterministic res
 - **What changed.** Every randomized or merely existential step of Ye–Li's circuit is constructed:
   pessimistic-estimator lists, greedy hole fixing, and an explicit three-piece rebalancing rule with an effective
   constant (`PROOF/stage2b-explicit.md`).
+- **Smaller n0, at a price in E (Secs. 12-13).** Variants of the construction trade exponent for threshold. Each
+  n0 belongs to its own E: below, n0 is where the run time drops below 2^{(1/2 - g/2) n} poly(n, L), with gain
+  g = 1/2 - E. It is not where the run time reaches 2^{E n}.
+
+| variant | E <= | n0 <= | for n >= n0, time < |
+|---|---|---|---|
+| Theorem 2b (c = 4858) | 0.4999983316 | 5.9e59 | 2^{0.49999917 n} |
+| Sec. 12: sharper rebalancing constant (B16) | 0.4999983316 | 1.21e56 | 2^{0.49999917 n} |
+| Sec. 13 [A']: halving splitter, N0 = q = 10^26 | 0.4999983345 | 1.20e32 | 2^{0.49999917 n} |
+| Sec. 13: D4 (q = 115940), POS union, ladder | 0.4999983549 | 1.59e11 | 2^{0.49999918 n} |
+| Sec. 13: q = 2664, POS union, ladder | 0.4999985715 | 4.90e10 | 2^{0.49999929 n} |
+
+  So at Theorem 2's exponent (E <= 0.4999983345, S2 Certificate 7.2[B]) the smallest proved n0 is 1.20e32; the
+  smallest n0 overall, 4.90e10, needs the weaker E <= 0.4999985715. The full table, with the E3 and POS-only rows,
+  is in `PROOF/stage2b-explicit.md` Sec. 13.
 
 ## Status
 
@@ -36,6 +51,7 @@ Every known algorithm that beats it is randomized. We give two deterministic res
 | Stage 1 | O(2^{n/2} n^{-gamma}) for every gamma < gamma*, gamma* in [0.0101041782, 0.0101041783] | two independent internal referee passes, CONFIRMED WITH FIXES; fixes applied | exponent certificate kernel-checked |
 | Stage 2 | O(2^{0.49999834 n}), exponent E <= 0.4999983316, saving >= 1.66e-6 | independently refereed (3 clean passes); conditional on Ye–Li Prop. 4.2 (its proof) and its dL/dR table; non-explicit | exponent certificate kernel-checked |
 | Stage 2b | the same E, explicit, constant 2^{4858 N0} with N0 ~ 1.0091e50 (n0 ~ 5.9e59) | independently refereed (2 clean passes, CONFIRMED WITH FIXES, no claim-level defect; all fixes applied); same Ye–Li conditions as Stage 2, minus non-explicitness | design certificate kernel-checked; gate-level toy test at N = 8 |
+| Stage 2b, Secs. 12-13 | smaller n0, each with its own E (table above; e.g. n0 <= 1.20e32 at E <= 0.4999983345, n0 <= 4.90e10 at E <= 0.4999985715) | independently refereed (2 clean passes; CONFIRMED or CONFIRMED WITH FIXES, one claim-level wording defect in the headline, now fixed; all fixes applied); Lemma V uses Ye–Li's V formula at a new (a, b) [cite] | both certificates' inequalities kernel-checked, including Lemma V's anchors with the real log; the splitter's exhaustive check stays in Python |
 
 "Referee pass" means an adversarial check by a separate review pass of our own. It is not peer review.
 
@@ -123,7 +139,7 @@ N' only measures how far the circuit is from explicit.
 
     make check        # certificates, logic checks, Stage 2b certificate + toy test; standard-library Python, ~5 min, < 1 GB
     make lean-sync    # the generated Lean files equal what the generators produce from cert/
-    make lean         # Lean 4 kernel check; needs elan (Lean v4.34.1), ~2 min, peak RSS < 3 GB
+    make lean         # Lean 4 kernel check; needs elan (Lean v4.34.1), ~4 min, peak RSS < 3 GB
     make all          # all three
 
 - `cert/cert_gamma.py` is the Stage 1 exponent certificate. It uses exact-rational interval arithmetic with outward
@@ -132,14 +148,17 @@ N' only measures how far the circuit is from explicit.
   length [K], and the must-fail controls [C1] to [C8].
 - `cert/cert_explicit.py` is the Stage 2b design certificate: exact rationals with certified ln 2 and entropy
   bounds, Certificate [A] (the design, the constant c and n0) and must-fail controls [C1] to [C7].
+- `cert/cert_explicit_b16.py` (Sec. 12) and `cert/cert_explicit_b17.py` (Sec. 13) certify the smaller-n0 variants:
+  the per-pair rebalancing constant, the halving splitter, the anchors at new (a, b) by concavity, the POS union and
+  the ladder. Each table row's E and n0 is checked as an upper bound; controls D1, D2 and K1 to K9.
   `cert/toy_explicit.py` builds Lemmas E1 to E4 gate by gate at N = 8 and multiplies L R out against M, with four
   must-fail controls (`make explicit`).
 - `cert/check_stage1.py` and `cert/check_stage2.py` run the algorithms against brute force at toy sizes, with
   negative controls that must miss. They check logic, not asymptotics.
 - `PROOF/ye-li-audit/yl_*.py` are the numeric checks of our Ye–Li audit.
 - `lean/` holds the kernel check. `lean/LEAN_SCOPE.md` says exactly what is kernel-checked and what stays paper
-  proof. In short, it checks every inequality of the three certificates, with refuted controls. All 52 theorems use
-  only `propext`, `Classical.choice` and `Quot.sound` (or a subset), and `leanchecker` replays all 8 modules.
+  proof. In short, it checks every inequality of the five certificates, with refuted controls. All 94 theorems use
+  only `propext`, `Classical.choice` and `Quot.sound` (or a subset), and `leanchecker` replays all 11 modules.
   - For Stage 2b, that the certified formulas are the losses of Lemmas E1 to E6 is a paper proof.
   - That the certified terms are the running times of the algorithms is a paper proof.
   - So are CJRS's and Ye–Li's cited facts.
@@ -152,10 +171,10 @@ N' only measures how far the circuit is from explicit.
 |---|---|
 | `PROOF/stage1.md` | Theorem 1, full proof, every claim labelled |
 | `PROOF/stage2.md` | Theorem 2, full proof, non-explicitness stated precisely |
-| `PROOF/stage2b-explicit.md` | Theorem 2b: the explicit construction, Lemmas E1 to E6, referee fixes |
+| `PROOF/stage2b-explicit.md` | Theorem 2b: the explicit construction, Lemmas E1 to E6, referee fixes; Secs. 12-13, smaller n0 |
 | `PROOF/ye-li-audit/` | our adversarial audit of Ye–Li Prop. 4.2 and its scripts |
-| `cert/` | the three certificates (with transcripts `*.out`), the two logic checks and the Stage 2b toy test |
-| `lean/` | Lake project (Lean v4.34.1, Mathlib v4.34.1), generators `gen_stage1.py` / `gen_stage2.py` / `gen_explicit.py`, `LEAN_SCOPE.md` |
+| `cert/` | the five certificates (with transcripts `*.out`), the two logic checks and the Stage 2b toy test |
+| `lean/` | Lake project (Lean v4.34.1, Mathlib v4.34.1), generators `gen_stage1.py` / `gen_stage2.py` / `gen_explicit.py` / `gen_explicit_n0.py`, `LEAN_SCOPE.md` |
 | `CLOSED_IDEAS.md` | routes to deterministic Subset Sum that we closed, with reasons |
 
 Some cross-references in the proofs point to working notes that are not included here: `../AUDIT.md`,

@@ -433,3 +433,334 @@ At N = 8, a = 1/8, b = 1/2 and eps' = 1/8 (9 window types), exact integers and r
 
 `../lean/SubsetsumLean/Explicit.lean` kernel-checks Certificate [A]'s inequalities and its controls, without
 `sorry` or `native_decide`. `../lean/LEAN_SCOPE.md` lists what is kernel-checked and what stays on paper.
+
+## 12. Improvement (lead B16): a sharper rebalancing constant [proof; certificate `../cert/cert_explicit_b16.py`, its inequalities Lean-checked (Sec. 13.8)]
+
+This section is separate from Theorem E, whose statement (c = 4858) stays as certified and kernel-checked above.
+It re-derives lead B16 (from our internal list of leads) and certifies it at design [A].
+
+**Lemma E4' (per-pair form of E4).** Same family, rule and A as E4, with fixed dyadic thresholds x1, x2. For
+piece t and an off point tau_j of A, let delta_{t,j} be the least value, over piece t's threshold region of ell,
+of the chord sum sum_i (tau_i - tau_{i-1}) |s_i - ell| between tau_j and the nearer endpoint of piece t (it is
+attained at the threshold nearer to tau_j, as the sum is linear in ell there), and r_{t,j} := v_t(tau_j) - c(tau_j).
+Assume v_t <= c at piece t's endpoints, every delta_{t,j} > 0, and N min delta >= 1. Let
+d1 := max over r_{t,j} > 0 of floor(r_{t,j}/delta_{t,j}) + 1 and S := sum_{d=1}^{d1} max_{t,j} (r_{t,j} - d delta_{t,j})^+.
+Then log2(8 D_inf) <= S N + 2 d1 + 6.
+
+*Proof.* E4's induction, keeping each off point separately: at depth d the off-point term is at most
+2^{N r_{t,j}} f_j(d) <= 2^{N(r_{t,j} - d delta_{t,j})} f_near(d), so
+D_d <= D_{d-1} max_t (1 + sum_j 2^{N(r_{t,j} - d delta_{t,j})}). There are at most two off points, so each factor
+is at most 3 * 2^{N max_{t,j}(r_{t,j} - d delta_{t,j})^+}; for d <= d1 this contributes at most
+N max(...)^+ + log2 3. For d > d1, r_{t,j} - d delta_{t,j} < -delta_min (d - d1), and the factors multiply to at
+most 2^{(2/ln 2)/(2^{N delta_min} - 1)} <= 2^3. Adding 3 for the factor 8 gives the claim. ∎
+
+**Padding and storage, sharpened.** A padded coordinate multiplies the PM time by at most 2^{dR' + eps} <= 2^{1/2},
+so padding costs at most 2^{(k^2+2)/2}; one storage lookup costs at most 12 N0^2 bit operations.
+
+**Certificate [B16]** (`../cert/cert_explicit_b16.py`, exact rationals, at design [A]): x1, x2 dyadic (2^-40) within a
+quarter of the slope gaps; all six delta_{t,j} > 0 (the least is 0.0012); d1 = 3; **S = 0.496664**, so
+log2(8 D_inf) <= 0.496664 N0 + 12 (E4: 4855 N0). Then log2 C_run <= 0.996664 N0. Controls: S <= 0.49 and
+thresholds placed at the slopes themselves are rejected.
+
+**Consequence.** The run time is at most 2^{4 N0} + 2^{0.9967 N0} poly(n, L) 2^{E n}, with the same E. The
+preprocessing 2^{4 N0} is additive and paid once, so it must not be multiplied by the gain.
+
+**Definition of n0 (Secs. 12 and 13).** Let 2^B bound the build (B = c_b N0, c_b = 4), C the multiplicative
+run-time constant and g := 1/2 - E the gain. Then
+
+    n0 := max(2 (B + 1)/(1 - g), 2 (log2 C + 1)/g).
+
+For n >= n0, both 2^B and C 2^{E n} poly(n, L) are at most 2^{(1/2 - g/2) n - 1} poly(n, L). So the run time is
+below **2^{(1/2 - g/2) n} poly(n, L)**: n0 is where the constant has used up at most half of the gain. It is *not*
+where the run time reaches 2^{E n}, which happens only as n -> infinity. Here n0 <= 1.21e56 (with g >= 1.6667e-6,
+below 1/2 - 0.4999983316; the run time is then below 2^{0.4999991667 n} poly(n, L)). Theorem E's accounting gives
+5.9e59. As a single multiplicative constant, C_E = 2^{(4 + o(1)) N0}, i.e. c ~ 4 instead of 4858.
+
+**Open (not folded in).** B17 (A9's halving splitter in place of YL Lemma 3.1, N0 = q) and A19 (a ladder of base
+lengths) change Lemma E5's reduction itself. They are written out in Sec. 13 (refereed twice, fixes applied).
+
+## 13. Smaller n0 (leads B17 and A19, and the small-q + POS variant) [certificate `../cert/cert_explicit_b17.py`, its inequalities Lean-checked (Sec. 13.8); two clean referees, fixes applied]
+
+This section is separate from Theorem E (Secs. 0-11) and from Sec. 12. Each variant below is a different explicit
+algorithm with its own exponent E, its own constant and its own n0. n0 is Sec. 12's threshold,
+n0 := max(2 (B + 1)/(1 - g), 2 (log2 C + 1)/g), with g = 1/2 - E, B = c_b N0 (c_b = 4, Lemma E6; the build is
+additive and paid once) and C the multiplicative run-time constant. The ladder rows add two things: B = c_b N0 + 1
+(the Delta and tail circuits, 13.6) and a third term (T0 + q)/pi (every PM length must hold the ladder, 13.6).
+
+**Read each row as a pair (E, n0).** For n >= n0 the run time is below 2^{(1/2 - g/2) n} poly(n, L) (last
+column), and it approaches 2^{E n} only as n grows. A smaller n0 comes with a *weaker* E: the two cannot be mixed.
+
+| variant | N0 | E <= | gain g >= | n0 <= | for n >= n0, time < | label |
+|---|---|---|---|---|---|---|
+| [A'] YL (a, b), Lemma 3.1', E3, E4's constant | 10^26 | 0.4999983345 (S2 7.2[B]) | 1.6655e-6 | 5.84e35 | 2^{0.4999991672 n} | [proof] |
+| [A'] same, B16's constant (Sec. 12) | 10^26 | 0.4999983345 | 1.6655e-6 | 1.20e32 | 2^{0.4999991672 n} | [proof] |
+| D4 (q = 115940), Lemma 3.1', E3 | 2.4e11 | 0.4999994073 | 5.927e-7 | 8.18e17 | 2^{0.4999997036 n} | [proof] |
+| D4, Lemma 3.1', POS union (13.5) | 1.2e8 | 0.4999989913 | 1.0087e-6 | 2.35e14 | 2^{0.4999994956 n} | [proof] |
+| D4, Lemma 3.1', POS, ladder (13.6) | 3.8e9 | 0.4999983549 | 1.6451e-6 | 1.59e11 | 2^{0.4999991774 n} | [proof] |
+| q = 2664, Lemma 3.1', E3 | 3.6e11 | 0.4999992172 | 7.828e-7 | 9.11e17 | 2^{0.4999996086 n} | [proof] |
+| q = 2664, Lemma 3.1', POS | 8.7e7 | 0.4999992295 | 7.706e-7 | 2.26e14 | 2^{0.4999996147 n} | [proof] |
+| q = 2664, Lemma 3.1', POS, ladder | 3.5e8 | **0.4999985715** | 1.4285e-6 | **4.90e10** | 2^{0.4999992857 n} | [proof] |
+
+**Headline, stated correctly.** The smallest n0 is **4.90e10, and it goes with E <= 0.4999985715** (gain
+1.43e-6; time below 2^{0.49999929 n} poly(n, L) for n >= 4.90e10). At Theorem E's exponent E <= 0.4999983345 (S2
+7.2[B]), the smallest n0 proved here is **1.20e32** (the [A'] row with Sec. 12's constant). The ladder rows do not
+reach that exponent: their eps_m (1.5e-7 at D4, 1.4e-6 at q = 2664) costs 2.0e-8 and 2.4e-7 in E.
+
+The small-q rows use S2 Lemma 6.1 with a general threshold gamma (13.7); all rows use E2-E6 as written, re-checked at
+each new N0 and (a, b). Every number is printed by the certificate (exact rationals, exit 0, 9 must-fail controls),
+which also checks each table row's E and n0 as upper bounds.
+
+*Referee fixes (2026-10-11, two independent clean referees N1 and N2; verdicts CONFIRMED or CONFIRMED WITH FIXES,
+no defect that changes a certified number).*
+- (G1, N1-1 / N2-D4) The headline paired n0 = 4.9e10 with the wrong exponent; n0 was described as where the run time
+  reaches 2^{E n}. Now every row is an (E, n0) pair and n0's meaning is stated (above, and Sec. 12).
+- (G2, N2-D4) Sec. 12 and Sec. 13 had different n0 formulas (a "+2" in one only). Both now use the one definition
+  of Sec. 12, derived from "each term at most half the bound".
+- (G3, N2-D5) The ladder's conditions are in n0: n' + 2 >= T0 + q (third term (T0 + q)/pi), and the build of the
+  Delta and tail circuits (B = c_b N0 + 1, all built once, up front; 13.6).
+- (G4, N1-5) Lemma P2 now states that C_W must compute M_W exactly everywhere, zero off the window (13.5).
+- (G5, N1-6) The walk-cost bound for the M_W pieces no longer uses E5's "no dead branches" (13.5).
+- (G6, N1-7) Lemma 3.1'(a) needs |S(y)| = n'/2 exactly; S2 Lemma 3.2 gives it, and the padding keeps it (13.2).
+- (G7, N1-4) "log2 C <= 0.6 N_min + ..." was wrong at q = 2664 (it is 0.94 N_min, N_min = 13 q). The bound is now
+  stated per row (13.6).
+- (G8, N2-D6) Lemma E4'' states u_{i,t} at every point of A, including when (I, M) stands in for piece 2 (13.6).
+- (G9, N1-2 / N2-D1) `../cert/cert_explicit_b17.py` loads `cert_eps.py` from its own directory (here `../cert/cert_eps.py`, S2's own certificate).
+- (G10, N1-3 / N2-D2) The false label "n0 with E4 <= 6e29" is gone; the certificate now tests n0 <= 5.84e35.
+- (G11, N2-D3) YL's table match is certified at the stated 2e-17 (it was checked only to 1e-12).
+
+### 13.1 Lemma 3.1' (halving splitter with the canonical-member rule) [proof]
+
+*Statement.* Let n' = sum of leaf sizes G_1, ..., G_D, all even, and fix a binary tree T with these leaves. Let F be
+the family of "members": a member chooses, at every internal node U of T (|U| = u, left subtree of total size w),
+an offset i in [0, u), and sends the w cyclically consecutive elements of U starting at its i-th element to the left
+child and the other u - w to the right child (children keep the induced cyclic order). Then:
+- (a) for every query y with |S(y)| = n'/2 there is a member under which every leaf j holds exactly G_j/2 positions
+  of S(y). The *canonical member* m(y) takes, at each node in preorder, the least such offset; it is computed in
+  O(n' depth) time;
+- (b) |F| = prod over internal nodes of u. For D equal leaves G and the floor/ceil halving tree,
+  log2 |F| <= (D - 1) log2 G + (9/4)(D - 1) - log2 D <= D (log2 G + 9/4);
+- (c) if C is a circuit for P_{G_1,1/2} (x) ... (x) P_{G_D,1/2} (exact, or POS as in 13.5), then C' with gates (m, e),
+  L'[x, (m, e)] := L_C[pi_m x, e] and R'[(m, e), y] := [m = m(y)] R_C[e, pi_m y], is a circuit of the same kind for
+  P_{n',1/2}, with deg_R(C') <= deg_R(C) and deg_L(C') <= |F| deg_L(C). Here pi_m reorders the coordinates leaf by
+  leaf.
+
+*Exactly half (the hypothesis of (a)).* (a) needs |S(y)| = n'/2 exactly, while S2's PM interface (S) allows
+||S(y)| - n'/2| <= 1. The queries S2 actually builds have exactly n'/2 specified positions (S2 Lemma 3.2), and
+the padding of 13.2 keeps this. So (a) applies to every query PM receives.
+
+*Proof.* (a) Induct down the tree; at a node U with |S cap U| = u/2 put f(i) := |S cap window_i|. One cyclic step
+removes one element and adds one, so |f(i+1) - f(i)| <= 1, and each element lies in exactly w of the u windows, so
+the average of f over i in [0, u) is w (u/2)/u = w/2, an integer. So f takes the value w/2 (discrete intermediate
+value theorem on the cycle), and the rest then holds (u - w)/2 positions of S. (b) Put T(m) := sum over internal
+nodes of log2 m_v (m_v = leaves below v). Claim T(m) <= (9/4)(m - 1) - log2 m: m = 1 is trivial, and the step from
+floor(m/2), ceil(m/2) needs m^2/(floor(m/2) ceil(m/2)) <= 2^{9/4}; the left side is 4 for even m and at most 9/2 for
+odd m, and 2^{9/4} > 4.75. Then log2 |F| = (D - 1) log2 G + T(D). (c) Under m(y) every leaf is a half-stars query, so
+pi_{m(y)} y is a column of the product; matching is coordinate-wise, so M(pi x, pi y) = P(x, y), and only member
+m(y) meets y on the right. ∎
+
+**GOTCHA (the breaking site is the right side of (c)).** A query must use ONE member, m(y). If it used every
+balancing member, the count of a pair would be multiplied by the number of balancing members, which varies with y:
+the circuit is then not exact (it is still POS, 13.5). Rows are tagged by member and meet a query only under m(y).
+
+The certificate checks (a) exhaustively for leaf sizes (4,4,4), (4,4,4,4), (6,4,2,2), (8,4,2) (0 failures; with
+offset 0 only, failures appear: control K3) and (b)'s inequality as an integer inequality for D <= 400 (with 2 in
+place of 9/4 it fails at D = 3: control K4).
+
+### 13.2 Lemma E5' (the reduction at N0 = q) [proof, given (Y4), Cor. 3.3]
+
+E5 changes in three places; everything else (the base family of E4 at N = N0, the depth-first walk, no dead
+branches, Cor. 3.3) is as written.
+- *Setup.* N0 is any multiple of q (the windows need only q | N0; E2's 4 | N comes with q = lcm(4, ...)). There is no
+  k: Lemma 3.1 needs N0 = k^2 + 2k, i.e. N0 + 1 a square, which fails at N0 = 10^26 (control K1).
+- *Padding.* Pad once, to n'' := N0 ceil((n' + 2)/N0) (as YL Cor. 3.2, with N0 for k^2), so n'' - n' <= N0 + 1, and
+  D := n''/N0. Each padded coordinate costs at most 2^{1/2} (Sec. 12), so padding costs <= 2^{(N0+1)/2}.
+  n' is even (n' = 2m - 2j) and so is n'', so n'' - n' is even. Every row gets 0 on the padding; every query gets
+  '0' (specified, always matching) on half of the padding and '*' on the other half. So the padded query has
+  exactly n''/2 specified positions, as Lemma 3.1'(a) needs, and matching is unchanged.
+- *Grouping.* Lemma 3.1' with D leaves of size N0 replaces Lemma 3.1. The groups are no longer padded from k^2 to
+  k^2 + 2k, so the terms 2dL'/k, 2dR'/k and the factor (1 + 2/k) disappear, and log2(k+1)/k becomes
+  (log2 N0 + 9/4)/N0:
+
+      eps_L = eps_V + (log2 N0 + 9/4)/N0,        eps_R = eps_V.
+
+  The row enumerator lists every member (|F| <= 2^{n''(log2 N0 + 9/4)/N0}, each in poly(n) time) and walks the E4
+  tree on pi_m x; the query enumerator computes m(y) and walks once.
+- *Constant.* C = 8 D_inf * 2^{(N0+1)/2} * 12 N0^2, with log2(8 D_inf) <= L_D N0 (E4) or S N0 + 2 d1 + 6 (Sec. 12).
+
+### 13.3 Every condition re-checked at N0 = q = 10^26, YL's (a, b) (Certificate [A']) [proof by exact computation]
+
+- q | N0, 4 | N0 (and q does not divide 5e25: control K2); ln 2 and log2 e bounds; YL's parameter conditions; both
+  Sec. 3.5 dominances (margins 3.81e-3, 7.26e-4); Lemma E6's H(b) <= 1/10 and 1 - b <= 1/100.
+- eps' = 2e-7, J = 2.17e13 <= N0/8, and E6's numeric hypotheses (15 + 31 log2(N0+1) + log2 J <= 0.49 N0,
+  Vbar(0) + eps_V <= 1/2).
+- eps_V = 3.32e-13; the three-piece structure, the dyadic thresholds, all delta_{t,j} > 0, the secant check with S2's
+  pair (dL', dR'), N0 Delta >= 1 and N0 min delta >= 1.
+- eps_L, eps_R <= 3.33e-13 <= 1e-9, so S2 Certificate 7.2 applies verbatim: E <= 0.4999983345 ([B]; [A] gives
+  0.4999983316 with the table's xi).
+- L_D = 4855, S = 0.496664, d1 = 3. n0 <= 5.84e35 with E4's constant and <= 1.20e32 with B16's, both with E <= 0.4999983345 (Theorem E: 5.9e59;
+  Sec. 12: 1.21e56).
+
+### 13.4 Small q: certifying xi is required, and it holds [proof by exact computation]
+
+*Required.* E2(vii) bounds the volume by Vbar, the two-segment function through V(0), V(1/2), V(1) at the circuit's
+own (a, b). (Y6) supplies these only at YL's (a, b). At D4 the anchors differ, and S2's pair (dL', dR') fails the
+secant check against them (control K5): it is not admissible for the D4 circuit. So new anchors and a new pair
+are needed, and S2 must be run with the new xi'.
+
+**Lemma V (anchors by concavity).** For rational (a, b) satisfying YL's conditions, V(tau) = tau E1(1/4) +
+(1 - tau)(b - 1/2 + 2a) + max_K f_tau, with f_tau := tau l + (1 - tau) r, l := h(1-b, mu) + h(2mu, theta) - 4mu,
+r := h(a, mu-a) + h(mu, theta-mu), and K := {a <= mu <= 2a, mu <= theta <= 2mu}. Since h(u, v) = u H(v/u) is the
+perspective of a concave function, h is jointly concave, so f_tau is concave on K, and for any x0 at which f_tau is
+differentiable,
+
+    max_K f_tau <= f_tau(x0) + max over the four vertices v of K of grad f_tau(x0) . (v - x0).
+
+*Proof.* The first-order condition of concavity, and a linear function on a polygon peaks at a vertex. ∎
+
+The certificate encloses every log2 by exact series (60 terms) and uses x0 = (5a/3, 5a/2) at tau = 0 (gradient 0),
+a float Newton point at tau = 1/2, and the vertex (2a, 2a) at tau = 1 (where 1 - b > 10a makes the gradient point
+out of K). Each anchor is rounded up to the grid 10^-18, and the tau = 1/2 point to the grid a * 10^-15, so the
+numbers are short rationals. Validation at YL's (a, b): each bound is >= the table value and within 2e-17 of it
+(certified at 2e-17; the largest difference is 1.83e-17).
+
+| (a, 1-b) | q | anchors <= | pair (12 places, rounded up) | xi'' |
+|---|---|---|---|---|
+| D4 (1/2635, 1/110) | 115940 | 0.492649114629, 0.249979138138, 0.007614630691 | (0.007312448730, 0.492647483328) | 2.003397e-5 |
+| (1/2664, 1/111) | 2664 | 0.492712073011, 0.249979140283, 0.007548534581 | (0.007249488875, 0.492710444464) | 2.003333e-5 |
+
+Both satisfy YL's conditions, both dominances (D4: 3.85e-3, 7.31e-4) and E6's H(b), 1 - b conditions. So **xi'' >=
+2.0033e-5 holds at both** (the claim xi'' >= 2.004e-5 is rejected: control K6). This closes Sec. 8's "CONDITIONAL"
+and B17's block 2. It does not certify YL's own table: (Y6) is still cited for [A'].
+
+### 13.5 POS: hole fixing as a plain union, placed after the tree [proof, given (Y4)]
+
+**Lemma P1 (S2 needs only a POS counter).** Call a circuit POS for a 0/1 matrix P if L, R are integer and L R >= 0
+with supp(L R) = supp(P). With a POS circuit, Cor. 3.3's sum equals sum over keyed pairs of (L R)[x, y], which is
+>= 0 and is > 0 iff some keyed compatible pair exists, on every sublist. S2 uses PM only through Lemma 5.3 (a count
+> 0 gives a compatible keyed pair; a kept solution gives a count >= 1) and Cor. 2's bisection (positivity on
+sublists). Both hold verbatim. Coefficients stay below 2^{O(n)}. ∎ [proof, by inspection of S2 Lemma 5.3 and Cor. 2;
+S2's interface (S) then reads "PM returns a nonnegative integer, positive iff a keyed compatible pair exists".]
+
+**Lemma P2 (union after the tree).** Let W = X0 x Y0 be E2's window at length N, M_W := P_{N,1/2} restricted to W,
+and F E3's greedy flips (J of them, covering every pair). Build E4's tree on the three pieces (M_W, I), C_W (E2's
+window circuit, no E3 copies), (I, M_W): by (Y4), applied to the matrix M_W, it computes M_W^{(x)D} exactly, i.e.
+P^{(x)D} on X0^D x Y0^D and 0 elsewhere. For f = (f_1..f_D) in F^D let copy_f be the tree conjugated by f (flip row
+bits and specified query bits). Then sum_f copy_f = P^{(x)D} * prod_i #{g in F : (g x_i, g y_i) in W}, which is POS
+because F covers every block pair. Degrees grow by at most J^D on each side. ∎
+
+*Exactness everywhere, not only on the window.* (Y4) is applied to the matrix M_W on all of {0,1}^N x Y, so each of
+the three pieces must compute M_W exactly there, including 0 at every pair off W. E2(i) states exactness only on
+X0 x Y0. Off W it holds because E2 builds gates only for window types (w, z0, z1): a left gate of type
+(w, z0, z1) is incident only to rows of weight w N, and a right gate only to queries of that type. So a row outside
+X0 or a query outside Y0 has no incident gate of C_W, and C_W gives 0 there, as M_W does. (M_W, I) and (I, M_W)
+are M_W itself on one side.
+
+*Walk cost (replaces E5's "no dead branches" for these pieces).* E5 bounds the depth-first walk by the gates it
+reports, because in an exact circuit for P^{(x)j} every row and query has a 1, so every partial path extends. That
+fails here: M_W has zero rows (every x outside X0), so a partial path can die. Bound the partial paths instead. A
+partial path of depth j is a gate of the depth-j tree incident to the current row (or query), so their number is at
+most E4's bound at depth j. That bound, D_j sum_A 2^{N j c(tau)} lambda^{1-tau}, is nondecreasing in j (D_j is,
+c >= 0, and the depth-0 bound G_0 = sum_A lambda^{1-tau} >= 1 from tau = 1). So the walk visits at most (D + 1) G_D
+partial paths, a factor D + 1 = poly(n) over E5's bound, times J^D for the union. The same argument covers the
+ladder (13.6), with E4'''s bound in place of E4's.
+
+**GOTCHA (the breaking site is (Y4)'s colour recursion).** (Y4) writes M (x) M' = sum over colours of M_zeta (x) M',
+with SIGNED colour classes M_zeta; it needs every child circuit to compute M' exactly. If the children were POS, the
+signed classes would make entries negative (A12's counterexample). So every piece must be exact on the window
+product, and the union must come after the whole tree. Lemma 3.1' comes after the union.
+
+*Accounting.* eps_V^{POS} := eps_win + eps_poly (no J/N0 term), and the union adds log2 J/N0 per coordinate to both
+eps_L and eps_R. So eps' can be ~1e-4 at N0 ~ 1e8, where E3 would need J/N0 small. Lemma E6 holds without its (L)
+assembly line (the J <= N/8 hypothesis is no longer used). E3 at the POS design's N0 gives no gain (control K7).
+
+### 13.6 A19: a ladder of base lengths [proof for the POS small-q variant; the rest downgraded]
+
+**Lemma E4'' (level-dependent tree).** Let the tensor levels have lengths N_1, ..., N_L (root first), level i with
+its own pieces C_{i,1}, C_{i,2}, C_{i,3} for P_{N_i,1/2} (exact on level i's window, as in 13.5) and
+Upsilon_{i,t}(tau) <= 2^{N_i u_{i,t}(tau)} on A. Keep E4's anchor set A, c, chord slopes and dyadic thresholds from
+the N0 family, and let the rule at a node of level i use ell := log2 lambda / l_i, where l_i := N_i + ... + N_L.
+Put omega_{i,t} := max over t's endpoints e of (u_{i,t}(tau_e) - c(tau_e))^+. Then
+G <= prod_i phi_i * sum_{tau in A} 2^{l_1 c(tau)} lambda^{1-tau}, with
+
+    phi_i := max_t ( 2^{N_i omega_{i,t}} + sum over t's off points j of 2^{N_i (u_{i,t}(tau_j) - c(tau_j)) - l_i delta_{t,j}} ).
+
+*Every point of A, every piece.* u_{i,t} must be defined, and bound Upsilon_{i,t}, at all four points of A, not only
+at t's endpoints; the off points enter phi_i. For the window circuit, u is Vbar + eps_V(N_i) (E2(vii)). For
+(M, I) and (I, M), u is tau and (1 - tau)/2 (their exact volumes). When (I, M) stands in for piece 2 on the Delta
+level, its off-point values are its own: u - c = 1/2 at tau_0 = 0 and 0 at tau_3 = 1, so u - c <= 1/2 per coordinate
+there. The certificate charges N_sw/2 bits for this, which is valid; its endpoint overshoot is (1 - 3 tau1)/2 (at
+tau1; 0 at tau2).
+
+*Proof.* (Y4)'s recursion is level by level, so a different family per level changes nothing in its proof. Put
+f_tau(l) := 2^{l c(tau)} lambda^{1-tau}; then log2 f_{tau_i}(l) - log2 f_{tau_{i-1}}(l) = (tau_i - tau_{i-1}) l (s_i - ell),
+so at the chosen piece t each off point satisfies f_j(l_i) <= 2^{-l_i delta_{t,j}} f_near(l_i) (Sec. 12's per-pair
+argument with N d replaced by l_i). The inductive step gives sum_tau Upsilon_{i,t}(tau) 2^{l_{i+1} c(tau)}
+lambda^{1-tau} = sum_tau 2^{N_i (u - c)(tau)} f_tau(l_i); endpoint terms are at most 2^{N_i omega} f_tau, and each off
+term is a multiple of an endpoint's f; collecting gives the factor phi_i. ∎
+
+*Design (certified).* D main levels of length N0, then a level of length Delta in qZ cap [0, N0) chosen from n (it
+removes the padding: n'' - n' <= q + 1, so padding costs <= (q+1)/2 bits), then a tail N_j := q floor(N0 (3/4)^j / q)
+while E6's hypotheses hold (T0 := sum of the tail ~ 3 N0).
+- Main levels: l >= T0 + N0 and every pair has r/delta <= 2.08 < 3, so their factors multiply to < 2 (checked:
+  max(N0 r - T0 delta) <= -64).
+- Tail levels: pieces 1, 3 are exact (omega = 0); piece 2 is the POS window circuit at N_j with e' = 2^{-s}, so its
+  overshoot is N_j (eps_V(N_j) - eps_V(N0)) bits; each tail level also adds log2 J_j (union) and one splitter node
+  (<= log2(5 N0) bits).
+- The Delta level: for Delta >= N_sw = 2^K (K least with E6's hypotheses and Vbar(0) + eps_V <= 1/2 uniformly), a POS
+  window circuit at length Delta; below N_sw, (I, M) in the role of piece 2 (overshoot (1 - 3 tau1)/2 per
+  coordinate).
+- *Build.* Every circuit the ladder can use is built once, up front, before any input is read: the main family at
+  N0, the tail circuits, and a window circuit for every Delta in qZ cap [N_sw, N0). So there is no per-n' build at
+  run time. Each has a length L that is a multiple of q below N0, and costs at most 2^{4 L} (Lemma E6; the
+  certificate checks its hypotheses at each tail length, and uniformly for Delta >= N_sw). Over the distinct
+  multiples of q up to N0 - q this is at most 2^{4 (N0 - q)}/(1 - 2^{-4q}) for the tail and the same for the Delta
+  circuits, together at most 2^{4 N0}. The whole build is at most 2^{4 N0 + 1}: B = c_b N0 + 1.
+- *Length.* The ladder needs room: n'' = D N0 + Delta + T0 with D >= 0 and padding n'' - n' <= q + 1 requires
+  n' + 2 >= T0 + q. S2 calls PM only with n' = 2m - 2j >= m > pi n - 2 (S2 Step 0 and Lemma 3.2, j <= m/2), so
+  n >= (T0 + q)/pi suffices. This is the third term of n0 for the ladder rows; it does not bind (4.6e10 at D4 and
+  4.2e9 at q = 2664, against n0 = 1.59e11 and 4.90e10).
+- Lemma 3.1' with the tree [main block | Delta | tail chain] gives the main block's D (log2 N0 + 9/4) bits per Lemma
+  3.1'(b), one node of size n'' (a poly(n) factor), and the chain.
+
+*Result.* D4: N0 = 3.8e9, log2 C <= 1.30e5 bits (rebalancing + union 7.09e4 = 0.612 N_min, with N_min = q; padding
+5.8e4), E <= 0.4999983549, g = 1.645e-6, **n0 <= 1.59e11**. q = 2664: N0 = 3.5e8, log2 C <= 3.5e4 (rebalancing +
+union 3.25e4 = 0.939 N_min, with N_min = 13 q; padding 1.3e3), E <= 0.4999985715, g = 1.4285e-6, **n0 <= 4.90e10**.
+Without the tail the single-scale constant is 0.4967 N0 (control K8).
+
+*Labels kept honest.*
+- Lemma E4'' and the POS small-q ladder rows: [proof] (certified).
+- A19's stated rate "log2 C = O(log^2 N0)" holds only in N0 for fixed q: here log2 C is dominated by O(q) (the bottom
+  of the tail and the padding), not by log^2 N0. [proof, per certified row only: the rebalancing + union bits are
+  0.612 N_min (D4) and 0.939 N_min (q = 2664), plus (q+1)/2 for padding and the chain. No general bound of the
+  form c N_min is claimed; the O(log^2 N0) shape alone is A19's [arg].]
+- A19 with E3 hole fixing (the "O(sqrt N0)" row): not certified; [arg].
+- A19 at YL's (a, b): NOT available. Every level length must be a multiple of q = 10^26 = N0, so there is no tail
+  without A18's rounding, which is [arg]. A19's 8e26 row is therefore [arg].
+
+### 13.7 What changed in S2, and the weakest step
+
+- The small-q rows use S2 Lemma 6.1 with gamma := 2(xi' - 2 eps)/3 (instead of 2 xi'/3), pi just below
+  3/(12 + 2(xi' - 2 eps)), the new pair, and eps := max(eps_L, eps_R) ~ 1e-7 to 6e-6 (instead of 1e-9). Lemma 6.1's
+  proof is symbolic in gamma, pi, eps and the pair (gamma enters only as the few-sums threshold, Steps 2 and 6;
+  Lemma 3.5 needs only dL', dR' >= 0 and dL' + dR' <= 1/2 - 2 xi'). Then E = max of Lemma 6.1's terms, computed
+  exactly. [proof, by inspection of S2; S2 Certificate 7.2 itself is not re-run with these parameters.]
+- Weakest steps, in order: (1) this reading of S2 Lemma 6.1 and Lemma 5.3 with new constants and a POS counter (by
+  inspection, not by S2's owner); (2) Lemma P2's placement of the union after the tree (proved here, but only A12's
+  toy has exercised a POS assembly at gate level; our toy test does not cover it, though referee N1's gate-level toy
+  at N = 4 (depth 2, union after the tree, Lemma 3.1' with the canonical member) found no violation in 6000 pairs); (3) Lemma V uses YL's V formula at
+  a new (a, b), i.e. (Y2)-(Y3) for general rational (a, b), which YL state but which we have tested only at their own
+  point and at N = 8.
+- None of this changes Theorem E or Sec. 12.
+
+### 13.8 Lean
+
+`../lean/SubsetsumLean/ExplicitN0.lean` and `ExplicitAnchors.lean` (generated by `../lean/gen_explicit_n0.py`, with
+definitions in `ExplicitN0Defs.lean`) kernel-check the inequalities of `../cert/cert_explicit_b16.py` and
+`../cert/cert_explicit_b17.py`, without `sorry` or `native_decide`, and every theorem uses only `propext`,
+`Classical.choice` and `Quot.sound`. Lean recomputes every number from the inputs (the rounded anchors, x0, and each
+row's N0 and e'): Sec. 12's S, d1 and n0; [A']; every table row's E and n0, with the ladder's tail and switch length;
+and S2 Lemma 6.1's terms with the real log2 3. Lemma V's tangent bounds are checked as real inequalities with the
+real log and binary entropy. The controls D1, D2, K1, K2 and K4 to K9 are proved false (K7 for every e' of the grid).
+On paper only: the lemmas themselves (that the formulas are the costs), Lemma V's concavity step and YL's V formula
+at a general (a, b), and Lemma 3.1'(b) beyond D = 400. The splitter's exhaustive check [G] and K3 stay in Python
+(`../lean/LEAN_SCOPE.md`).

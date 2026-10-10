@@ -1,6 +1,7 @@
 import SubsetsumLean.Stage1
 import SubsetsumLean.Stage2
 import SubsetsumLean.Explicit
+import SubsetsumLean.ExplicitN0
 
 /-! Every checked theorem depends only on Lean's standard axioms (no `sorryAx`, no `native_decide`, no `ofReduceBool`). -/
 
@@ -56,3 +57,45 @@ import SubsetsumLean.Explicit
 #print axioms SS.explicit_C5
 #print axioms SS.explicit_C6
 #print axioms SS.explicit_C7
+#print axioms SS.N0.lg_mem
+#print axioms SS.N0.s2G_le
+#print axioms SS.N0.Row.s2_real
+#print axioms SS.N0.anchor_YL_0
+#print axioms SS.N0.anchor_YL_h
+#print axioms SS.N0.anchor_YL_1
+#print axioms SS.N0.anchor_D4_0
+#print axioms SS.N0.anchor_D4_h
+#print axioms SS.N0.anchor_D4_1
+#print axioms SS.N0.anchor_q2664_0
+#print axioms SS.N0.anchor_q2664_h
+#print axioms SS.N0.anchor_q2664_1
+#print axioms SS.N0.anchor_K9
+#print axioms SS.N0.dom1_D4
+#print axioms SS.N0.dom2_D4
+#print axioms SS.N0.hb_D4
+#print axioms SS.N0.dom1_q2664
+#print axioms SS.N0.dom2_q2664
+#print axioms SS.N0.hb_q2664
+#print axioms SS.N0.explicit_B16
+#print axioms SS.N0.B16_D1
+#print axioms SS.N0.B16_D2
+#print axioms SS.N0.splitter_family
+#print axioms SS.N0.K4
+#print axioms SS.N0.K1
+#print axioms SS.N0.K2
+#print axioms SS.N0.yl_match
+#print axioms SS.N0.hull_D4
+#print axioms SS.N0.hull_q2664
+#print axioms SS.N0.K5
+#print axioms SS.N0.K6
+#print axioms SS.N0.explicit_Aprime
+#print axioms SS.N0.explicit_Aprime_s2
+#print axioms SS.N0.row_D4_E3_ok
+#print axioms SS.N0.row_D4_POS_ok
+#print axioms SS.N0.row_D4_POS_ladder_ok
+#print axioms SS.N0.row_q2664_E3_ok
+#print axioms SS.N0.row_q2664_POS_ok
+#print axioms SS.N0.row_q2664_POS_ladder_ok
+#print axioms SS.N0.ladder_gain_D4
+#print axioms SS.N0.K7
+#print axioms SS.N0.K8

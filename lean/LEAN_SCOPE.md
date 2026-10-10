@@ -1,9 +1,9 @@
 # What the Lean files check, and what they do not
 
 Lean 4 v4.34.1 with Mathlib v4.34.1. No `sorry`, no `native_decide`, no `admit`, and no added axioms.
-`SubsetsumLean/Axioms.lean` prints the axioms of all 52 theorems listed below. Each one uses only `propext`,
+`SubsetsumLean/Axioms.lean` prints the axioms of all 94 theorems listed below. Each one uses only `propext`,
 `Classical.choice` and `Quot.sound`, or a subset of them (`axioms.out`). `lake env leanchecker
-SubsetsumLean.<Module>` replays every module through the kernel, and all 8 pass. `--fresh`, which would also re-check Mathlib, was not run.
+SubsetsumLean.<Module>` replays every module through the kernel, and all 11 pass. `--fresh`, which would also re-check Mathlib, was not run.
 
 ## Kernel-checked
 
@@ -69,6 +69,34 @@ kernel's own formula, and writes `Explicit.lean`.
 | `explicit_C1` to `explicit_C7` | the seven must-fail controls of `cert_explicit.py`, each proved false: eps_L > 1e-9 at k = 115940 and at eps' = 1e-4; no valid J at eps' = 1e-27 (even with log2 e < 3/2); the secant fails with dR' - 1e-11; L_D <= 4805 is false; 10^26 does not divide N0 at k = 10^25; H(b) <= 0.07 is false |
 | `Hb_symm`, `Hb_ge_of`, `Hb_le_of` | H(1-x) = H(x), and moving an entropy bound to a nearby point of [0, 1/2] |
 
+**Smaller n0 (`ExplicitN0Defs.lean`, `ExplicitAnchors.lean`, `ExplicitN0.lean`) covers `cert/cert_explicit_b16.py`
+(PROOF Sec. 12) and `cert/cert_explicit_b17.py` (PROOF Sec. 13): every inequality, controls D1, D2, K1, K2 and K4
+to K9 included.** Theorems are in namespace `SS.N0`.
+
+`ExplicitN0Defs.lean` defines every rational quantity of both scripts over `ℚ` by the scripts' formulas: the
+three-piece structure with its six per-pair gaps and excesses, d1, S, Delta, L_D (Lemma E4'), the hull pair and
+xi'', J, eps_V, Lemma E6's hypotheses, S2 Lemma 6.1 with a general gamma, the ladder (the tail, the switch length,
+the Delta level, the main levels and every bit of the constant), and n0. Only the inputs come from the scripts: the
+anchors (rounded up to 10^-18), the points x0 of Lemma V, and each row's N0 and e'. Lean recomputes everything else,
+including every integer the scripts choose (J, the tail lengths, K, d1, d*), so no choice is trusted.
+`gen_explicit_n0.py` runs both scripts and writes the two generated files. Each log and entropy enclosure it writes is
+first checked with the kernel's own formula, and each linear combination linarith must find is checked exactly
+against its anchor.
+
+| theorem | statement |
+|---|---|
+| `anchor_{YL,D4,q2664}_{0,h,1}` | Lemma V's tangent bound tau E1(1/4) + (1-tau)(b - 1/2 + 2a) + f_tau(x0) + grad f_tau(x0) . (v - x0), with the real log and binary entropy, is at most the certified anchor U at all four vertices v of K, for tau = 0, 1/2, 1 at Ye-Li's (a, b), D4 and q = 2664 |
+| `anchor_K9` | must fail: the tau = 1/2 anchor at D4 below the value at the feasible point (3a/2, 9a/4) |
+| `dom1_*`, `dom2_*`, `hb_*` | at D4 and q = 2664: E1(1/4) > 4a, h(1-b, 2a) > 8a (with margins) and H(b) <= 1/10 |
+| `yl_match` | at Ye-Li's (a, b), each certified anchor is >= the table's truncation and within 2e-17 of it |
+| `hull_D4`, `hull_q2664` | q = lcm(4, denominators), Ye-Li's parameter conditions and 1-b <= 1/100, the hull pair (dL'', dR'') and xi'' >= 2e-5 |
+| `explicit_B16` | [B16] at design [A]: thresholds, endpoints, all six gaps > 0, N0 min delta >= 1, d1 = 3, S <= 0.4967, g > 0, n0 <= 1.21e56 |
+| `splitter_family` | Lemma 3.1'(b) as (D prod m_v)^4 <= 2^(9(D-1)) for D <= 400 |
+| `explicit_Aprime`, `explicit_Aprime_s2` | [A'] at N0 = q = 10^26: q \| N0, J <= N0/8, Lemma E6, the structure, the secant, eps_L, eps_R <= 1e-9, L_D = 4855, S <= 0.4967, d1 = 3, E <= 0.4999983345 (every real S2 term is at most E), n0 <= 5.84e35 (E4) and <= 1.20e32 (B16) |
+| `row_{D4,q2664}_{E3,POS,POS_ladder}_ok` | each Sec. 13 table row: every check of `q_variant` (and of `ladder_bits` for the ladder rows), E <= its table value, n0 <= its table value, and every real S2 term (general gamma, real log2 3) at most E |
+| `ladder_gain_D4` | the D4 ladder's n0 is at least 100 times smaller than the D4 POS row's |
+| `B16_D1`, `B16_D2`, `K1`, `K2`, `K4` to `K8` | the scripts' must-fail controls, each proved false. K7 is checked for every e' of the script's grid, not only the best one. K1 is proved for every natural k |
+
 ## Paper proof only (not in Lean)
 
 - **The cost model itself.** That g, and the nine terms of Stage 2, are the running-time exponents of the
@@ -87,6 +115,13 @@ kernel's own formula, and writes `Explicit.lean`.
   (their 20-place truncations are inputs), and that k is the least even k with 10^26 \| k(k+2) (a CRT fact; any
   such k would do). The [T] trade-off table is printed by the script, not checked. `toy_explicit.py`, the
   gate-level toy test, stays in Python.
+- **Smaller n0 (Secs. 12-13).** Lemmas E4', 3.1', E5', P1, P2 and E4'', and the reading of S2 Lemma 6.1 with a
+  general gamma: that the formulas in `ExplicitN0Defs.lean` are the costs of the algorithms. Lemma V itself (f_tau is
+  concave on K, so the tangent bound at the vertices bounds max_K f_tau) and the formula for V at a general (a, b)
+  (Ye-Li's (Y2)-(Y3)). Lemma 3.1'(b) for D > 400 (the induction). The splitter's exhaustive check [G] (every
+  half-set balanced for four leaf patterns) and its control K3 stay in Python; they are finite enumerations, not
+  inequalities. The choice of each row's N0 and e' (a search) is not checked: any choice that passes gives a valid
+  bound.
 - **Stage 2 minimality of kappa_0.** This uses the fact that log2(k+1)/k decreases for k >= 1, which is on paper.
   Lean checks the value at kappa_0 and at kappa_0 - 2.
 - `check_stage1.py` and `check_stage2.py`, the brute-force logic checks, stay in Python.
@@ -98,11 +133,11 @@ kernel's own formula, and writes `Explicit.lean`.
     ./build_watch.sh build                   # nice -n 19, one Lean thread, aborts above 3 GB RSS
     ./build_watch.sh env lean SubsetsumLean/Axioms.lean
 
-The whole project builds in about 2 minutes. Peak RSS per step was 2.87 GB (the explicit modules: 2.52 GB), and most of that is mmapped Mathlib
+The whole project builds in about 4 minutes. Peak RSS per step was 2.87 GB (the explicit modules: 2.86 GB), and most of that is mmapped Mathlib
 oleans (`build_peak.log`).
 
 The pinned Mathlib was fetched as a shallow clone of tag v4.34.1, at commit d13f23b, the commit in
 `lake-manifest.json`. A full clone ran at about 10 MB/min.
 
-`python3 gen_stage1.py`, `python3 gen_stage2.py` and `python3 gen_explicit.py` regenerate the three generated files
-from the certificate scripts.
+`python3 gen_stage1.py`, `python3 gen_stage2.py`, `python3 gen_explicit.py` and `python3 gen_explicit_n0.py` regenerate the
+five generated files from the certificate scripts. The three Sec. 12-13 modules build in about 2 minutes, peak RSS 2.86 GB.

@@ -24,5 +24,7 @@ New here: the deterministic prime with injectivity on W(C) (Stage 1 Lemma 2.1), 
 its use as a filter in both stages; the collision-bounded prime and residue-threshold layer families of Stage 2;
 the re-derivation of Ye-Li's exponent at a general prefix and the choice pi = 0.2499; the inclusion-exclusion
 replacement for Alman-Li Thm 6.1 (Stage 2 Sec. 9); the explicit construction of Stage 2b (pessimistic-estimator
-lists, greedy hole fixing, the effective three-piece rebalancing rule, the preprocessing count); the certificates
-and their Lean kernel checks.
+lists, greedy hole fixing, the effective three-piece rebalancing rule, the preprocessing count); the smaller-n0
+variants of Stage 2b Secs. 12-13 (the per-pair rebalancing constant, the halving splitter with the canonical-member
+rule, the anchors at a new (a, b) by concavity, the positive union after the tree, the ladder of base lengths); the
+certificates and their Lean kernel checks.

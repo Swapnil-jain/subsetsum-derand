@@ -1,0 +1,57 @@
+[G] Lemma 3.1' (halving splitter, canonical member)
+  every half-set balanced, leaves (4, 4, 4)                      ok (0 failures)
+  every half-set balanced, leaves (4, 4, 4, 4)                   ok (0 failures)
+  every half-set balanced, leaves (6, 4, 2, 2)                   ok (0 failures)
+  every half-set balanced, leaves (8, 4, 2)                      ok (0 failures)
+  (D prod m_v)^4 <= 2^{9(D-1)} for D <= 400                      ok 
+  [K3 offset 0 only] rejected: True
+  [K4 family bound with c = 2 at D = 3] rejected: True
+  [K1 Lemma 3.1 at N0 = q] rejected: True
+[V] certified anchors by concavity
+  Ye-Li (a,b): bound on V(0) >= table, within 2e-17              ok (bound - table = 1.60e-19)
+  Ye-Li (a,b): bound on V(1/2) >= table, within 2e-17            ok (bound - table = 1.16e-17)
+  Ye-Li (a,b): bound on V(1) >= table, within 2e-17              ok (bound - table = 1.83e-17)
+  D4: a = 1/2635, 1-b = 1/110, q = 115940; anchors <= 0.492649114628530 0.249979138138263 0.007614630691081
+  D4: q = lcm(4, denominators) = 115940                          ok 
+  D4: YL params, E1(1/4) > 4a, h(1-b,2a) > 8a, H(b)<=1/10, 1-b<=1/100 ok (margins 3.85e-03, 7.31e-04)
+  D4: pair (731244873/100000000000, 7697616927/15625000000), xi'' = 2.003397e-05 >= 2e-5 ok 
+  q2664: a = 1/2664, 1-b = 1/111, q = 2664; anchors <= 0.492712073010781 0.249979140282601 0.007548534581203
+  q2664: q = lcm(4, denominators) = 2664                         ok 
+  q2664: YL params, E1(1/4) > 4a, h(1-b,2a) > 8a, H(b)<=1/10, 1-b<=1/100 ok (margins 3.82e-03, 7.25e-04)
+  q2664: pair (57995911/8000000000, 30794402779/62500000000), xi'' = 2.003333e-05 >= 2e-5 ok 
+  [K9 tau=1/2 bound below a feasible value] rejected: True
+  [K6 xi'' >= 2.004e-5 at D4] rejected: True
+[A'] B17 at Ye-Li's (a, b): N0 = q = 10^26, Lemma 3.1', E3 hole fixing
+  q | N0, 4 | N0                                                 ok 
+  [K2 q | N0 = q/2] rejected: True
+  YL params, dominances, E6's H(b), 1-b                          ok 
+  eps' = 1/5000000, J = 2.166e+13 <= N0/8, E6 numeric            ok 
+  three-piece structure, dyadic thresholds, delta_{t,j} > 0      ok 
+  secant domination with S2's pair (dL', dR')                    ok 
+  N0 Delta >= 1 and N0 min delta >= 1                            ok 
+  eps_V = 3.324e-13; eps_L = 3.324e-13, eps_R = 3.324e-13 <= 1e-9 ok 
+  S2 Certificate 7.2[B] verbatim: E <= 0.4999983345              ok 
+    L_D = 4855 (E4), S = 0.496664 (B16); padding <= (N0+1)/2 bits
+    n0 (E4 constant, [proof] + Lean-checked E4) <= 5.831e+35;  n0 (B16 constant, [proof], Sec. 12) <= 1.197e+32
+  n0 with E4 <= 5.84e35 and with B16 <= 1.20e32                  ok 
+    gain g = 1/2 - E >= 1.6655e-06; for n >= n0 the run time is below 2^{0.4999991672 n} poly(n, L)
+[Q] small q (S2 Lemma 6.1 with general gamma; B16 constant unless ladder)
+  [K5 S2's pair at the D4 anchors] rejected: True
+  D4-E3            N0 = 2.431e+11, eps' = 1/1000, eps_m = 6.461e-06, E <= 0.4999994073, g = 5.9272e-07, log2 C = 2.423e+11, n0 <= 8.177e+17, then time < 2^{0.4999997036 n}
+  D4-POS           N0 = 1.187e+08, eps' = 1/10000, eps_m = 3.965e-06, E <= 0.4999989913, g = 1.0087e-06, log2 C = 1.183e+08, n0 <= 2.346e+14, then time < 2^{0.4999994956 n}
+  [K7 E3 hole fixing at the POS design's N0 = 1.19e+08] rejected: True
+  [K8 single scale claiming log2 C <= 0.1 N0] rejected: True
+  D4-POS-ladder    N0 = 3.799e+09, eps' = 1/50000, eps_m = 1.463e-07, E <= 0.4999983549, g = 1.6451e-06, log2 C = 1.303e+05, n0 <= 1.584e+11, then time < 2^{0.4999991774 n}
+                   tail 36 levels, N_min 1.16e+05 = 1 q, T0/N0 3.00; bits: rebalancing+union 7.09e+04 (0.612 N_min), chain 1.33e+03, padding 5.80e+04; (T0 + q)/pi = 4.56e+10
+  q2664-E3         N0 = 3.576e+11, eps' = 1/1000, eps_m = 5.319e-06, E <= 0.4999992171, g = 7.8286e-07, log2 C = 3.564e+11, n0 <= 9.104e+17, then time < 2^{0.4999996086 n}
+  q2664-POS        N0 = 8.729e+07, eps' = 1/10000, eps_m = 5.393e-06, E <= 0.4999992294, g = 7.7061e-07, log2 C = 8.700e+07, n0 <= 2.258e+14, then time < 2^{0.4999996147 n}
+  q2664-POS-ladder N0 = 3.492e+08, eps' = 1/20000, eps_m = 1.446e-06, E <= 0.4999985715, g = 1.4285e-06, log2 C = 3.496e+04, n0 <= 4.895e+10, then time < 2^{0.4999992857 n}
+                   tail 32 levels, N_min 3.46e+04 = 13 q, T0/N0 3.00; bits: rebalancing+union 3.25e+04 (0.939 N_min), chain 1.05e+03, padding 1.33e+03; (T0 + q)/pi = 4.19e+09
+  D4-POS-ladder n0 <= D4-POS n0 / 100                            ok 
+  table row D4-E3: E <= 0.4999994073, n0 <= 8.18e17              ok 
+  table row D4-POS: E <= 0.4999989913, n0 <= 2.35e14             ok 
+  table row D4-POS-ladder: E <= 0.4999983549, n0 <= 1.59e11      ok 
+  table row q2664-E3: E <= 0.4999992172, n0 <= 9.11e17           ok 
+  table row q2664-POS: E <= 0.4999992295, n0 <= 2.26e14          ok 
+  table row q2664-POS-ladder: E <= 0.4999985715, n0 <= 4.90e10   ok 
+ALL PASS
