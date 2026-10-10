@@ -1,0 +1,26 @@
+[A] ln2 >= 0.6931 and log2 e >= 1.4426: True;  k=10045215487480163574218750 even, 10^26 | N0: True
+    YL params True; E1(1/4)-4a >= 3.815e-03; h(1-b,2a)-8a >= 7.263e-04; H(b) <= 7.4458e-02 (Lemma E6: <= 1/10, 1-b <= 1/100: True)
+    N0=1.0091e+50 J=8.665e+25 eps_V<=8.876517e-25 tau1=0.331682606 tau2=0.501373046 Delta=6.190227e-04 r_max=1.000e+00 d*=1616 log2(8 D_inf)/N0<=4855
+    eps_L<=9.251290e-24 eps_R<=9.857450e-25  structure True  secant True  padding True  Lemma E6 numeric hypotheses True
+    c = L_D + 3 = 4858;  gain g >= 1.66666e-06;  n0 = 2 c N0 / g <= 5.882e+59  -> PASS
+  [C1 k=115940] rejected: True
+  [C2 eps'=1e-4] rejected: True
+  [C3 eps'=1e-27] rejected: True
+  [C4 dR' - 1e-11] rejected: True
+  [C5 L_D - 50] rejected: True
+  [C6 k=10^25] rejected: True
+  [C7 H(b)<=0.07] rejected: True
+[T] trade-off (exact bounds; D4 rows CONDITIONAL on certifying xi at a=1/2635, 1-b=1/110)
+    param  k          N0         eps'        eps_m       gain         c     n0 = 2 c N0 / g
+    D4     1.159e+05  1.344e+10  2.0e-03     1.745e-04   <= 0         4912  none (no gain)
+    D4     4.638e+05  2.151e+11  1.0e-03     4.793e-05   <= 0         4873  none (no gain)
+    D4     9.275e+05  8.603e+11  1.0e-03     2.548e-05   <= 0         4867  none (no gain)
+    D4     1.855e+06  3.441e+12  5.0e-04     1.306e-05   <= 0         4861  none (no gain)
+    D4     2.203e+06  4.853e+12  5.0e-04     1.143e-05   <= 0         4861  none (no gain)
+    D4     3.710e+06  1.376e+13  5.0e-04     6.909e-06   5.1514e-07   4861  2.60e+23
+    D4     7.420e+06  5.506e+13  2.0e-04     3.611e-06   1.0649e-06   4858  5.02e+23
+    D4     1.484e+07  2.202e+14  2.0e-04     1.832e-06   1.3613e-06   4858  1.57e+24
+    YL     1.005e+25  1.009e+50  2.0e-13     8.694e-24   1.6667e-06   4858  5.88e+59
+    YL     1.000e+30  1.000e+60  1.0e-15     1.038e-28   1.6667e-06   4858  5.83e+69
+    limit eps_m -> 0: gain -> xi'/(12+2xi') = 1.66666111e-06, exponent -> 0.499998333339 (growing N0, PROOF Sec. 8)
+ALL PASS

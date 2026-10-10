@@ -18,12 +18,24 @@ Every known algorithm that beats it is randomized. We give two deterministic res
 - **Non-explicit.** The algorithm is a fixed, finite program that uses no randomness. However, it hardcodes a
   circuit that is only proven to exist.
 
+**Stage 2b.** This makes Stage 2 explicit.
+
+- **Result.** The same exponent, E <= 0.4999983316, by a fully specified deterministic program: time
+  2^{c N0} poly(n, L) 2^{E n} with N0 = k(k+2) ~ 1.0091e50 (k = 10045215487480163574218750) and c = 4858.
+- **Galactic.** The constant 2^{4858 N0} is stated but astronomically large: the gain over 2^{n/2} appears only
+  for n > n0 ~ 5.9e59 (n0 is where the constant costs at most half the gain). This is a statement about
+  explicitness, not a practical algorithm.
+- **What changed.** Every randomized or merely existential step of Ye–Li's circuit is constructed:
+  pessimistic-estimator lists, greedy hole fixing, and an explicit three-piece rebalancing rule with an effective
+  constant (`PROOF/stage2b-explicit.md`).
+
 ## Status
 
 | | claim | review | Lean |
 |---|---|---|---|
 | Stage 1 | O(2^{n/2} n^{-gamma}) for every gamma < gamma*, gamma* in [0.0101041782, 0.0101041783] | two independent internal referee passes, CONFIRMED WITH FIXES; fixes applied | exponent certificate kernel-checked |
 | Stage 2 | O(2^{0.49999834 n}), exponent E <= 0.4999983316, saving >= 1.66e-6 | independently refereed (3 clean passes); conditional on Ye–Li Prop. 4.2 (its proof) and its dL/dR table; non-explicit | exponent certificate kernel-checked |
+| Stage 2b | the same E, explicit, constant 2^{4858 N0} with N0 ~ 1.0091e50 (n0 ~ 5.9e59) | independently refereed (2 clean passes, CONFIRMED WITH FIXES, no claim-level defect; all fixes applied); same Ye–Li conditions as Stage 2, minus non-explicitness | design certificate kernel-checked; gate-level toy test at N = 8 |
 
 "Referee pass" means an adversarial check by a separate review pass of our own. It is not peer review.
 
@@ -81,7 +93,7 @@ The word RAM version (Corollary 2) rests on CJRS's Observation 4, which CJRS onl
 O(2^{0.49999834 n}) bit operations on every input of total length 2^{o(n)}. Its time is poly(n, L) 2^{E n} with
 E <= 0.4999983316, at prefix m = 0.2499 n. It finds a solution in the same time.
 
-The theorem has three conditions:
+The theorem has three conditions (Theorem 2b below removes the second and third):
 - It is conditional on Ye–Li Prop. 4.2, through its proof and its dL/dR table. We audited Prop. 4.2
   (`PROOF/ye-li-audit/`), but did not re-prove it.
 - The program is **non-explicit**. It hardcodes an exact integer circuit for P_{N', 1/2} with
@@ -92,6 +104,16 @@ The theorem has three conditions:
 The deterministic covering costs 2^{2m}, which forces the prefix down from Ye–Li's n/3 to 0.2499 n. So the saving
 is about xi/12, against Ye–Li's randomized xi/9.
 
+**Theorem 2b (Stage 2b; `PROOF/stage2b-explicit.md`).** There is an explicit deterministic algorithm that
+decides Subset Sum in time 2^{c N0} poly(n, L) 2^{E n}, with E <= 0.4999983316 (as in Theorem 2), N0 = k(k+2),
+k = 10045215487480163574218750 and c = 4858. It builds an input-independent circuit in at most 2^{4 N0} bit
+operations (Lemma E6), then runs Stage 2 with that circuit enumerated implicitly.
+- Still conditional on Ye–Li Prop. 4.2's proof and table, exactly as Theorem 2.
+- The constant: 4855 N0 from rebalancing, N0 each for padding and storage access, and N0 for the additive
+  preprocessing. Every one is a stated number; none is optimised.
+- Referee fixes applied: exact-rational potential (ceil), corrected term order in the left-degree dominance, the
+  q | k(k+2) window condition (which lowered N0 from 1e52 to 1.0091e50), and a written-out preprocessing count.
+
 **Correction found by the Lean check.** An earlier draft stated N' >= 2.2036e22. The exact value is
 N' = 22035779076245688040224, about 2.20358e22, so the bound is N' >= 2.2035e22 (`stage2_K`). The figure 2.2036e22
 is proved false (`stage2_K_fails_N`), and the text now carries the corrected figure. Nothing else depends on it:
@@ -99,7 +121,7 @@ N' only measures how far the circuit is from explicit.
 
 ## 2. How to verify
 
-    make check        # certificates + brute-force logic checks; pure standard-library Python, ~3.5 min, < 1 GB
+    make check        # certificates, logic checks, Stage 2b certificate + toy test; standard-library Python, ~5 min, < 1 GB
     make lean-sync    # the generated Lean files equal what the generators produce from cert/
     make lean         # Lean 4 kernel check; needs elan (Lean v4.34.1), ~2 min, peak RSS < 3 GB
     make all          # all three
@@ -108,12 +130,17 @@ N' only measures how far the circuit is from explicit.
   rounding, and checks [A], [B] and the must-fail controls [C1] and [C2].
 - `cert/cert_eps.py` is the Stage 2 exponent certificate. It uses exact rationals, and covers [A], [B], the block
   length [K], and the must-fail controls [C1] to [C8].
+- `cert/cert_explicit.py` is the Stage 2b design certificate: exact rationals with certified ln 2 and entropy
+  bounds, Certificate [A] (the design, the constant c and n0) and must-fail controls [C1] to [C7].
+  `cert/toy_explicit.py` builds Lemmas E1 to E4 gate by gate at N = 8 and multiplies L R out against M, with four
+  must-fail controls (`make explicit`).
 - `cert/check_stage1.py` and `cert/check_stage2.py` run the algorithms against brute force at toy sizes, with
   negative controls that must miss. They check logic, not asymptotics.
 - `PROOF/ye-li-audit/yl_*.py` are the numeric checks of our Ye–Li audit.
 - `lean/` holds the kernel check. `lean/LEAN_SCOPE.md` says exactly what is kernel-checked and what stays paper
-  proof. In short, it checks every inequality of both certificates, with refuted controls. All 35 theorems use only
-  `propext`, `Classical.choice` and `Quot.sound`, and `leanchecker` replays all 6 modules.
+  proof. In short, it checks every inequality of the three certificates, with refuted controls. All 52 theorems use
+  only `propext`, `Classical.choice` and `Quot.sound` (or a subset), and `leanchecker` replays all 8 modules.
+  - For Stage 2b, that the certified formulas are the losses of Lemmas E1 to E6 is a paper proof.
   - That the certified terms are the running times of the algorithms is a paper proof.
   - So are CJRS's and Ye–Li's cited facts.
   - The last continuity step for the exact Stage 1 root is also on paper. Every gamma < 0.0101041782 is
@@ -125,9 +152,10 @@ N' only measures how far the circuit is from explicit.
 |---|---|
 | `PROOF/stage1.md` | Theorem 1, full proof, every claim labelled |
 | `PROOF/stage2.md` | Theorem 2, full proof, non-explicitness stated precisely |
+| `PROOF/stage2b-explicit.md` | Theorem 2b: the explicit construction, Lemmas E1 to E6, referee fixes |
 | `PROOF/ye-li-audit/` | our adversarial audit of Ye–Li Prop. 4.2 and its scripts |
-| `cert/` | the two certificates (with transcripts `*.out`) and the two logic checks |
-| `lean/` | Lake project (Lean v4.34.1, Mathlib v4.34.1), generators `gen_stage1.py` / `gen_stage2.py`, `LEAN_SCOPE.md` |
+| `cert/` | the three certificates (with transcripts `*.out`), the two logic checks and the Stage 2b toy test |
+| `lean/` | Lake project (Lean v4.34.1, Mathlib v4.34.1), generators `gen_stage1.py` / `gen_stage2.py` / `gen_explicit.py`, `LEAN_SCOPE.md` |
 | `CLOSED_IDEAS.md` | routes to deterministic Subset Sum that we closed, with reasons |
 
 Some cross-references in the proofs point to working notes that are not included here: `../AUDIT.md`,

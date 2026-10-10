@@ -23,4 +23,6 @@ New here: the deterministic prime with injectivity on W(C) (Stage 1 Lemma 2.1), 
 (Lemma 2.2), the universal residue covering over (restriction, shift) with the best rotation (Lemmas 2.3, 2.4) and
 its use as a filter in both stages; the collision-bounded prime and residue-threshold layer families of Stage 2;
 the re-derivation of Ye-Li's exponent at a general prefix and the choice pi = 0.2499; the inclusion-exclusion
-replacement for Alman-Li Thm 6.1 (Stage 2 Sec. 9); the certificates and their Lean kernel checks.
+replacement for Alman-Li Thm 6.1 (Stage 2 Sec. 9); the explicit construction of Stage 2b (pessimistic-estimator
+lists, greedy hole fixing, the effective three-piece rebalancing rule, the preprocessing count); the certificates
+and their Lean kernel checks.

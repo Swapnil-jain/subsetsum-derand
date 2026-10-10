@@ -1,5 +1,6 @@
 import SubsetsumLean.Stage1
 import SubsetsumLean.Stage2
+import SubsetsumLean.Explicit
 
 /-! Every checked theorem depends only on Lean's standard axioms (no `sorryAx`, no `native_decide`, no `ofReduceBool`). -/
 
@@ -38,3 +39,20 @@ import SubsetsumLean.Stage2
 #print axioms SS.stage2_C8
 #print axioms SS.stage2_K
 #print axioms SS.stage2_K_fails_N
+#print axioms SS.Hb_symm
+#print axioms SS.Hb_ge_of
+#print axioms SS.Hb_le_of
+#print axioms SS.explicit_A
+#print axioms SS.explicit_A_n0
+#print axioms SS.ln2_bounds
+#print axioms SS.explicit_dom1
+#print axioms SS.explicit_dom2
+#print axioms SS.explicit_Hb
+#print axioms SS.explicit_params
+#print axioms SS.explicit_C1
+#print axioms SS.explicit_C2
+#print axioms SS.explicit_C3
+#print axioms SS.explicit_C4
+#print axioms SS.explicit_C5
+#print axioms SS.explicit_C6
+#print axioms SS.explicit_C7

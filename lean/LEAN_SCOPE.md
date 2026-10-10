@@ -1,9 +1,9 @@
 # What the Lean files check, and what they do not
 
 Lean 4 v4.34.1 with Mathlib v4.34.1. No `sorry`, no `native_decide`, no `admit`, and no added axioms.
-`SubsetsumLean/Axioms.lean` prints the axioms of all 35 theorems listed below. Each one uses only `propext`,
-`Classical.choice` and `Quot.sound` (`axioms.out`). `lake env leanchecker SubsetsumLean.<Module>` replays every
-module through the kernel, and all 6 pass. `--fresh`, which would also re-check Mathlib, was not run.
+`SubsetsumLean/Axioms.lean` prints the axioms of all 52 theorems listed below. Each one uses only `propext`,
+`Classical.choice` and `Quot.sound`, or a subset of them (`axioms.out`). `lake env leanchecker
+SubsetsumLean.<Module>` replays every module through the kernel, and all 8 pass. `--fresh`, which would also re-check Mathlib, was not run.
 
 ## Kernel-checked
 
@@ -48,6 +48,27 @@ hypotheses: the 20-place table truncation for each, `t <= true < t + 1e-20`, or 
 | `stage2_A_fails_next` | must fail: every term < 0.4999983315 is false |
 | `stage2_K_fails_N` | must fail: N' >= 2.2036e22 is false. N' is exactly 22035779076245688040224, so PROOF.md's "N' >= 2.2036e22" rounds the wrong way. The true bound is 2.2035e22 |
 
+**Explicit Stage 2 (`ExplicitDefs.lean`, `Explicit.lean`) covers `cert/cert_explicit.py`'s Certificate [A] in
+full, controls C1 to C7 included.**
+
+`ExplicitDefs.lean` defines every quantity of the certificate over `ℚ` by the script's formulas (eps_win, eps_V,
+tau1, tau2, the chord slopes, Delta, r_max, L_D, eps_L, eps_R, c, the gain). The integer witnesses (J, d*, and
+the bit lengths used as log2 bounds) are fields, and `DesignOK` states the property each must have, so Lean does
+not trust the script's choice of them. `gen_explicit.py` runs the script, re-checks every entropy bound with the
+kernel's own formula, and writes `Explicit.lean`.
+
+| theorem | statement |
+|---|---|
+| `explicit_A` | [A] at k = 10045215487480163574218750, eps' = 1e-13: k even, 10^26 \| N0, `N0+1 <= 2^lgN` etc., `J (2 eps'^2 N0 log2e - 2) > 2.5 N0`, 0 < tau1 < 1/3 < tau2 < 1, convexity, s1 > s2 > s3, the secant at tau1 and tau2, N0 Delta >= 1, `d* Delta > r_max`, L_D <= 4855, eps_L and eps_R <= 1e-9, k^2+2 <= N0, Lemma E6's numeric hypotheses, c <= 4858 |
+| `explicit_A_n0` | the gain is > 0 and n0 = 2 c N0 / g <= 5.89e59 |
+| `ln2_bounds` | 0.6931 <= ln 2, 1.4426 <= 1/ln 2 < 3/2 (the real constants, from `log_two_mem`) |
+| `explicit_dom1` | Ye-Li's E1(1/4) = H(b) - 2 (1/4) H(4a) - (1/2) H(2(1-b-2a)) > 4a + 0.003814, real binary entropy |
+| `explicit_dom2` | (1-b) H(2a/(1-b)) > 8a + 0.000726 |
+| `explicit_Hb` | H(b) <= 1/10 (Lemma E6) |
+| `explicit_params` | Ye-Li's parameter conditions and 1 - b <= 1/100 |
+| `explicit_C1` to `explicit_C7` | the seven must-fail controls of `cert_explicit.py`, each proved false: eps_L > 1e-9 at k = 115940 and at eps' = 1e-4; no valid J at eps' = 1e-27 (even with log2 e < 3/2); the secant fails with dR' - 1e-11; L_D <= 4805 is false; 10^26 does not divide N0 at k = 10^25; H(b) <= 0.07 is false |
+| `Hb_symm`, `Hb_ge_of`, `Hb_le_of` | H(1-x) = H(x), and moving an entropy bound to a nearby point of [0, 1/2] |
+
 ## Paper proof only (not in Lean)
 
 - **The cost model itself.** That g, and the nine terms of Stage 2, are the running-time exponents of the
@@ -60,6 +81,12 @@ hypotheses: the 20-place table truncation for each, `t <= true < t + 1e-20`, or 
   function e2(e1), defined by (4), followed by the intermediate value theorem. Only the part
   0.0101041782 <= gamma < gamma* = 0.01010417823... depends on it. Every gamma < 0.0101041782 is fully
   kernel-checked (`stage1_gamma`).
+- **Explicit Stage 2.** Everything in `PROOF/stage2b-explicit.md` except Certificate [A]'s arithmetic: that the
+  formulas in `ExplicitDefs.lean` are the losses of Lemmas E1 to E6 (the window loss, the Hoeffding/greedy count
+  behind J, the volume bound, the E4 induction, Lemma E6's operation count), Ye-Li's anchors V(0), V(1/2), V(1)
+  (their 20-place truncations are inputs), and that k is the least even k with 10^26 \| k(k+2) (a CRT fact; any
+  such k would do). The [T] trade-off table is printed by the script, not checked. `toy_explicit.py`, the
+  gate-level toy test, stays in Python.
 - **Stage 2 minimality of kappa_0.** This uses the fact that log2(k+1)/k decreases for k >= 1, which is on paper.
   Lean checks the value at kappa_0 and at kappa_0 - 2.
 - `check_stage1.py` and `check_stage2.py`, the brute-force logic checks, stay in Python.
@@ -71,10 +98,11 @@ hypotheses: the 20-place table truncation for each, `t <= true < t + 1e-20`, or 
     ./build_watch.sh build                   # nice -n 19, one Lean thread, aborts above 3 GB RSS
     ./build_watch.sh env lean SubsetsumLean/Axioms.lean
 
-The whole project builds in about 2 minutes. Peak RSS per step was 2.87 GB, and most of that is mmapped Mathlib
+The whole project builds in about 2 minutes. Peak RSS per step was 2.87 GB (the explicit modules: 2.52 GB), and most of that is mmapped Mathlib
 oleans (`build_peak.log`).
 
 The pinned Mathlib was fetched as a shallow clone of tag v4.34.1, at commit d13f23b, the commit in
 `lake-manifest.json`. A full clone ran at about 10 MB/min.
 
-`python3 gen_stage1.py` and `python3 gen_stage2.py` regenerate the two point files from the certificate scripts.
+`python3 gen_stage1.py`, `python3 gen_stage2.py` and `python3 gen_explicit.py` regenerate the three generated files
+from the certificate scripts.
