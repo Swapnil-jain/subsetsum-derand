@@ -425,7 +425,7 @@ def main():
     n0, last = fit_n0(pi3, dLp, dRp)
     print(f"    fit (Lemma 3.3): the sufficient condition holds for every n >= {last + 1} (exhaustively below"
           f" {n0}, by the closed form from {n0} on); it fails at n = {last}")
-    lem35 = dLp >= dL and dRp >= dR and 0 <= dRp <= dLp + dRp <= F(1, 2) and dLp >= 0 and pi3 <= F(1, 3)
+    lem35 = dLp >= dL and dRp >= dR and 0 <= dRp and dLp + dRp <= F(1, 2) - 2 * xi3 and dLp >= 0 and pi3 <= F(1, 3)
     print(f"    Lemma 3.5 hypotheses (dL' >= dL, dR' >= dR, 0 <= dL', dR', dL'+dR' <= 1/2 - 2xi', pi <= 1/3):"
           f" {'PASS' if lem35 else 'FAIL'}")
     ok &= lem35

@@ -32,7 +32,7 @@ poly(n, L) * 2^{E3 n} bit operations on every input, with
 
     E3 <= 0.499990922021        (gain 1/2 - E3 >= 9.0779e-6, about 5.4 times S2's 1.668e-6).
 
-A solution is found in the same time (Corollary 3.7). [proof, given the cited items of Sec. 1]
+A solution is found in the same time (Corollary 3.7). [proof, given Sec. 1 and the [arg] rounding/window steps of Sec. 2.2]
 
 *What Theorem 3 rests on (explicitly).* It does **not** use YL Prop. 4.2 as stated, nor any number of YL's Sec. 4
 table. It uses a **modified** proof of Prop. 4.2: YL's Sec. 3.5 construction with three parameters freed
@@ -44,12 +44,13 @@ Cor. 3.3, all [cite] and used exactly as in YL's proof of Prop. 4.2. The pair it
 **Theorem 3' (fallback, without the re-tune).** If the re-tuned circuit is set aside, the same algorithm with YL's
 pair gives E <= 0.499994991801 (gain >= 5.008e-6), conditional only on YL Prop. 4.2 and its table, exactly as S2
 (table values as upper bounds on dL, dR; xi' = 2.0035e-5 <= the table's xi). From the statement xi > 0.00002
-alone (still with the table's dL, dR as upper bounds, as in S2's Certificate [B]): E <= 0.4999950006. [proof, given
+(the statement-only form still uses the table's dL and dR, as upper bounds, for the fit and Lemma 3.5, as in S2's Certificate [B]): E <= 0.4999950006. [proof, given
 S2's cited items; exact; Lean `s3_FA`, `s3_FB`]
 
 **Non-explicit, as S2.** The program hardcodes an exact integer circuit for P_{N', 1/2} that is only proven to
-exist. At the new pair, Cor. 3.2's conditions still give kappa_0 = 148444531984 and N' = 22035779076245688040224
-(Sec. 4). We can prove that the program exists; we cannot write it down or run it (S2 Sec. 8 applies verbatim, with
+exist. At the new pair, Cor. 3.2's two conditions (necessary, not sufficient: the corollary needs a "sufficiently large even k")
+give the lower bounds kappa >= kappa_0 = 148444531984 and N' >= 22035779076245688040224 (Sec. 4); the circuit exists for
+some larger size, with no explicit threshold. We can prove that the program exists; we cannot write it down or run it (S2 Sec. 8 applies verbatim, with
 the new rational pair in the degree caps).
 
 *History.* The four-block variant (lead A21, ~/subsetsum-exp/fourblock, E about 1/2 - 3.34e-6) is superseded by
@@ -212,7 +213,7 @@ comes from YL's 3-anchor secant); about 4% of the gain is the crossing method, t
 Constants: pi := 0.24999546; eps := 1e-9; the rational pair (dL', dR') of Prop. 2.3; xi' := 3.6314576e-5.
 
 **DET3(z, tau).**
-- Step 0. If n < n0, brute force. Otherwise m := 2 floor(pi n/2). Blocks Q_i := coordinates (i-1)m+1..im, i = 1..4;
+- Step 0. If n < n0, brute force, where n0 >= max(202, S2's thresholds, the point from which P0 >= x0) (n0 = 274 for Theorem 3'). Otherwise m := 2 floor(pi n/2). Blocks Q_i := coordinates (i-1)m+1..im, i = 1..4;
   Rr := the other n - 4m coordinates.
 - Step 1. Sort and dedupe the 2^m sums of each Q_i, keeping the least-mask representative of each sum.
   d(Q) := m - log2 |Sigma(Q)|. P := argmin_i d(Q_i) (least index on ties); Qa, Qb, Qc := the other three in index
@@ -332,7 +333,7 @@ conditions for (dL', dR'), and an exact integer depth-2 circuit for P_{N', 1/2} 
 2^{(dL' + eps/4) N'}, 2^{(dR' + eps/4) N'}, obtained from the re-tuned window circuit by YL Lemma 3.4 (randomized
 orderings and covering prefixes, hole fixing by S2 Lemma 9.1, AL25 Thm B.2 rebalancing) and Cor. 3.2. The existence
 proof is non-constructive at exactly S2's places; the re-tuned construction adds none, since it uses the same
-random D and random covering prefixes as YL's. DET3 hardcodes (kappa, C*) and is otherwise explicit. N' >= 2.2035e22.
+random D and random covering prefixes as YL's. DET3 hardcodes (kappa, C*) and is otherwise explicit. N' >= 2.2035e22 is a lower bound only (Cor. 3.2 needs a sufficiently large even kappa; the two listed conditions are necessary, not sufficient).
 
 ## 6. Checks
 

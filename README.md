@@ -48,6 +48,8 @@ Every known algorithm that beats it is randomized. We give three deterministic r
 
 - **Result.** Subset Sum is decided deterministically in poly(n, L) 2^{E3 n} with **E3 <= 0.499990922021** (gain
   >= 9.0779e-6, about 5.4 times Stage 2's). Non-explicit, as Stage 2. A solution is found in the same time.
+  [proof, given Sec. 1 and the [arg] rounding/window steps of Sec. 2.2 of `PROOF/stage3.md`]
+  N' >= 2.2035e22 is a lower bound only: Cor. 3.2 needs a sufficiently large even kappa.
 - **What changed.**
   - *Outside-sum dedupe.* The record lists hold distinct block sums, which repays the filter's 1/N loss for every
     N. The few-sums branch goes, and the gain becomes xi'/(4 + 2 xi').
@@ -56,11 +58,11 @@ Every known algorithm that beats it is randomized. We give three deterministic r
     table's 2.0035e-5.
 - **Conditional forms, stated honestly.**
   - *Headline.* E3 rests on a **modified proof** of Ye–Li Prop. 4.2, not on Prop. 4.2 as stated. That proof is the
-    generalised Sec. 3.5 (re-derived; the rounding and window steps are argued, not proved) followed by Ye–Li's
+    generalised Sec. 3.5 (re-derived; the rounding and window steps of Sec. 2.2 are argued, not proved, so the headline is a proof given Sec. 1 and those steps) followed by Ye–Li's
     Lemma 3.4, Lemma 3.1, Cor. 3.2 and Cor. 3.3 as cited. No number from Ye–Li's table is used.
   - *Fallback.* With Ye–Li Prop. 4.2 as stated, conditional exactly as Stage 2, the dedupe alone gives
-    E <= 0.499994991801. From the statement xi > 0.00002 alone (with the table's dL, dR still used as upper
-    bounds, as in Stage 2), it gives E <= 0.4999950006.
+    E <= 0.499994991801. From the statement xi > 0.00002 (the statement-only form still uses the table's dL, dR as upper
+    bounds, for the fit and Lemma 3.5, as in Stage 2), it gives E <= 0.4999950006.
 - **Review.** Each component had two clean referee passes, CONFIRMED WITH FIXES, and all fixes are applied. The
   combined package has not been refereed as a whole.
 - **Lean.** Every inequality of `cert/cert_stage3.py` is kernel-checked. This includes the xi certificate itself:
