@@ -15,7 +15,7 @@ This work builds on, and does not modify, the following:
 - Per Austrin, Petteri Kaski, Mikko Koivisto and Jesper Nederlof (AKKN16), Lemma 3.2: the few-sums branch.
 - Ellis Horowitz and Sartaj Sahni, JACM 1974: meet-in-the-middle.
 - Greedy set cover: David S. Johnson 1974, László Lovász 1975, Vašek Chvátal 1979 (Lemma 2.3 of Stage 1).
-- OpenAI, openai/math preprint (October 2026): the randomized 2^{0.489995 n} Subset Sum construction (#138); our
+- OpenAI, "Subset Sum in Time O(2^{0.49n})", openai/math preprint, October 4, 2026 (https://github.com/openai/math/tree/main/preprints/Subset-Sum-in-Time-2-power-0-49n-October-4-2026): the randomized 2^{0.489995 n} Subset Sum construction (#138); our
   randomness audit of it led to the covering tool used here. It is not derandomised here.
 - Lixi Ye and Baitian Li's unpublished "Record 3" reduction (Stages 4 to 5b). Only its numerical candidate
   0.499664500303... is public, in the AI-disclosure section of arXiv 2610.10446 v1, which credits the reduction to an

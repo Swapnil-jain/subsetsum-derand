@@ -93,7 +93,7 @@ eps > 0, and the round-family loss (lambda, at piece length 8e9) is inside every
     circuit of its Sec. 3.5, which Stage 3 re-tunes.
   - **Alman and Li** (arXiv 2509.14489, FOCS 2025): Thm B.2, used inside Ye–Li Prop. 4.2, and the
     rebalancing statement (AL-B2) that Stages 4 to 5b cite.
-  - **OpenAI's openai/math preprint** (October 2026) gave a randomized 2^{0.489995 n} Subset Sum construction.
+  - **OpenAI, "Subset Sum in Time O(2^{0.49n})"** (openai/math preprint, October 4, 2026; https://github.com/openai/math/tree/main/preprints/Subset-Sum-in-Time-2-power-0-49n-October-4-2026) gave a randomized 2^{0.489995 n} Subset Sum construction.
     Auditing where that construction uses randomness led us to the covering tool used here. This package does not
     derandomise that construction (`docs/CLOSED_IDEAS.md`, Sec. 1).
   - **Ours:** the deterministic filter (a collision-bounded prime, layer families by a residue threshold, one
