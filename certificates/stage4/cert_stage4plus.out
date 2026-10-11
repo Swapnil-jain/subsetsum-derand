@@ -1,0 +1,12 @@
+[XI+] s=11/100, family rho = 49/20, 11/4: V_49/20(t1) <= t1 h(s) True; V_11/4(t2) <= (1-t2)(1-s) True; middle vertex v=5037/10000: V_49/20(v) <= line True, V_11/4(v) <= line True; slope 0.179769 ok True; l = 0.277806215, r = 0.098037462 >= 0 True
+      CERTIFIED family xi(11/100) >= 0.0070361406 (rational 14072281/2000000000); single circuit: 0.0044849038
+      C1 (tau = 3062261/10000000): both members exceed tau h(s): True;  C2 (tau = 92539/125000): both exceed (1-tau)(1-s): True
+      [F1] every line valid for this family's V has xi <= 0.0070362061
+      C3 each member alone fails at the other's contact: rho 49/20 at t2 True, rho 11/4 at t1 True
+[E+] DET s=11/100 alpha=2782051/5000000 mu=2192909/10000000 delta=12011/5000000, lambda <= 2.398e-08: E_det <= 0.4997369617  (claim 0.4997369618: True); gain 2.6304e-04
+      [Kenum 0.438581805, P1 0.218764119, P2 0.499736610, P3 0.499736962, P4 0.398573890, P5 0.438581800, P6 0.499736946, Pscan 0.438055019]
+   K1 claim - 1e-9: rejected
+   K2 mu raised 1%: rejected
+   K3 delta doubled: rejected
+   K4 single-circuit xi at these parameters gives 0.5000482527 > claim: rejected
+STAGE 4+ CERTIFICATE PASS

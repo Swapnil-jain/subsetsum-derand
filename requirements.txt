@@ -1,0 +1,1 @@
+numpy==2.0.2   # only certificates/stage4/check_stage4.py and certificates/stage5/check_stage5.py; everything else is standard library

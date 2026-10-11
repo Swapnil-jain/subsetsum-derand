@@ -1,0 +1,14 @@
+check_stage5: n = 25, three blocks of M = 8 + rest 1; 36 instances per regime, plus 4 straddle instances in 'center' only (40 there)
+[center] 40 instances (24 yes): wrong 0, pseudo-solutions 0; layer-level violations 0 of 231 sampled solutions; uncovered (c, y) 0; list-bound violations 0; positivity raw vs dedupe disagreements 0 of 98
+      ownership by distance to the cube's middle layer (0 = layer 0 or 8) and N ranges: {'N_1-16': 6, 'N_129-256': 28, 'N_17-128': 6, 'own_4': 10240}; instances with p > some |W_c| (Lemma 5.2' needed): 6; kept records at best shift / mean 3111047 / 3126625
+[far] 36 instances (24 yes): wrong 0, pseudo-solutions 0; layer-level violations 0 of 231 sampled solutions; uncovered (c, y) 0; list-bound violations 0; positivity raw vs dedupe disagreements 0 of 77
+      ownership by distance to the cube's middle layer (0 = layer 0 or 8) and N ranges: {'N_1-16': 6, 'N_129-256': 24, 'N_17-128': 6, 'own_0': 1536, 'own_1': 1536, 'own_3': 6144}; instances with p > some |W_c| (Lemma 5.2' needed): 6; kept records at best shift / mean 3616165 / 3632698
+[asym] 36 instances (24 yes): wrong 0, pseudo-solutions 0; layer-level violations 0 of 231 sampled solutions; uncovered (c, y) 0; list-bound violations 0; positivity raw vs dedupe disagreements 0 of 83
+      ownership by distance to the cube's middle layer (0 = layer 0 or 8) and N ranges: {'N_1-16': 6, 'N_129-256': 24, 'N_17-128': 6, 'own_2': 3072, 'own_3': 6144}; instances with p > some |W_c| (Lemma 5.2' needed): 6; kept records at best shift / mean 5593268 / 5610716
+Must-fail controls (each must be DETECTED):
+   nocompat: 12 instances: wrong 4, pseudo 4, wrong/pseudo = 8 -> detected: True
+   mostdef: 36 instances: wrong 0, pseudo 0, list-bound violations = 18 -> detected: True
+   blockdedupe: 18 instances: wrong 1, pseudo 0, positivity disagreements or wrong = 15 -> detected: True
+   straddle: 4 instances: wrong 4, pseudo 4, wrong/pseudo = 8 -> detected: True
+   lowmult: 6 instances: wrong 0, pseudo 0, uncovered = 80 -> detected: True
+STAGE 5 CHECK PASS

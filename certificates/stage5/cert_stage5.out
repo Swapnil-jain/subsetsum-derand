@@ -1,0 +1,41 @@
+Stage 5 certificate (uses stage4_cert_vendored.py = copy of derand/stage4/cert_stage4.py, sha256 ec7cc5adc295cfe0...)
+[XI] circuits (Stage 4's branch-and-bound prover):
+   s = 11/100    rho = 549/200: V(t1) <= t1 h(s) True, V(t2) <= (1-t2)(1-s) True, slope/l/r ok True; l <= 0.2752598107, r <= 0.1056863398, xi >= 0.0044849038
+   s = 2/25      rho = 57/20 : V(t1) <= t1 h(s) True, V(t2) <= (1-t2)(1-s) True, slope/l/r ok True; l <= 0.2354543010, r <= 0.0789023091, xi >= 0.0039112901; controls C1/C2 (contacts moved 1e-04 outward) refuted: True True
+   s = 19/200    rho = 14/5  : V(t1) <= t1 h(s) True, V(t2) <= (1-t2)(1-s) True, slope/l/r ok True; l <= 0.2565364934, r <= 0.0927417625, xi >= 0.0043321462; controls C1/C2 (contacts moved 1e-04 outward) refuted: True True
+   s = 13/125    rho = 11/4  : V(t1) <= t1 h(s) True, V(t2) <= (1-t2)(1-s) True, slope/l/r ok True; l <= 0.2687198974, r <= 0.0999137995, xi >= 0.0044574235; controls C1/C2 (contacts moved 1e-04 outward) refuted: True True
+   s = 111/1000  rho = 11/4  : V(t1) <= t1 h(s) True, V(t2) <= (1-t2)(1-s) True, slope/l/r ok True; l <= 0.2760658101, r <= 0.1068899384, xi >= 0.0044845814; controls C1/C2 (contacts moved 1e-04 outward) refuted: True True
+   s = 59/500    rho = 27/10 : V(t1) <= t1 h(s) True, V(t2) <= (1-t2)(1-s) True, slope/l/r ok True; l <= 0.2851126273, r <= 0.1115824743, xi >= 0.0044446847; controls C1/C2 (contacts moved 1e-04 outward) refuted: True True
+   s = 1/8       rho = 27/10 : V(t1) <= t1 h(s) True, V(t2) <= (1-t2)(1-s) True, slope/l/r ok True; l <= 0.2915519938, r <= 0.1183267960, xi >= 0.0043428267; controls C1/C2 (contacts moved 1e-04 outward) refuted: True True
+   s = 29/200    rho = 53/20 : V(t1) <= t1 h(s) True, V(t2) <= (1-t2)(1-s) True, slope/l/r ok True; l <= 0.3101705207, r <= 0.1346358852, xi >= 0.0036893197; controls C1/C2 (contacts moved 1e-04 outward) refuted: True True
+      Lemma 3.5' window s*rho < 1/2 holds for all seven menu circuits and both family rho values
+   family s = 11/100, rho = 49/20 + 11/4: five statements [True, True, True, True, True]; l <= 0.2778062148, r <= 0.0980374622, xi >= 0.0070361406; control C3 (each member alone fails at the other's contact): True True
+[LAM] N_b = 8000000000: lambda <= 2.3982e-08 for every design (any a_b; the core-free design included)
+      every alpha in every menu makes a_b = alpha N_b/2 and s a_b integral for every menu s
+[E] R1: mu = 443/2000, j = 1, alpha menu ['0', '1/20', '1/10', '3/20', '1/5', '1/4', '3/10', '7/20', '2/5', '9/20', '1/2', '11/20', '3/5', '13/20', '7/10', '3/4', '4/5', '17/20', '9/10', '19/20']: E_det <= 0.4995054713 (saving >= 4.9453e-04); P3 0.499505471, P4 0.420572464, P6 0.498388651, P1 0.221500000, P5 0.443000000, Kenum 0.443000005
+      binding piece kappa ~ 0.47088, design (alpha, s1, s2) = ('1/2', '11/100', '11/100'); 11 designs used
+      claim E <= 0.4995054714: True
+[E] R1b: mu = 1999/10000, j = 2, alpha menu ['0', '1/20', '1/10', '3/20', '1/5', '1/4', '3/10', '7/20', '2/5', '9/20', '1/2', '11/20', '3/5', '13/20', '7/10', '3/4', '4/5', '17/20', '9/10', '19/20']: E_det <= 0.4993293933 (saving >= 6.7061e-04); P3 0.499329393, P4 0.424469520, P6 0.494927395, P1 0.199900000, P5 0.399800000, Kenum 0.399800005
+      binding piece kappa ~ 0.48482, design (alpha, s1, s2) = ('3/4', '11/100', '11/100'); 20 designs used
+      claim E <= 0.4993293934: True
+[E] R2: mu = 201/1000, j = 1, alpha menu ['0', '1/10', '1/5', '3/10', '2/5', '1/2', '3/5', '7/10', '4/5', '9/10', '97/100']: E_det <= 0.4991541425 (saving >= 8.4586e-04); P3 0.499154142, P4 0.437300883, P6 0.499007213, P1 0.201000000, P5 0.402000000, Kenum 0.402000005
+      binding piece kappa ~ 0.49825, design (alpha, s1, s2) = ('97/100', '111/1000', '111/1000'); 38 designs used
+      claim E <= 0.4991541425: True
+[E] R3: mu = 1/5, j = 1, alpha menu ['0', '1/10', '1/5', '3/10', '2/5', '1/2', '3/5', '7/10', '4/5', '9/10', '23/25']: E_det <= 0.4989524520 (saving >= 1.0475e-03); P3 0.498952452, P4 0.432712218, P6 0.498685210, P1 0.200000000, P5 0.400000000, Kenum 0.400000005
+      binding piece kappa ~ 0.48858, design (alpha, s1, s2) = ('23/25', '11/100', '1/8'); 33 designs used
+      claim E <= 0.4989524521: True
+Must-fail controls (each must be REJECTED):
+   K1 R1: claim - 1e-9: rejected
+   K1 R1b: claim - 1e-9: rejected
+   K1 R2: claim - 1e-9: rejected
+   K1 R3: claim - 1e-9: rejected
+   K2 R2 with mu raised 1% gives 0.4991687828 > claim: rejected
+   K3 no cores anywhere (dedupe alone) gives 0.5000000055 >= 1/2: rejected
+   K4 one-sided dedupe (v-list raw) gives 0.7001541425 > 1/2: rejected
+   K5 A39's own design set {0, alpha} at R2's point gives 0.4995104084 > R2 claim: rejected
+   K5b A39's printed D1 point (alpha 0.90, mu 0.200, designs {0, 0.90}) gives 0.4992432783 > A39's 0.49919788: rejected
+   K6 R1 at A39's ceiling 1/2 - mu alpha xi = 0.4990562641 (alpha 0.95): rejected
+   K6b R1 with one fixed alpha (19/20) and core-free elsewhere gives 0.5000000060 > R1 claim: rejected
+   K7 R3 with the family point replaced by the single 11/100 circuit gives 0.4991792561 > R3 claim: rejected
+   K8 R1b at mu = 0.201 (two blocks per side no longer fit): 9.0: rejected
+STAGE 5 CERTIFICATE PASS

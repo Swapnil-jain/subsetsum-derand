@@ -1,0 +1,44 @@
+A. splitter (Lemma 4.1)
+   q=2 N_b=4 M=8: all 256 subsets K balanced to the deterministic counts: True; S(q) = 1.000 <= 3q-3-2log2 q = 1.000
+   q=3 N_b=3 M=9: all 512 subsets K balanced to the deterministic counts: True; S(q) = 2.585 <= 3q-3-2log2 q = 2.830
+   q=3 N_b=4 M=12: all 4096 subsets K balanced to the deterministic counts: True; S(q) = 2.585 <= 3q-3-2log2 q = 2.830
+   q=4 N_b=3 M=12: all 4096 subsets K balanced to the deterministic counts: True; S(q) = 4.000 <= 3q-3-2log2 q = 5.000
+   q=5 N_b=2 M=10: all 1024 subsets K balanced to the deterministic counts: True; S(q) = 5.907 <= 3q-3-2log2 q = 7.356
+   q=6 N_b=2 M=12: all 4096 subsets K balanced to the deterministic counts: True; S(q) = 7.755 <= 3q-3-2log2 q = 9.830
+   q=7 N_b=2 M=14: all 16384 subsets K balanced to the deterministic counts: True; S(q) = 9.392 <= 3q-3-2log2 q = 12.385
+   control offset0 (q=3, N_b=4): 3230 subsets unbalanced -> detected: True
+B. product round family (Lemmas 4.3-4.4): M=16, q=2, N_b=8, a_b=3, s=1/3, b_b=1
+   k=6 sigma=0 pieces [3, 3] eps [0, 0] (x, x') = (0, 0): |F0| = 1296, every round valid True, 8008 K all covered True (min multiplicity over 60 K: 14); prod 1/p_loc <= ((a_b+1)(b_b+1))^2/P_glob True
+   k=7 sigma=1 pieces [3, 4] eps [0, 1] (x, x') = (0, 1): |F0| = 1584, every round valid True, 11440 K all covered True (min multiplicity over 60 K: 49); prod 1/p_loc <= ((a_b+1)(b_b+1))^2/P_glob True
+   k=8 sigma=0 pieces [4, 4] eps [1, -1] (x, x') = (1, 1): |F0| = 1936, every round valid True, 12870 K all covered True (min multiplicity over 60 K: 112); prod 1/p_loc <= ((a_b+1)(b_b+1))^2/P_glob True
+   k=9 sigma=1 pieces [4, 5] eps [1, 0] (x, x') = (1, 2): |F0| = 1584, every round valid True, 11440 K all covered True (min multiplicity over 60 K: 34); prod 1/p_loc <= ((a_b+1)(b_b+1))^2/P_glob True
+   k=10 sigma=0 pieces [5, 5] eps [0, 0] (x, x') = (2, 2): |F0| = 1296, every round valid True, 8008 K all covered True (min multiplicity over 60 K: 18); prod 1/p_loc <= ((a_b+1)(b_b+1))^2/P_glob True
+   control offset0: K = first 8 coordinates covered: False -> detected: True
+C. the deterministic pipeline DET4 (n = 14, M = 8, s = 1/3, T = 253; regime 'tight': T = 100)
+   regime 'proof' (p in [P0, 2P0]): 40 instances (25 yes): wrong answers 0, layer-level violations 0, uncovered (c, y) 0; |C_k| [256]; (|F0_k|, D) [(9, 3), (9, 4), (9, 5), (11, 3), (11, 4)]
+      kept records at the best shift / average: 285428 / 300279
+   regime 'big' (p >= 4T = 1012): 2 instances (1 yes): wrong answers 0, layer-level violations 0, uncovered (c, y) 0; (|F0_k|, D) [(9, 176), (9, 180), (11, 145)]
+   regime 'tight' (T = 100, theta_4 = median key count): 12 instances (12 yes): wrong answers 0, layer-level violations 0, uncovered (c, y) in C_k x Z_p 0; |C_k| [128, 136, 144, 180, 256]
+      outside C_4 (1384 c over all instances, never targeted by the estimator): 8 (c, y) left uncovered
+      control dropcover in regime 'tight': (c, y) left uncovered 3732, layer-level violations 14 -> detected: True
+   controls (each must be detected):
+      nocompat: wrong answers 4, layer-level violations 0, (c, y) left uncovered 0 -> detected: True
+      wrongcore: wrong answers 0, layer-level violations 30, (c, y) left uncovered 0 -> detected: True
+      dropcover: wrong answers 0, layer-level violations 3, (c, y) left uncovered 44160 -> detected: True
+      noparity: wrong answers 0, layer-level violations 10, (c, y) left uncovered 57856 -> detected: True
+      nofew: wrong answers 4, layer-level violations 0, (c, y) left uncovered 0 -> detected: True
+      lowmult (D = 1, p >= 4T): (c, y) left uncovered 712161, layer-level violations 3 -> detected: True
+D. density-s block grouping (Lemma 3.2): sort-deal-pad
+   s=1/3 k=3 d=2 c=9: 336 descriptions (all), padding feasible for all: True
+   s=1/3 k=3 d=3 c=9: 13051 descriptions (all), padding feasible for all: True
+   s=1/4 k=4 d=2 c=16: 5475 descriptions (all), padding feasible for all: True
+   s=1/3 k=6 d=2 c=18: 20003 descriptions (sampled + extremes), padding feasible for all: True
+   s=1/8 k=8 d=2 c=64: 20002 descriptions (sampled + extremes), padding feasible for all: True
+   s=2/5 k=5 d=2 c=15: 20003 descriptions (sampled + extremes), padding feasible for all: True
+   control c = k (< k/s) at s = 1/3, k = 3, d = 3: infeasible descriptions 756 -> detected: True
+E. hole fixing at density s (Lemma 3.3 via S2 Lemma 9.1): P_{6,1/3}, full group, random g_i
+   J = 11 group elements cover X x Y; 2047 signed copies; L R == P_(6,1/3) exactly: True; control (no signs) equal: False
+F. one-pass covering circuit with random designs of the proof's size (Lemma 3.5), N = 10, 4 specified
+   designs |D| = ceil(N^2 C(N,m)/C(b,m)): every m-set covered: True; left degree <= 6 mu + 3N for every row and colour: True (largest ratio 0.264)
+   833 queries (all splits k1 = 0..4) x 1024 rows: mismatches 0, right-degree violations 0
+STAGE 4 CHECK PASS

@@ -1,0 +1,36 @@
+=== [XI] circuit gain ===
+[XI] s=1/8 rho=27/10: V(t1) <= t1 h(s): True (1437 boxes); V(t2) <= (1-t2)(1-s): True (2029 boxes); slope l-r = 0.173225 in (-(1-s), h(s)): True; l = 0.291551994, r = 0.118326796 >= 0: True
+     xi(s) >= 0.0043428267  (rational xi' = 21714133/5000000000)
+     control C1 (tau = 3195091/10000000): refuted True at colour (0.10986328125, 0.13896484375);  C2 (tau = 3609307/5000000): refuted True at (0.11185073852539062, 0.12411270141601563)
+     [F1] every line valid for this V has xi <= 0.0043428941
+[XI] s=11/100 rho=549/200: V(t1) <= t1 h(s): True (1321 boxes); V(t2) <= (1-t2)(1-s): True (2003 boxes); slope l-r = 0.169573 in (-(1-s), h(s)): True; l = 0.275259811, r = 0.105686340 >= 0: True
+     xi(s) >= 0.0044849038  (rational xi' = 22424519/5000000000)
+     control C1 (tau = 639859/2000000): refuted True at colour (0.09760084285756092, 0.12485221184866815);  C2 (tau = 1480433/2000000): refuted True at (0.101298828125, 0.11338486328125)
+     [F1] every line valid for this V has xi <= 0.0044849681
+=== [LAM] splitter bound and lambda ===
+S(q) <= 3q - 3 - 2 log2 q for every q <= 2^14: True (largest excess 0.0000)
+s=11/100: N_b = 8000000000, a_b = 2228738800, s a_b = 245161268: lambda <= 2.3977e-08, mu lambda <= 5.2586e-09
+s=1/8: N_b = 8000000000, a_b = 2237530000, s a_b = 279691250: lambda <= 2.3977e-08, mu lambda <= 5.3129e-09
+=== [K] hardcoded circuit size at eps = 1e-9 (necessary conditions only) ===
+   s=1/8: lmax = 729/2500, k_0 = 148444531984, padding c = 1187556255872, N0 = k_0^2 + c = 22035779077136355232128 (>= 2.2035e22)
+   s=11/100: lmax = 2753/10000, k_0 = 148444532000, padding c = 1349495745500, N0 = k_0^2 + c = 22035779082048519745500 (>= 2.2035e22)
+=== [E] exponents ===
+DET  s=11/100 alpha=5571847/10000000 mu=2193169/10000000 delta=15323/10000000: E <= 0.4998322131 (claim 0.4998322132: True)
+     [Kenum 0.438633805, P1 0.218980841, P2 0.499831970, P3 0.499832185, P4 0.398436738, P5 0.438633800, P6 0.499832213, Pscan 0.438297741]
+DET  s=1/8 alpha=223753/400000 mu=2215851/10000000 delta=2969/2000000: E <= 0.4998357366 (claim 0.4998357367: True)
+     [Kenum 0.443170205, P1 0.221256157, P2 0.499835528, P3 0.499835737, P4 0.394795483, P5 0.443170200, P6 0.499835721, Pscan 0.442841257]
+RAND s=11/100 alpha=5158197/10000000 mu=4757627/10000000 delta=7541/5000000: E <= 0.4996416843 (claim 0.4996416844: True)
+     [P1 0.475045155, P2 0.499641227, P3 0.499641684, P4 0.499641655]
+RAND s=1/8 alpha=1303607/2500000 mu=2442283/5000000 delta=1831/1250000: E <= 0.4996427664 (claim 0.4996427665: True)
+     [P1 0.487741109, P2 0.499642254, P3 0.499642755, P4 0.499642766]
+=== must-fail controls (each must be REJECTED: rigorous bound above the claim) ===
+   K1 claim E_det - 1e-9: rejected
+   K2 mu raised 1%: rejected
+   K3 xi = 0 gives E >= 1/2: rejected
+   K4 delta doubled: rejected
+   K5 kappa range cut to |kappa - 1/2| <= 1e-3 (range certificate rejects): rejected
+   K6 deterministic claim at the randomized parameters (P6 too big): rejected
+   K7 N_b = 2e7 instead of 8e9 (lambda 7.00e-06): rejected
+   K8 lambda dropped: the lambda-free bound 0.4998322078 is below the claim, so the claim includes lambda: rejected
+   K9 the randomized claim 0.4996417 made for the deterministic algorithm: rejected
+CERTIFICATE PASS

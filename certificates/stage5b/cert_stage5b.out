@@ -1,0 +1,66 @@
+Stage 5b certificate
+   stage4_cert_vendored.py: sha256 ec7cc5adc295cfe0..., identical to ../stage4/cert_stage4.py: True
+   stage5_cert_vendored.py: sha256 c0a645d88e7fc119..., identical to ../stage5/cert_stage5.py: True
+[XI] Stage 5's seven single menu circuits, Stage 4's single 11/100 circuit and the Stage 4+ pair, re-proved with Stage 5's own functions:
+   s = 2/25      rho = 57/20 : V(t1) <= t1 h(s) True, V(t2) <= (1-t2)(1-s) True, slope/l/r ok True; l <= 0.2354543010, r <= 0.0789023091, xi >= 0.0039112901
+   s = 19/200    rho = 14/5  : V(t1) <= t1 h(s) True, V(t2) <= (1-t2)(1-s) True, slope/l/r ok True; l <= 0.2565364934, r <= 0.0927417625, xi >= 0.0043321462
+   s = 13/125    rho = 11/4  : V(t1) <= t1 h(s) True, V(t2) <= (1-t2)(1-s) True, slope/l/r ok True; l <= 0.2687198974, r <= 0.0999137995, xi >= 0.0044574235
+   s = 111/1000  rho = 11/4  : V(t1) <= t1 h(s) True, V(t2) <= (1-t2)(1-s) True, slope/l/r ok True; l <= 0.2760658101, r <= 0.1068899384, xi >= 0.0044845814
+   s = 59/500    rho = 27/10 : V(t1) <= t1 h(s) True, V(t2) <= (1-t2)(1-s) True, slope/l/r ok True; l <= 0.2851126273, r <= 0.1115824743, xi >= 0.0044446847
+   s = 1/8       rho = 27/10 : V(t1) <= t1 h(s) True, V(t2) <= (1-t2)(1-s) True, slope/l/r ok True; l <= 0.2915519938, r <= 0.1183267960, xi >= 0.0043428267
+   s = 29/200    rho = 53/20 : V(t1) <= t1 h(s) True, V(t2) <= (1-t2)(1-s) True, slope/l/r ok True; l <= 0.3101705207, r <= 0.1346358852, xi >= 0.0036893197
+   s = 11/100    rho = 549/200: V(t1) <= t1 h(s) True, V(t2) <= (1-t2)(1-s) True, slope/l/r ok True; l <= 0.2752598107, r <= 0.1056863398, xi >= 0.0044849038
+   family s = 11/100, rho = 49/20 + 11/4: five statements [True, True, True, True, True]; l <= 0.2778062148, r <= 0.0980374622, xi >= 0.0070361406; control C3 (each member alone fails at the other's contact): True True
+[XI-FAM] triple families at every menu density and at 11/100 (Lemma 5b.1; controls [F1], [NEED]):
+   s = 2/25      rho = 47/20, 5/2, 14/5 (max s rho = 0.2240): 9 statements all hold (6002 boxes); l <= 0.2406856510, r <= 0.0681705340, xi >= 0.0066615026
+      [F1] any valid line for this family has xi <= 0.0066634178 (gap 1.92e-06); (l, r) - 1e-5 refuted True;  [NEED] each member needed [True, True, True]
+   s = 19/200    rho = 12/5, 51/20, 14/5 (max s rho = 0.2660): 9 statements all hold (5930 boxes); l <= 0.2604263800, r <= 0.0834568450, xi >= 0.0070296616
+      [F1] any valid line for this family has xi <= 0.0070316402 (gap 1.98e-06); (l, r) - 1e-5 refuted True;  [NEED] each member needed [True, True, True]
+   s = 13/125    rho = 12/5, 51/20, 11/4 (max s rho = 0.2860): 9 statements all hold (6340 boxes); l <= 0.2715549720, r <= 0.0917467450, xi >= 0.0071234134
+      [F1] any valid line for this family has xi <= 0.0071253028 (gap 1.89e-06); (l, r) - 1e-5 refuted True;  [NEED] each member needed [True, True, True]
+   s = 111/1000  rho = 12/5, 51/20, 11/4 (max s rho = 0.3053): 9 statements all hold (6262 boxes); l <= 0.2795623830, r <= 0.0981018290, xi >= 0.0071303496
+      [F1] any valid line for this family has xi <= 0.0071322338 (gap 1.88e-06); (l, r) - 1e-5 refuted True;  [NEED] each member needed [True, True, True]
+   s = 59/500    rho = 12/5, 51/20, 11/4 (max s rho = 0.3245): 9 statements all hold (6310 boxes); l <= 0.2870191370, r <= 0.1044047710, xi >= 0.0070802815
+      [F1] any valid line for this family has xi <= 0.0070820894 (gap 1.81e-06); (l, r) - 1e-5 refuted True;  [NEED] each member needed [True, True, True]
+   s = 1/8       rho = 12/5, 51/20, 11/4 (max s rho = 0.3438): 9 statements all hold (6352 boxes); l <= 0.2939787930, r <= 0.1106383960, xi >= 0.0069736271
+      [F1] any valid line for this family has xi <= 0.0069757263 (gap 2.10e-06); (l, r) - 1e-5 refuted True;  [NEED] each member needed [True, True, True]
+   s = 29/200    rho = 49/20, 13/5, 14/5 (max s rho = 0.4060): 9 statements all hold (6462 boxes); l <= 0.3089388000, r <= 0.1305108810, xi >= 0.0063676821
+      [F1] any valid line for this family has xi <= 0.0063696277 (gap 1.95e-06); (l, r) - 1e-5 refuted True;  [NEED] each member needed [True, True, True]
+   s = 11/100    rho = 12/5, 51/20, 11/4 (max s rho = 0.3025): 9 statements all hold (6260 boxes); l <= 0.2784538020, r <= 0.0971963110, xi >= 0.0071329226
+      [F1] any valid line for this family has xi <= 0.0071347160 (gap 1.79e-06); (l, r) - 1e-5 refuted True;  [NEED] each member needed [True, True, True]
+   circuits done
+[LAM] N_b = 8000000000: lambda <= 2.3982e-08 for every design
+[E] R3: mu = 1/5, j = 1, alpha menu ['0', '1/10', '1/5', '3/10', '2/5', '1/2', '3/5', '7/10', '4/5', '9/10', '23/25']: E_det <= 0.4989524520 (saving >= 1.0475e-03); P3 0.498952452, P4 0.432712218, P6 0.498685210, P1 0.200000000, P5 0.400000000, Kenum 0.400000005
+      binding piece kappa ~ 0.48858, design (alpha, s1, s2) = ('23/25', '11/100', '1/8'); 33 designs used
+      claim E <= 0.4989524521: True  
+[E] R4: mu = 1/5, j = 1, alpha menu ['0', '1/10', '1/5', '3/10', '2/5', '1/2', '3/5', '7/10', '4/5', '9/10', '97/100']: E_det <= 0.4986354852 (saving >= 1.3645e-03); P3 0.498635485, P4 0.438351715, P6 0.498540919, P1 0.200000000, P5 0.400000000, Kenum 0.400000005
+      binding piece kappa ~ 0.49805, design (alpha, s1, s2) = ('97/100', '11/100', '111/1000'); 41 designs used
+      claim E <= 0.4986354853: True  
+[E] R4b: mu = 199/1000, j = 1, alpha menu ['0', '1/10', '1/5', '3/10', '2/5', '1/2', '3/5', '7/10', '4/5', '9/10', '93/100', '19/20', '24/25', '97/100', '49/50', '99/100']: E_det <= 0.4986298175 (saving >= 1.3702e-03); P3 0.498629818, P4 0.440646674, P6 0.498376771, P1 0.199000000, P5 0.398000000, Kenum 0.398000005
+      binding piece kappa ~ 0.49828, design (alpha, s1, s2) = ('49/50', '11/100', '111/1000'); 87 designs used
+      claim E <= 0.4986298176: True  
+[E] R4b-min: mu = 199/1000, j = 1, alpha menu ['0', '1/10', '1/5', '3/10', '2/5', '1/2', '3/5', '7/10', '4/5', '9/10', '93/100', '19/20', '24/25', '97/100', '49/50', '99/100']: E_det <= 0.4986298175 (saving >= 1.3702e-03); P3 0.498629818, P4 0.439848877, P6 0.498376771, P1 0.199000000, P5 0.398000000, Kenum 0.398000005
+      binding piece kappa ~ 0.49828, design (alpha, s1, s2) = ('49/50', '11/100', '111/1000'); 88 designs used
+      claim E <= 0.4986298176: True  
+Must-fail controls on the rows (each must be REJECTED):
+   ... KF s = 13/125 done
+   ... KF s = 111/1000 done
+   ... KF s = 59/500 done
+   ... KF s = 1/8 done
+   ... KF s = 29/200 done
+   ... KF s = 11/100 done
+   sanity: R3 re-run equals Stage 5's certified 0.4989524520 (|diff| < 1e-10): pass
+   K1 R3: claim - 1e-9 rejected: pass
+   K1 R4: claim - 1e-9 rejected: pass
+   K1 R4b: claim - 1e-9 rejected: pass
+   K1 R4b-min: claim - 1e-9 rejected: pass
+   K2 R4b-min with mu raised 1% gives 0.4986356679 > claim: pass
+   K7' R4b-min with every family replaced by the single circuit at its s gives 0.4991471390 > claim: pass
+   K9 R4b-min with every circuit's (l, r) raised by 0.01 gives 0.5000000054 > claim: pass
+   KF R4b-min with the family at s = 13/125 replaced by its single circuit gives 0.4986596723 (+2.99e-05) > claim: pass
+   KF R4b-min with the family at s = 111/1000 replaced by its single circuit gives 0.4986399288 (+1.01e-05) > claim: pass
+   KF R4b-min with the family at s = 59/500 replaced by its single circuit gives 0.4986449165 (+1.51e-05) > claim: pass
+   KF R4b-min with the family at s = 1/8 replaced by its single circuit gives 0.4986866714 (+5.69e-05) > claim: pass
+   KF R4b-min with the family at s = 29/200 replaced by its single circuit gives 0.4987795641 (+1.50e-04) > claim: pass
+   KF R4b-min with the family at s = 11/100 replaced by its single circuit gives 0.4986502221 (+2.04e-05) > claim: pass
+STAGE 5b CERTIFICATE PASS
