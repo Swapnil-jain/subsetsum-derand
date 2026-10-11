@@ -1,5 +1,6 @@
 Deterministic Subset Sum below meet-in-the-middle
 Copyright 2026 Swapnil Jain. Private draft; not published.
+Licensed under the Apache License, Version 2.0 (LICENSE).
 
 This work builds on, and does not modify, the following:
 
@@ -10,12 +11,21 @@ This work builds on, and does not modify, the following:
   circuit (Cor. 3.2, Cor. 3.3), the few-sums branch, the exponent table of Sec. 4, and Prop. 4.2. Stage 2 replaces
   only their randomized filter and repetitions.
 - Alman and Li (AL25), arXiv 2509.14489 (FOCS 2025): Thm B.2, used inside Ye-Li Prop. 4.2 (Thm 6.1, which
-  Prop. 4.2 also cites, is replaced here by PROOF/stage2.md Lemma 9.1).
+  Prop. 4.2 also cites, is replaced here by proofs/stage2.md Lemma 9.1).
 - Per Austrin, Petteri Kaski, Mikko Koivisto and Jesper Nederlof (AKKN16), Lemma 3.2: the few-sums branch.
 - Ellis Horowitz and Sartaj Sahni, JACM 1974: meet-in-the-middle.
 - Greedy set cover: David S. Johnson 1974, László Lovász 1975, Vašek Chvátal 1979 (Lemma 2.3 of Stage 1).
 - OpenAI, openai/math preprint (October 2026): the randomized 2^{0.489995 n} Subset Sum construction (#138); our
   randomness audit of it led to the covering tool used here. It is not derandomised here.
+- Lixi Ye and Baitian Li's unpublished "Record 3" reduction (Stages 4 to 5b). Only its numerical candidate
+  0.499664500303... is public, in the AI-disclosure section of arXiv 2610.10446 v1, which credits the reduction to an
+  AI model inside their project and says its formal proof is pending there. Its specifics (the block representation,
+  few/many sums on the block, the kappa layers, the balanced splits with cores at density s, the round count, the
+  tensor circuit, the s-cancellation identity, the cost functions and saving coefficients, the one-pass covering
+  circuit family, and the values xi(1/8), xi(0.11)) were read in an unpublished transcript; we re-derived and
+  re-certified all of them, and they remain Record 3's ideas.
+- The (AL-B2) rebalancing statement as Ye and Li state it before their Lemma 3.4, extracted from Alman and Li's
+  App. B (Stages 4 to 5b).
 - Mathlib (leanprover-community) and Lean 4; the log-series bounds of lean/SubsetsumLean/Basic.lean are copied from
   our 3SUM package and rest on Mathlib's Real.abs_log_sub_add_sum_range_le and Real.binEntropy.
 
@@ -28,3 +38,11 @@ lists, greedy hole fixing, the effective three-piece rebalancing rule, the prepr
 variants of Stage 2b Secs. 12-13 (the per-pair rebalancing constant, the halving splitter with the canonical-member
 rule, the anchors at a new (a, b) by concavity, the positive union after the tree, the ladder of base lengths); the
 certificates and their Lean kernel checks.
+
+Also new here: the outside-sum dedupe and the re-tuned Ye-Li circuit of Stage 3; for Stages 4 to 5b, the proofs of
+every step Record 3 left argued (the density-s Lemmas 3.1 and 3.4 with unbalanced queries, the left-degree
+concentration, the balanced half-splits, the fixed round family with its multiplicity and loss), the repairs (the
+filter cap, Phi's universe restricted to the good c, the prime p ~ T with the collision count, the parity bit, the
+fixed-point estimator, the enumeration of compatible K, the poly(n, L) factors), the whole deterministic port, the
+families of circuits on this route (Stage 4+ and Stage 5b, with Lemma 5b.1), the outer-sum dedupe and the
+kappa-adaptive core menu of Stage 5, and all certificates, brute-force checks and Lean kernel checks.
