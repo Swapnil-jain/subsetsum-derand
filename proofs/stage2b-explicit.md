@@ -476,7 +476,7 @@ where the run time reaches 2^{E n}, which happens only as n -> infinity. Here n0
 below 1/2 - 0.4999983316; the run time is then below 2^{0.4999991667 n} poly(n, L)). Theorem E's accounting gives
 5.9e59. As a single multiplicative constant, C_E = 2^{(4 + o(1)) N0}, i.e. c ~ 4 instead of 4858.
 
-**Open (not folded in).** B17 (A9's halving splitter in place of YL Lemma 3.1, N0 = q) and A19 (a ladder of base
+**Not folded into this section.** B17 (A9's halving splitter in place of YL Lemma 3.1, N0 = q) and A19 (a ladder of base
 lengths) change Lemma E5's reduction itself. They are written out in Sec. 13 (refereed twice, fixes applied).
 
 ## 13. Smaller n0 (leads B17 and A19, and the small-q + POS variant) [certificate `../certificates/cert_explicit_b17.py`, its inequalities Lean-checked (Sec. 13.8); two clean referees, fixes applied]

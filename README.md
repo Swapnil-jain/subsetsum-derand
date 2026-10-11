@@ -32,7 +32,7 @@ check by a separate review pass of our own. It is not peer review.
 | 3 (`proofs/stage3.md`) | E3 <= 0.499990922021 | a modified proof of Ye–Li Prop. 4.2 (a generalised Sec. 3.5, then Ye–Li's Lemma 3.4, Lemma 3.1, Cor. 3.2 and Cor. 3.3 as cited), plus the [arg] rounding and window steps of its Sec. 2.2 | 2 per component, CONFIRMED WITH FIXES; the package as a whole was not refereed | every inequality of the certificate, the xi certificate included |
 | 4 (`proofs/stage4.md`) | E <= 0.4998322132 (Stage 4+: 0.4997369618) | the Record 3 route, re-derived and proved here; the cited (AL-B2) rebalancing statement of Ye–Li (from Alman–Li App. B), Stage 2's Lemma 9.1, AKKN16 Lemma 3.2; one [arg] (Sec. 7) | 2 (G1, G2), fixes applied | every inequality of both certificates (131 theorems) |
 | 5 (`proofs/stage5.md`) | E <= 0.4989524521 | Stage 4 and what it cites | 2 clean passes, confirmed | every inequality of the certificate (83 theorems) |
-| **5b** (`proofs/stage5b.md`) | **E <= 0.4986298176** | Stage 5, Stage 4 and what they cite; Lemma 5b.1 (proved here) | 1, CONFIRMED | Lemma 5b.1 for the six families, row R4b-min and its controls (`lean/LEAN_SCOPE.md`, Stage 5b) |
+| **5b** (`proofs/stage5b.md`) | **E <= 0.4986298176** | Stage 5, Stage 4 and what they cite; Lemma 5b.1 (proved here) | 1, CONFIRMED | Lemma 5b.1 for the six families, row R4b-min and its controls (107 theorems; rows R3, R4, R4b in Python only) |
 
 Stages 2 to 5b find a solution in the same time. In Stages 4 to 5b the time is poly(n, L) 2^{(E + eps) n} for every
 eps > 0, and the round-family loss (lambda, at piece length 8e9) is inside every printed E.
@@ -159,7 +159,8 @@ fetches prebuilt Mathlib v4.34.1 oleans (about 7 GB; Mathlib itself is not in th
     make all          # all three
 
 Single stages: `make certs logic explicit stage3 stage4 stage5 stage5b tests`; Lean by stage: `make lean-123`
-(about 4 min), `make lean-stage4` (about 30 min), `make lean-stage5` (about 70 min), `make lean-stage5b`. Every Lean
+(about 4 min), `make lean-stage4` (about 30 min), `make lean-stage5` (about 70 min), `make lean-stage5b` (about 90 min, one module
+at a time; our Stage 5b audit ran on a larger Linux machine, `lean/LEAN_SCOPE.md`). Every Lean
 module is built under `lean/build_watch.sh` (nice -n 19, one thread, aborts above 3 GB RSS), and `lean/axioms_ok.sh`
 fails unless every printed theorem uses only `propext`, `Classical.choice` and `Quot.sound`. No `sorry`, no
 `native_decide`.
