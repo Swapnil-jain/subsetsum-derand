@@ -63,7 +63,7 @@ lean-sync:
 
 # Lean 4 kernel check (lean/LEAN_SCOPE.md). Needs elan with Lean v4.34.1; fetches prebuilt Mathlib oleans
 # (about 7 GB on disk), never compiles Mathlib. Every module is built one at a time under build_watch.sh (nice -n 19,
-# one Lean thread, aborts above 3 GB RSS). Every printed theorem must depend only on propext, Classical.choice and
+# one Lean thread, optional RSS abort (set LIMIT_MB=3072 on an 8 GB machine)). Every printed theorem must depend only on propext, Classical.choice and
 # Quot.sound (or a subset of them): axioms_ok.sh checks that no #print axioms line is missing or non-standard.
 # LONG: Stages 1-3 take about 4 minutes, Stage 4 about 30, Stage 5 about 70 and Stage 5b about 60 more on an
 # 8 GB laptop.

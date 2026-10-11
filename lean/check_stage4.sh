@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # One-command kernel check of Stage 4 (certificates/stage4): build every Stage 4 module one at a time under
-# build_watch.sh (nice -n 19, one Lean thread, abort above 3 GB RSS), then print the axioms of every theorem.
+# build_watch.sh (nice -n 19, one Lean thread, optional RSS abort (set LIMIT_MB=3072 on an 8 GB machine)), then print the axioms of every theorem.
 # Expect: every build "exit 0", and axioms_stage4.out listing only propext, Classical.choice, Quot.sound.
 set -euo pipefail
 cd "$(dirname "$0")"

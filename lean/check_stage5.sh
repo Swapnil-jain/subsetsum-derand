@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # One-command kernel check of Stage 5 (certificates/stage5): build every module it needs one at a time under build_watch.sh
-# (nice -n 19, one Lean thread, abort above 3 GB RSS), then print the axioms of every Stage 5 theorem.
+# (nice -n 19, one Lean thread, optional RSS abort (set LIMIT_MB=3072 on an 8 GB machine)), then print the axioms of every Stage 5 theorem.
 # Stage 5 reuses Stage 4's cell checker, its s = 11/100, 1/8 and family circuits, and its entropy lemmas, so the
 # Stage 4 modules come first (each is a no-op once built). Modules are built in import order: a bare `lake build`
 # would run independent modules in parallel, above 3 GB on the 8 GB Mac.

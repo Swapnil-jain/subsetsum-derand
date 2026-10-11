@@ -307,7 +307,7 @@ is proved in Lean for each colour (`G4` is affine in tau), so it is inside `line
 
     export PATH=$HOME/.elan/toolchains/leanprover--lean4---v4.34.1/bin:$PATH
     lake exe cache get                       # prebuilt Mathlib oleans; never compile Mathlib
-    ./build_watch.sh build                   # nice -n 19, one Lean thread, aborts above 3 GB RSS
+    ./build_watch.sh build                   # nice -n 19, one Lean thread, optional RSS abort (set LIMIT_MB=3072 on an 8 GB machine)
     ./build_watch.sh env lean SubsetsumLean/Axioms.lean
 
 The whole project builds in about 4 minutes. Peak RSS per step was 2.87 GB (the explicit modules: 2.86 GB), and most of that is mmapped Mathlib

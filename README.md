@@ -161,7 +161,7 @@ fetches prebuilt Mathlib v4.34.1 oleans (about 7 GB; Mathlib itself is not in th
 Single stages: `make certs logic explicit stage3 stage4 stage5 stage5b tests`; Lean by stage: `make lean-123`
 (about 4 min), `make lean-stage4` (about 30 min), `make lean-stage5` (about 70 min), `make lean-stage5b` (about 90 min, one module
 at a time; our Stage 5b audit ran on a larger Linux machine, `lean/LEAN_SCOPE.md`). Every Lean
-module is built under `lean/build_watch.sh` (nice -n 19, one thread, aborts above 3 GB RSS), and `lean/axioms_ok.sh`
+module is built under `lean/build_watch.sh` (nice -n 19, one thread, optional RSS abort (set LIMIT_MB=3072 on an 8 GB machine)), and `lean/axioms_ok.sh`
 fails unless every printed theorem uses only `propext`, `Classical.choice` and `Quot.sound`. No `sorry`, no
 `native_decide`.
 

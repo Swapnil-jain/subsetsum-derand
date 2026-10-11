@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # One-command kernel check of Stage 5b (certificate cert_stage5b.py): build every module it needs one at a time under
-# build_watch.sh (nice -n 19, one Lean thread, abort above 3 GB RSS), then print the axioms of every Stage 5b theorem.
+# build_watch.sh (nice -n 19, one Lean thread, optional RSS abort (set LIMIT_MB=3072 on an 8 GB machine)), then print the axioms of every Stage 5b theorem.
 # Stage 5b reuses Stage 4's cell checker and Stage 5's row checker and circuit data, so those modules come first (each
 # is a no-op once built). Modules are built in import order: a bare `lake build` would run independent modules in
 # parallel, above 3 GB on an 8 GB machine.
