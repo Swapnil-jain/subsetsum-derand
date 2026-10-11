@@ -1,9 +1,12 @@
 # What the Lean files check, and what they do not
 
 Lean 4 v4.34.1 with Mathlib v4.34.1. No `sorry`, no `native_decide`, no `admit`, and no added axioms.
-`SubsetsumLean/Axioms.lean` prints the axioms of all 141 theorems listed below. Each one uses only `propext`,
+For Stages 1 to 3, `SubsetsumLean/Axioms.lean` prints the axioms of all 141 theorems listed below. Each one uses only `propext`,
 `Classical.choice` and `Quot.sound`, or a subset of them (`axioms.out`). `lake env leanchecker
 SubsetsumLean.<Module>` replays every module through the kernel, and all 13 pass. `--fresh`, which would also re-check Mathlib, was not run.
+Stages 4, 5 and 5b have their own axioms files (`Stage4Axioms.lean`, 131 theorems; `Stage5Axioms.lean`, 83;
+`Stage5bAxioms.lean`, 107) and one-command checks (`check_stage4.sh`, `check_stage5.sh`, `check_stage5b.sh`), each
+audited by `axioms_ok.sh`.
 
 ## Kernel-checked
 
@@ -14,7 +17,7 @@ SubsetsumLean.<Module>` replays every module through the kernel, and all 13 pass
 - `Hb_mono` shows that H is increasing on `[0, 1/2]`, from Mathlib's `Real.binEntropy_strictMonoOn`.
 - Each numeric bound is a `decide +kernel` on exact rationals, using a 60-term series.
 
-**Stage 1 (`Stage1Defs.lean`, `Stage1Points.lean`, `Stage1.lean`) covers `derand/stage1/cert_gamma.py` in full.**
+**Stage 1 (`Stage1Defs.lean`, `Stage1Points.lean`, `Stage1.lean`) covers `certificates/cert_gamma.py` in full.**
 
 The numbers are those of `cert_gamma.py`, and `gen_stage1.py` re-checks each one with the kernel's own formula
 before writing it.
@@ -27,13 +30,13 @@ before writing it.
 | `stage1_curve` | for every e1 in the box, F4(e1, c) < 0 < F4(e1, d) (Equation (4) at the two e2-edges) |
 | `stage1_slice_a`, `stage1_slice_b` | at e1 = a and at e1 = b, (4) changes sign on a slice of width 1e-21, and (3) is < 0 (at a) or > 0 (at b) on the whole slice |
 | `stage1_gamma` | for every gamma < 0.0101041782, there is a rational admissible point with g > gamma, together with a rational lambda that satisfies Lemma 6.2's three inequalities |
-| `lemma_6_2`, `lemma_6_2_rational` | PROOF.md Lemma 6.2, as algebra |
+| `lemma_6_2`, `lemma_6_2_rational` | `proofs/stage2.md` Lemma 6.2, as algebra |
 | `stage1_C1` | must fail: g(0.1579, 0.2427) > 0.0101 is false |
 | `stage1_C2` | must fail: g > 0.010105 is false at the box corner |
 | `stage1_box_fails_U` | must fail: g > 0.0101041783 is false at the box corner |
 | `stage1_A_fails_next` | must fail: g(P) > 0.01010384769 is false |
 
-**Stage 2 (`Stage2Defs.lean`, `Stage2.lean`) covers `derand/stage2/cert_eps.py` in full, controls C1 to C8 included.**
+**Stage 2 (`Stage2Defs.lean`, `Stage2.lean`) covers `certificates/cert_eps.py` in full, controls C1 to C8 included.**
 
 Ye–Li's true constants xi, dL and dR are variables. Each theorem's only assumptions about them are its stated
 hypotheses: the 20-place table truncation for each, `t <= true < t + 1e-20`, or only `xi > 0.00002`.
@@ -46,9 +49,9 @@ hypotheses: the 20-place table truncation for each, `t <= true < t + 1e-20`, or 
 | `stage2_K` | [K] kappa_0 = 148444531984 is even and satisfies both conditions of Cor. 3.2, kappa_0 - 2 fails the second, and N' >= 2.2035e22 |
 | `stage2_C1` to `stage2_C8` | the eight must-fail controls of `cert_eps.py`, each proved false. C6 and C8: some pair allowed by the table lies above the rounded-down pair. C7: xi' = 2.1e-5 breaks dl + dr <= 1/2 - 2 xi' |
 | `stage2_A_fails_next` | must fail: every term < 0.4999983315 is false |
-| `stage2_K_fails_N` | must fail: N' >= 2.2036e22 is false. N' is exactly 22035779076245688040224, so PROOF.md's "N' >= 2.2036e22" rounds the wrong way. The true bound is 2.2035e22 |
+| `stage2_K_fails_N` | must fail: N' >= 2.2036e22 is false. N' is exactly 22035779076245688040224, so the earlier "N' >= 2.2036e22" rounds the wrong way. The true bound is 2.2035e22 |
 
-**Explicit Stage 2 (`ExplicitDefs.lean`, `Explicit.lean`) covers `cert/cert_explicit.py`'s Certificate [A] in
+**Explicit Stage 2 (`ExplicitDefs.lean`, `Explicit.lean`) covers `certificates/cert_explicit.py`'s Certificate [A] in
 full, controls C1 to C7 included.**
 
 `ExplicitDefs.lean` defines every quantity of the certificate over `ℚ` by the script's formulas (eps_win, eps_V,
@@ -69,8 +72,8 @@ kernel's own formula, and writes `Explicit.lean`.
 | `explicit_C1` to `explicit_C7` | the seven must-fail controls of `cert_explicit.py`, each proved false: eps_L > 1e-9 at k = 115940 and at eps' = 1e-4; no valid J at eps' = 1e-27 (even with log2 e < 3/2); the secant fails with dR' - 1e-11; L_D <= 4805 is false; 10^26 does not divide N0 at k = 10^25; H(b) <= 0.07 is false |
 | `Hb_symm`, `Hb_ge_of`, `Hb_le_of` | H(1-x) = H(x), and moving an entropy bound to a nearby point of [0, 1/2] |
 
-**Smaller n0 (`ExplicitN0Defs.lean`, `ExplicitAnchors.lean`, `ExplicitN0.lean`) covers `cert/cert_explicit_b16.py`
-(PROOF Sec. 12) and `cert/cert_explicit_b17.py` (PROOF Sec. 13): every inequality, controls D1, D2, K1, K2 and K4
+**Smaller n0 (`ExplicitN0Defs.lean`, `ExplicitAnchors.lean`, `ExplicitN0.lean`) covers `certificates/cert_explicit_b16.py`
+(proofs/stage2b-explicit.md Sec. 12) and `certificates/cert_explicit_b17.py` (proofs/stage2b-explicit.md Sec. 13): every inequality, controls D1, D2, K1, K2 and K4
 to K9 included.** Theorems are in namespace `SS.N0`.
 
 `ExplicitN0Defs.lean` defines every rational quantity of both scripts over `ℚ` by the scripts' formulas: the
@@ -97,7 +100,7 @@ against its anchor.
 | `ladder_gain_D4` | the D4 ladder's n0 is at least 100 times smaller than the D4 POS row's |
 | `B16_D1`, `B16_D2`, `K1`, `K2`, `K4` to `K8` | the scripts' must-fail controls, each proved false. K7 is checked for every e' of the script's grid, not only the best one. K1 is proved for every natural k |
 
-**Stage 3 (`Stage3Defs.lean`, `Stage3.lean`) covers `cert/cert_stage3.py` in full: the re-tuned xi certificate, the
+**Stage 3 (`Stage3Defs.lean`, `Stage3.lean`) covers `certificates/cert_stage3.py` in full: the re-tuned xi certificate, the
 exponent, the fallbacks and the controls.** These two modules contribute 47 of the 141 theorems and 2 of the 13 modules counted above.
 
 `Stage3Defs.lean` proves the general facts once:
@@ -125,11 +128,150 @@ exponent, the fallbacks and the controls.** These two modules contribute 47 of t
 | `s3_K1` to `s3_K11`, `s3_C34` | the script's must-fail controls, each proved false |
 
 
+**Stage 4 (`Stage4Check`, `Stage4Probs`, `Stage4Cells_*`, `Stage4Defs`, `Stage4ECheck`, `Stage4ERows`, `Stage4EDefs`,
+`Stage4Base`, `Stage4XI`, `Stage4E`, `Stage4`) covers `certificates/stage4/cert_stage4.py` and `cert_stage4plus.py` in
+full, controls included.** Namespace `SS4`. `Stage4Axioms.lean` prints the axioms of all 131 theorems: each uses only
+`propext`, `Classical.choice`, `Quot.sound` (`axioms_stage4.out`). One command: `./check_stage4.sh`.
+
+The scripts prove [XI] by branch and bound over thousands of boxes with float logs; Lean checks the same claims by a
+different certificate built for the kernel (`gen_stage4_cells.py`). The colour polygon `Poly4` is covered by a
+binary tree of boxes (1635 leaves over the eight contact claims, cut into 119 modules of at most 40 leaves); on a
+leaf the four plus-sign entropy terms are bounded by Gibbs tangent planes at rational points and the minus-sign term
+`h(1 - m, b - m)` by its chord, which is valid because `h` is jointly concave (`hh_chord`, proved from Mathlib's
+concavity of `negMulLog`); the two affine majorants are checked at the box corners. `chk_sound` proves once that a
+passing tree gives `G4 = tau max(L, 0) + (1 - tau) R ≤ T` on the whole polygon; the trees are checked by
+`decide +kernel` in modules that import no analysis. The exponent [E] uses a second checker (`ERow.chkE`, 60 to 166
+kappa-pieces per row, monotonicity of `H` on `[0, 1/2]` and the kappa ↦ 1 - kappa symmetry).
+
+| theorem | statement |
+|---|---|
+| `V_s11_t1`, `V_s11_t2`, `V_s8_t1`, `V_s8_t2` | [XI] contacts: `V(t1) ≤ t1 h(s)` (with a rational `hsLo ≤ h(s)`), `V(t2) ≤ (1 - t2)(1 - s)` over the whole polygon, s = 11/100 and 1/8 |
+| `V_p1_t1`, `V_p1_v`, `V_p2_v`, `V_p2_t2` | Stage 4+: member rho = 49/20 at t1 and at v, member 11/4 at v and t2 |
+| `line_s11`, `line_s8`, `line_plus` | Lemma 3.4's hypothesis `min{V, tau h(s), (1 - tau)(1 - s)} ≤ line` for every tau (one circuit; the family) |
+| `xi_s11`, `xi_s8`, `xi_plus` | the pairs `l = line(1)`, `r = line(0) ≥ 0` and xi ≥ 0.0044849038, 0.0043428267, 0.0070361406 |
+| `C1_*`, `C2_*`, `C1_plus`, `C2_plus`, `C3_plus` | must fail, proved false with explicit colours: one grid step past each contact; each Stage 4+ member alone at the other's contact |
+| `F1_s11`, `F1_s8`, `F1_plus` | every valid line has xi ≤ 0.0044849681, 0.0043428942, 0.0070362061 |
+| `lam_s11`, `lam_s8`, `lam_plus` | lambda ≤ 2.3978e-8 at N_b = 8e9 (real logs) |
+| `splitter_S` | Lemma 4.2, S(q) ≤ 3q - 3 - 2 log2 q for EVERY q ≥ 1 (the script checks q ≤ 2^14 in floats) |
+| `K_s11`, `K_s8` | [K]: k_0, c, both conditions of Cor. 3.8 at eps = 1e-9, k_0 - den fails (b), N0 ≥ 2.2035e22 and not ≥ 2.2036e22 |
+| `E_D11`, `E_D8`, `E_R11`, `E_R8`, `E_Dplus`, `range_*` | [E]: every cost term of `proofs/stage4.md` Sec. 5.3 ≤ the claim for every kappa in [kappa_lo, 1 - kappa_lo], and H(kappa_lo) < 1 - delta |
+| `headline_D11`, `headline_Dplus` | Theorems 4 and 4+ in plain numbers: P3, P4, P6 ≤ 0.4998322132 and ≤ 0.4997369618 |
+| `Kc1_D11` to `Kc9_D11`, `Kc1_Dplus`, `Kc2_Dplus`, `Kc_delta_Dplus`, `Kc4_Dplus` | the exponent controls, each proved false (K1 at claim - 3e-7 for Theorem 4 and - 4e-7 for 4+; K8 as the lower bound mu lambda ≥ 5.258e-9) |
+
+Found by the Lean check: `cert_stage4.py`'s [F1] used the witness colours' own values instead of the trivial lines
+and printed brackets about 3e-8 too small; fixed in the script and `proofs/stage4.md` Sec. 3.6. No claim changed.
+
+Not in Lean for Stage 4: everything in `proofs/stage4.md` except the certificates' arithmetic, i.e. that `G4`,
+`P3R`, `P4dR`, `P6R`, `P4rR` and `lamR` are the costs of DET4 (Secs. 1-7), the cited items of its Sec. 0.2, and
+`check_stage4.py` (brute force, stays in Python). `leanchecker` replayed `Stage4Check`, `Stage4Defs`, `Stage4EDefs`,
+`Stage4ECheck`, `Stage4Base`, `Stage4XI`, `Stage4E` and `Stage4`; on `Stage4ERows` it exceeded 3 GB and was stopped
+(that module is kernel-checked by its build, like every `Stage4Cells_*` module). Peak RSS of any Stage 4 build step:
+2979 MB, of which about 680 MB is the `lake` process itself.
+
+**Stage 5 (`Stage5Probs`, `Stage5Cells_*`, `Stage5ECheck`, `Stage5Data`, `Stage5Rows_*`, `Stage5Refs_*`,
+`Stage5EDefs`, `Stage5Base`, `Stage5XI`, `Stage5Ctl_0`, `Stage5Ctl_1`, `Stage5E`, `Stage5`) covers
+`certificates/stage5/cert_stage5.py` in full: R1, R1b, R2, R3, the seven menu circuits and the family, [LAM], and the controls
+K1-K8, C1-C3.** Namespace `SS5`. `Stage5Axioms.lean` prints the axioms of all 83 theorems below: each uses only
+`propext`, `Classical.choice`, `Quot.sound` (`axioms_stage5.out`). One command: `./check_stage5.sh`.
+
+[XI] uses Stage 4's method and checker unchanged (`gen_stage5_cells.py`): the twelve contact claims of the six new menu
+circuits (s = 2/25, 19/200, 13/125, 111/1000, 59/500, 29/200) are cell trees with 2840 leaves in 210 modules of at most
+40 leaves, proved by `SS4.chk_sound`. The menu's s = 1/8 circuit is Stage 4's (same rho, t1, t2), and the single
+s = 11/100 circuit and the family are Stage 4's too (`SS4.line_s11`, `line_s8`, `line_plus`, `C3_plus`).
+
+The exponent rows use a new light checker, `Row.chk` (`gen_stage5.py`). A layer kappa is **covered** (`Covered`) when
+some design of the row's menu is good there: an alpha of the menu, two menu circuits (only `c1 = c2` and `w = 0` for
+the symmetric rows R1, R1b) and a real w, such that the design is valid (`a = 0` or `0 < t < 1`; each outer side holds
+j blocks, `j mu ≤ (1 - mu)(1/2 - |w|)`) and P3, P4, P6 are at most the claim. The terms are those of cert_stage5.py,
+with the real binary entropy, the real log2 3, lambda = 2.3983e-8, and the circuits' (s, l, r) data. Since every
+term increases with l and r, the data's upper bounds on line(1), line(0) suffice (`xi_*`, `lr_*`). A piece of
+[0, 1/2] carries one design (menu indices and a rational w), an upper bound on H at its right end, and for `a > 0`
+lower bounds on H(t) at both ends (H is concave). For `a = 0`, `t = kappa` and the terms are exact in H(kappa), which
+covers the tail [0, 2/5]. The symmetry kappa ↦ 1 - kappa swaps the circuits and negates w (`row_covered`). Pieces:
+R1 489, R1b 161, R2 20, R3 32, chosen greedily and each re-checked exactly before Lean runs. The script's 6000 pieces
+were not needed, because each row's true sup is 4e-7 to 1.3e-6 below its claim.
+
+The must-fail checker `Row.refute` proves more than the script's controls. At one kappa, every design of the menu
+fails for every real w and every lambda ≥ 0. It uses three lower bounds: P3 is at least the mean of its two lines, or
+the larger line moved by the largest |w| the fit allows, and P6 is the third.
+
+| theorem | statement |
+|---|---|
+| `hs_m*`, `hb_C_*` | H(s) of the six new densities (60-term series), and every circuit's `hsLo ≤ H(s) ≤ hsHi` |
+| `V_m*_t1`, `V_m*_t2` | [XI] contacts `V(t1) ≤ t1 hsLo`, `V(t2) ≤ (1 - t2)(1 - s)` over the whole polygon, six circuits |
+| `line_m*` | Lemma 3.4's hypothesis `min{V, tau h(s), (1 - tau)(1 - s)} ≤ line` for every tau |
+| `xi_m*` | xi ≥ 0.0039112900, 0.0043321461, 0.0044574234, 0.0044845813, 0.0044446847, 0.0036893196, and `line(1) ≤ C.l`, `line(0) ≤ C.r` |
+| `lr_s11`, `lr_s8`, `lr_plus` | the row data bound Stage 4's lines (xi there: `SS4.xi_s11`, `xi_s8`, `xi_plus`) |
+| `C1_*`, `C2_*` | controls C1, C2 for all seven menu circuits, s = 1/8 included: one 1e-4 step past each contact is refuted with an explicit colour |
+| `lam5` | lambda ≤ 2.3983e-8 at N_b = 8e9 for every a_b + b_b = N_b/2, real logs (Lemma 3.3) |
+| `ab_integral`, `window` | a_b = alpha N_b/2 and s a_b are integers for every alpha and circuit; s rho < 1/2 for every circuit |
+| `E_R1`, `E_R1b`, `E_R2`, `E_R3` | P1 = mu, P5 = Pscan = 2 mu and Kenum = mu(2 + lambda) are at most the claim, and every kappa in [0, 1] is covered. Claims: 0.4995054714, 0.4993293934, 0.4991541425, **0.4989524521** |
+| `K1_R1`, `K1_R1b`, `K1_R2`, `K1_R3` | each claim minus 2e-6 is refuted, at kappa = 0.4708524, 0.4847785, 0.4982435, 0.4885747 |
+| `K2`, `K4`, `K5`, `K5b`, `K6`, `K6b`, `K7` | R2 with mu + 1%; one-sided dedupe against 1/2 (at kappa = 1/2); the design set {0, 97/100}; the earlier float D1 point against 0.49919788; R1 against the ceiling 1/2 - mu (19/20) xi; R1 with alpha 19/20 alone; R3 with the family's (l, r) replaced by the single circuit's: each refuted |
+| `K3`, `K8` | no cores: every core-free design has P3 ≥ 1/2 at kappa = 1/2; R1b's two blocks per side do not fit at mu = 0.201 for any w |
+| `same_ctl` | each control row is the certified row with only the stated change |
+| `chk_sound`, `row_covered`, `refute_sound`, `refute_alphas` | soundness of the two checkers |
+
+K1 refutes the claim minus 2e-6, not the script's 1e-9. The script's K1 tests its own piece bound. The true sup lies
+4e-7 to 1.3e-6 below each claim, so only a gap of that size can be proved false. K6's target uses the certified lower
+bound on xi, so the true ceiling is no larger than the target.
+
+Found by the Lean check: no defect in cert_stage5.py, and no number changed. A printing nit: the script prints its
+xi and l bounds rounded to the nearest 10th digit. For example it prints xi(2/25) >= 0.0039112901, but the exact bound is
+0.00391129006. Lean proves the values rounded down, so its last digit can be 1 lower. The computation itself uses the
+full floats.
+
+Not in Lean for Stage 5: everything in `proofs/stage5.md` except the certificate's arithmetic, i.e. that
+these terms are the costs of the algorithm (Lemmas 2.1-3.5), and `check_stage5.py` (brute force, stays in Python).
+`leanchecker` replayed all 53 Stage 5 modules other than the cell trees, and all 53 pass. Those are Stage5ECheck,
+Stage5EDefs, Stage5Data, every `Stage5Rows_*` and `Stage5Refs_*`, Stage5Base, Stage5XI, Stage5Ctl_0, Stage5Ctl_1,
+Stage5E and Stage5. The `Stage5Cells_*` modules are kernel-checked by their builds, as in Stage 4. The highest peak
+RSS of any Stage 5 step was 3065 MB, in one cell module's build, and about 680 MB of that is `lake` itself. No step was
+aborted.
+
+**Stage 5b (`Stage5bProbs`, `Stage5bCells_*`, `Stage5bDefs`, `Stage5bData`, `Stage5bRows_*`, `Stage5bRefs_*`,
+`Stage5bBase`, `Stage5bFam_*`, `Stage5bCtl_*`, `Stage5bE`, `Stage5b`) covers `certificates/stage5b/cert_stage5b.py` for the
+theorem row R4b-min: Lemma 5b.1 for its six families, the row for every kappa in [0, 1], and its controls.** Namespace
+`SS5b`. `Stage5bAxioms.lean` prints the axioms of all 107 theorems below: each uses only `propext`,
+`Classical.choice`, `Quot.sound` (`axioms_stage5b.out`). One command: `./check_stage5b.sh`. Generators:
+`gen_stage5b_cells.py`, then `gen_stage5b.py` (about 12 min).
+
+Lemma 5b.1 is `SS4.line_fam3` (`Stage5bDefs.lean`): if each member is below the line at both ends of its interval,
+the two trivial pieces are below it at `v0` and `v3`, and `r, l ≥ 0`, then for every tau in [0, 1] some member or a
+trivial piece is below the line. The member statements are 36 cell trees (six per family, Stage 4's method and
+checker unchanged), 5125 leaves in 331 modules of at most 40 leaves, assembled in 36 more. The row reuses Stage 5's checker
+`Row.chk` and `Row.refute` unchanged: it reads only each circuit's (s, H(s) bounds, l, r), so a family enters exactly
+as a single circuit does, with (l, r) the family's line (`xi_*`). The two densities without a family (2/25, 19/200)
+use Stage 5's circuits `SS5.C_m80`, `SS5.C_m95`. Pieces: 59.
+
+| theorem | statement |
+|---|---|
+| `line_fam3` | Lemma 5b.1 with three members |
+| `V_f*_ia`, `V_f*_ib` | member i of each family is below the line at both ends of its interval, over the whole colour polygon |
+| `fam_f104`, ..., `fam_f145`, `fam_f110` | Lemma 3.4's hypothesis on [0, 1] for the families at s = 13/125, 111/1000, 59/500, 1/8, 29/200, 11/100 |
+| `xi_*`, `hb_C_*` | xi of each family's line, the row data carry exactly (l, r), and `hsLo ≤ H(s) ≤ hsHi` for every new circuit |
+| `F1_*`, `F1x_*` | [F1]: every line satisfying the hypothesis with that family has xi at most the certified value plus about 4e-6 (from explicit colours at the two breakpoints around 1/2); so the family's line lowered by 1e-5 fails |
+| `NEED_*_i` | [NEED]: inside member i's interval there is a tau where both other members (explicit colours) and both trivial pieces are above the line, so no member can be dropped |
+| `ab_integral5b`, `window5b` | a_b = alpha N_b/2 and s a_b are integers for every alpha and circuit; s rho < 1/2 for every member |
+| `E_R4bmin` | Theorem 5b-F: P1, P5, Kenum and, for every kappa in [0, 1], P3, P4, P6 are at most **0.4986298176** |
+| `K1b`, `K2b`, `K7pb`, `K9b`, `KFb_*` | refuted: the claim minus 2e-6; mu + 1%; every family replaced by its single circuit; every (l, r) + 1/100; each of the six families alone replaced by its single circuit |
+| `same_ctl5b` | each control row is R4b-min with only the stated change |
+
+Where it ran: the Stage 5b modules were built and the axioms audited on a separate Linux machine (Lean v4.34.1, the
+same pinned Mathlib, sources identical to these), in one parallel `lake build` of exactly the module list of
+`check_stage5b.sh`, then `lake env lean SubsetsumLean/Stage5bAxioms.lean` and `axioms_ok.sh`: AXIOMS: PASS (107
+theorems, standard axioms only). On an 8 GB laptop, `check_stage5b.sh` builds them one at a time (the cell
+modules and the f104 analysis modules were also built that way). `leanchecker` was not run on Stage 5b.
+
+Not in Lean for Stage 5b: rows R3, R4 and R4b, the families at 2/25 and 19/200 (R4b-min does not use them), and
+everything in `proofs/stage5b.md` except the certificate's arithmetic for R4b-min. The convexity that Lemma 5b.1 needs
+is proved in Lean for each colour (`G4` is affine in tau), so it is inside `line_fam3`.
+
 ## Paper proof only (not in Lean)
 
 - **The cost model itself.** That g, and the nine terms of Stage 2, are the running-time exponents of the
   algorithms DET and DET2 is proved on paper: correctness, the covering Lemmas 2.1 to 2.4, and the time accounting
-  (`PROOF/stage1.md` Secs. 2 to 5, `PROOF/stage2.md` Secs. 2 to 6). Lean checks the inequalities as formulas only.
+  (`proofs/stage1.md` Secs. 2 to 5, `proofs/stage2.md` Secs. 2 to 6). Lean checks the inequalities as formulas only.
 - **Cited facts.** CJRS F1 to F10 and Observation 4 (word RAM). Ye–Li Prop. 4.2 and its proof, its dL/dR table,
   AL25 Thm B.2, and the existence of the non-explicit circuit.
 - **Stage 1 root existence.** Lean checks every numeric fact behind it: the curve crosses the box, and (3) changes
@@ -137,7 +279,7 @@ exponent, the fallbacks and the controls.** These two modules contribute 47 of t
   function e2(e1), defined by (4), followed by the intermediate value theorem. Only the part
   0.0101041782 <= gamma < gamma* = 0.01010417823... depends on it. Every gamma < 0.0101041782 is fully
   kernel-checked (`stage1_gamma`).
-- **Explicit Stage 2.** Everything in `PROOF/stage2b-explicit.md` except Certificate [A]'s arithmetic: that the
+- **Explicit Stage 2.** Everything in `proofs/stage2b-explicit.md` except Certificate [A]'s arithmetic: that the
   formulas in `ExplicitDefs.lean` are the losses of Lemmas E1 to E6 (the window loss, the Hoeffding/greedy count
   behind J, the volume bound, the E4 induction, Lemma E6's operation count), Ye-Li's anchors V(0), V(1/2), V(1)
   (their 20-place truncations are inputs), and that k is the least even k with 10^26 \| k(k+2) (a CRT fact; any
@@ -150,7 +292,7 @@ exponent, the fallbacks and the controls.** These two modules contribute 47 of t
   half-set balanced for four leaf patterns) and its control K3 stay in Python; they are finite enumerations, not
   inequalities. The choice of each row's N0 and e' (a search) is not checked: any choice that passes gives a valid
   bound.
-- **Stage 3.** Several steps are proved on paper only (`PROOF/stage3.md` Secs. 2 to 4):
+- **Stage 3.** Several steps are proved on paper only (`proofs/stage3.md` Secs. 2 to 4):
   - that g_1, g_2 and g_3 over the polygon are the colour profile of the generalised Sec. 3.5;
   - the rounding (rho) and window steps;
   - Ye-Li Lemma 3.4 and Cor. 3.2/3.3 themselves;
