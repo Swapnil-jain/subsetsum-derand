@@ -1,4 +1,4 @@
-"""Certificate for PROOF/stage2b-explicit.md Sec. 13 ("Smaller n0"): leads B17 (Lemma 3.1') and A19 (ladder), and the small-q + POS
+"""Certificate for proofs/stage2b-explicit.md Sec. 13 ("Smaller n0"): leads B17 (Lemma 3.1') and A19 (ladder), and the small-q + POS
 variant. Exact rationals only (fractions.Fraction). Its inequalities are kernel-checked in Lean
 (lean/SubsetsumLean/ExplicitAnchors.lean and ExplicitN0.lean; [G]'s enumeration and K3 stay here). Reuses cert_explicit.py (must exit 0) for
 the enclosures of ln 2, ln x and H, the window loss eps_win, the flip count J and Ye-Li's anchors at their own
@@ -576,7 +576,7 @@ for tag in ("D4", "q2664"):
             single = stn["S"] * N0p
             rejects("K8 single scale claiming log2 C <= 0.1 N0", not (single <= F(1, 10) * N0p))
 check("D4-POS-ladder n0 <= D4-POS n0 / 100", RES["D4-POS-ladder"] * 100 <= RES["D4-POS"])
-# The (E, n0) pairs of PROOF/stage2b-explicit.md Sec. 13's table, each certified as an upper bound.
+# The (E, n0) pairs of proofs/stage2b-explicit.md Sec. 13's table, each certified as an upper bound.
 TABLE = {"D4-E3": ("0.4999994073", "8.18e17"), "D4-POS": ("0.4999989913", "2.35e14"),
          "D4-POS-ladder": ("0.4999983549", "1.59e11"), "q2664-E3": ("0.4999992172", "9.11e17"),
          "q2664-POS": ("0.4999992295", "2.26e14"), "q2664-POS-ladder": ("0.4999985715", "4.90e10")}

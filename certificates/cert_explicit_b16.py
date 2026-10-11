@@ -1,4 +1,4 @@
-"""Improvement certificate (lead B16): a sharper rebalancing constant for the explicit Stage 2 (PROOF/stage2b-explicit.md Sec. 12).
+"""Improvement certificate (lead B16): a sharper rebalancing constant for the explicit Stage 2 (proofs/stage2b-explicit.md Sec. 12).
 
 Separate from cert_explicit.py, which certifies Theorem E as stated (c = 4858). Both are kernel-checked in Lean
 (this one by lean/SubsetsumLean/ExplicitN0.lean, theorems explicit_B16, B16_D1, B16_D2). Exact rationals only; it reuses cert_explicit.py's design [A] (run first, must
@@ -17,7 +17,7 @@ What it certifies, at design [A] (k = 10045215487480163574218750, eps' = 1e-13):
     padded coordinate, storage by binary search), and the threshold
     n0 := max(2 (c_b N0 + 1)/(1 - g), 2 (log2 C + 1)/g), with c_b = 4 (Lemma E6, additive and paid once). For
     n >= n0 the build and the run are each at most 2^{(1/2 - g/2) n - 1} poly(n, L), so the run time is below
-    2^{(1/2 - g/2) n} poly(n, L). (Same definition as PROOF/stage2b-explicit.md Sec. 13 and cert_explicit_b17.py.)
+    2^{(1/2 - g/2) n} poly(n, L). (Same definition as proofs/stage2b-explicit.md Sec. 13 and cert_explicit_b17.py.)
 Must-fail controls: [D1] the claim S <= 0.49; [D2] thresholds at the slopes themselves (x1 = s2, x2 = s3), where
 some gap delta_{t,j} is 0.
 Exit 0 iff every check holds and both controls are rejected.

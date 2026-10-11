@@ -1,4 +1,4 @@
-"""Generate SubsetsumLean/Stage1Points.lean, the kernel check of derand/stage1/cert_gamma.py.
+"""Generate SubsetsumLean/Stage1Points.lean, the kernel check of certificates/cert_gamma.py.
 
 Pure standard library. Every rational bound written into the Lean file is first checked here with the exact
 formula Lean's kernel evaluates (`logOK` / `hbOK` of Basic.lean, replicated below in Fractions), so a bound that
@@ -18,7 +18,7 @@ import os
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-STAGE1 = os.path.join(HERE, "..", "cert")
+STAGE1 = os.path.join(HERE, "..", "certificates")
 sys.path.insert(0, STAGE1)
 import cert_gamma as CG  # noqa: E402  (only for the root enclosure e2_of, which the script certifies)
 

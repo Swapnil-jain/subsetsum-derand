@@ -1,4 +1,7 @@
 __pycache__/
+*.pyc
+.lake/
 lean/.lake/
+*.stream.jsonl
 lean/axioms.check
 lean/build_peak.log

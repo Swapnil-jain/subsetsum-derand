@@ -1,7 +1,7 @@
 # Stage 2b: an explicit deterministic Subset Sum algorithm in time 2^{0.49999834 n}
 
 Draft, private. This document makes Stage 2 explicit. Stage 2 is `stage2.md` in this directory (in our working
-tree, `derand/stage2/PROOF.md`), here **S2**. This document changes only the
+tree, `stage2.md`), here **S2**. This document changes only the
 partial-match subroutine PM. Everything else in S2 (Steps 0-6, Lemmas 2.1-7.2, Certificate 7.2) is used as
 written. S2 Sec. 8 ("non-explicit") is superseded by this document.
 
@@ -12,8 +12,8 @@ Sources:
   document. Only Lemma B.3's *special case* is used, and it is re-proved in Lemma E4. Thm B.2 and Lemma B.4,
   which carry the ineffective o(d), are not used.
 
-Certificate: `../cert/cert_explicit.py` (exact rationals, outward bounds, < 1 s). Toy test:
-`../cert/toy_explicit.py` (Sec. 10). Lean: `../lean/SubsetsumLean/Explicit.lean` kernel-checks the certificate's inequalities (Sec. 11).
+Certificate: `../certificates/cert_explicit.py` (exact rationals, outward bounds, < 1 s). Toy test:
+`../certificates/toy_explicit.py` (Sec. 10). Lean: `../lean/SubsetsumLean/Explicit.lean` kernel-checks the certificate's inequalities (Sec. 11).
 
 **Labels.** [proof] = proved here; [cite] = taken from the named place; [arg] = argued, less than a full
 proof (all listed in Sec. 9).
@@ -73,7 +73,7 @@ exponent is S2's: explicitness costs nothing in the exponent.
   C * poly * (2^{(dL'+eps) n'} |A| + 2^{(dR'+eps) n'} |B|) with eps = 10^-9, for S2's rational pair
   (dL', dR') = (0.007275870560, 0.492684058989). Here n' is the padded length and C is any constant. A
   constant C only multiplies S2's time bound.
-- **(Y1) YL Sec. 3.5, exactness [cite; tested in `ye-li-audit/yl_circuit.py` and `../cert/toy_explicit.py`].** Let
+- **(Y1) YL Sec. 3.5, exactness [cite; tested in `ye-li-audit/yl_circuit.py` and `../certificates/toy_explicit.py`].** Let
   L_D be a list of bN-subsets in which every query of the type has a fitting member. For each D and each mu,
   let Q_{D,mu} be a list of 2 mu N-subsets of the complement of D covering all its mu N-subsets. Then the
   gates (D, Q, sigma), with D(y) := the first fitting D in the list and Q_D(U) := the first superset in the
@@ -208,7 +208,7 @@ everything (the certificate uses log2 e >= 1.4426, certified). The cost is in Le
 Then (L) gives an exact coloured circuit C3 for P_{N,1/2} with
 Upsilon_C3(tau) <= 2^{N(Vbar(tau) + eps_V)}, where eps_V := eps_win + J/N + eps_poly.
 
-*Alternative (LEADS B7) [arg].* Interval flips (Hobby-Rice) plus a rectangle-partition protocol, with no
+*Alternative (lead B7) [arg].* Interval flips (Hobby-Rice) plus a rectangle-partition protocol, with no
 inclusion-exclusion. This would make the hole term about 1/eps' instead of 1/eps'^2. It is not needed here:
 at the design of Sec. 6 the hole term J/N0 is about 9e-25.
 
@@ -410,7 +410,7 @@ slack eps_m) and n0 := 2 c N0 / g, beyond which the constant 2^{c N0} costs at m
 - Lemma E6 is a proof in the stated bit-operation model; it is an operation count, not an implementation.
 - The certificate checks the arithmetic; the toy test (Sec. 10) checks the constructions at N = 8 only.
 
-## 10. Toy test (`../cert/toy_explicit.py`)
+## 10. Toy test (`../certificates/toy_explicit.py`)
 
 At N = 8, a = 1/8, b = 1/2 and eps' = 1/8 (9 window types), exact integers and rationals throughout:
 - **E1 + E2.** Every D-list and Q-list is built by Lemma E1 with the ceil exponent. Phi_0 < 1, Phi never
@@ -434,7 +434,7 @@ At N = 8, a = 1/8, b = 1/2 and eps' = 1/8 (9 window types), exact integers and r
 `../lean/SubsetsumLean/Explicit.lean` kernel-checks Certificate [A]'s inequalities and its controls, without
 `sorry` or `native_decide`. `../lean/LEAN_SCOPE.md` lists what is kernel-checked and what stays on paper.
 
-## 12. Improvement (lead B16): a sharper rebalancing constant [proof; certificate `../cert/cert_explicit_b16.py`, its inequalities Lean-checked (Sec. 13.8)]
+## 12. Improvement (lead B16): a sharper rebalancing constant [proof; certificate `../certificates/cert_explicit_b16.py`, its inequalities Lean-checked (Sec. 13.8)]
 
 This section is separate from Theorem E, whose statement (c = 4858) stays as certified and kernel-checked above.
 It re-derives lead B16 (from our internal list of leads) and certifies it at design [A].
@@ -457,7 +457,7 @@ most 2^{(2/ln 2)/(2^{N delta_min} - 1)} <= 2^3. Adding 3 for the factor 8 gives 
 **Padding and storage, sharpened.** A padded coordinate multiplies the PM time by at most 2^{dR' + eps} <= 2^{1/2},
 so padding costs at most 2^{(k^2+2)/2}; one storage lookup costs at most 12 N0^2 bit operations.
 
-**Certificate [B16]** (`../cert/cert_explicit_b16.py`, exact rationals, at design [A]): x1, x2 dyadic (2^-40) within a
+**Certificate [B16]** (`../certificates/cert_explicit_b16.py`, exact rationals, at design [A]): x1, x2 dyadic (2^-40) within a
 quarter of the slope gaps; all six delta_{t,j} > 0 (the least is 0.0012); d1 = 3; **S = 0.496664**, so
 log2(8 D_inf) <= 0.496664 N0 + 12 (E4: 4855 N0). Then log2 C_run <= 0.996664 N0. Controls: S <= 0.49 and
 thresholds placed at the slopes themselves are rejected.
@@ -479,7 +479,7 @@ below 1/2 - 0.4999983316; the run time is then below 2^{0.4999991667 n} poly(n, 
 **Open (not folded in).** B17 (A9's halving splitter in place of YL Lemma 3.1, N0 = q) and A19 (a ladder of base
 lengths) change Lemma E5's reduction itself. They are written out in Sec. 13 (refereed twice, fixes applied).
 
-## 13. Smaller n0 (leads B17 and A19, and the small-q + POS variant) [certificate `../cert/cert_explicit_b17.py`, its inequalities Lean-checked (Sec. 13.8); two clean referees, fixes applied]
+## 13. Smaller n0 (leads B17 and A19, and the small-q + POS variant) [certificate `../certificates/cert_explicit_b17.py`, its inequalities Lean-checked (Sec. 13.8); two clean referees, fixes applied]
 
 This section is separate from Theorem E (Secs. 0-11) and from Sec. 12. Each variant below is a different explicit
 algorithm with its own exponent E, its own constant and its own n0. n0 is Sec. 12's threshold,
@@ -524,7 +524,7 @@ no defect that changes a certified number).*
 - (G7, N1-4) "log2 C <= 0.6 N_min + ..." was wrong at q = 2664 (it is 0.94 N_min, N_min = 13 q). The bound is now
   stated per row (13.6).
 - (G8, N2-D6) Lemma E4'' states u_{i,t} at every point of A, including when (I, M) stands in for piece 2 (13.6).
-- (G9, N1-2 / N2-D1) `../cert/cert_explicit_b17.py` loads `cert_eps.py` from its own directory (here `../cert/cert_eps.py`, S2's own certificate).
+- (G9, N1-2 / N2-D1) `../certificates/cert_explicit_b17.py` loads `cert_eps.py` from its own directory (here `../certificates/cert_eps.py`, S2's own certificate).
 - (G10, N1-3 / N2-D2) The false label "n0 with E4 <= 6e29" is gone; the certificate now tests n0 <= 5.84e35.
 - (G11, N2-D3) YL's table match is certified at the stated 2e-17 (it was checked only to 1e-12).
 
@@ -755,8 +755,8 @@ Without the tail the single-scale constant is 0.4967 N0 (control K8).
 ### 13.8 Lean
 
 `../lean/SubsetsumLean/ExplicitN0.lean` and `ExplicitAnchors.lean` (generated by `../lean/gen_explicit_n0.py`, with
-definitions in `ExplicitN0Defs.lean`) kernel-check the inequalities of `../cert/cert_explicit_b16.py` and
-`../cert/cert_explicit_b17.py`, without `sorry` or `native_decide`, and every theorem uses only `propext`,
+definitions in `ExplicitN0Defs.lean`) kernel-check the inequalities of `../certificates/cert_explicit_b16.py` and
+`../certificates/cert_explicit_b17.py`, without `sorry` or `native_decide`, and every theorem uses only `propext`,
 `Classical.choice` and `Quot.sound`. Lean recomputes every number from the inputs (the rounded anchors, x0, and each
 row's N0 and e'): Sec. 12's S, d1 and n0; [A']; every table row's E and n0, with the ladder's tail and switch length;
 and S2 Lemma 6.1's terms with the real log2 3. Lemma V's tangent bounds are checked as real inequalities with the

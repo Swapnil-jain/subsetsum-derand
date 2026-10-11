@@ -1,4 +1,4 @@
-"""Certificate for the explicit Stage 2 (PROOF/stage2b-explicit.md). Exact rationals only (fractions.Fraction).
+"""Certificate for the explicit Stage 2 (proofs/stage2b-explicit.md). Exact rationals only (fractions.Fraction).
 
 Irrational inputs, all bounded outward and checked here:
   * Ye-Li v1 Sec. 4 table: 20-place truncations t, so t <= true < t + 1e-20 (used as upper bounds only);
@@ -20,7 +20,7 @@ Irrational inputs, all bounded outward and checked here:
       the three-piece structure of Cbar (PROOF Lemma E4 hypotheses), secant domination at its division
       points with Stage 2's rational pair (dL', dR'), the gap Delta, N0 Delta >= 1, and log2(8 D_inf)/N0 <= L_D;
       eps_L, eps_R <= 1e-9 (PROOF Lemma E5), so Stage 2's Certificate 7.2 applies verbatim;
-      the constant (PROOF Sec. 7): padding k^2 + 2 <= N0, c = L_D + 1 (padding) + 1 (storage) + 1 (additive
+      the constant (proofs/stage2b-explicit.md Sec. 7): padding k^2 + 2 <= N0, c = L_D + 1 (padding) + 1 (storage) + 1 (additive
       preprocessing, c_b = 4 <= L_D + 2), and n0 = 2 c N0 / g.
 [T] Trade-off table (exact bounds, printed): for a grid of k, the best eps' on a grid,
     eps_m = max(eps_L, eps_R), the balanced gain g = (xi' - 2 eps_m) / (12 + 2(xi' - 2 eps_m)), and

@@ -27,7 +27,7 @@ Every known algorithm that beats it is randomized. We give three deterministic r
   explicitness, not a practical algorithm.
 - **What changed.** Every randomized or merely existential step of Ye–Li's circuit is constructed:
   pessimistic-estimator lists, greedy hole fixing, and an explicit three-piece rebalancing rule with an effective
-  constant (`PROOF/stage2b-explicit.md`).
+  constant (`proofs/stage2b-explicit.md`).
 - **Smaller n0, at a price in E (Secs. 12-13).** Variants of the construction trade exponent for threshold. Each
   n0 belongs to its own E: below, n0 is where the run time drops below 2^{(1/2 - g/2) n} poly(n, L), with gain
   g = 1/2 - E. It is not where the run time reaches 2^{E n}.
@@ -42,13 +42,13 @@ Every known algorithm that beats it is randomized. We give three deterministic r
 
   So at Theorem 2's exponent (E <= 0.4999983345, S2 Certificate 7.2[B]) the smallest proved n0 is 1.20e32; the
   smallest n0 overall, 4.90e10, needs the weaker E <= 0.4999985715. The full table, with the E3 and POS-only rows,
-  is in `PROOF/stage2b-explicit.md` Sec. 13.
+  is in `proofs/stage2b-explicit.md` Sec. 13.
 
-**Stage 3.** This combines Stage 2 with two improvements, each refereed separately (`PROOF/stage3.md`).
+**Stage 3.** This combines Stage 2 with two improvements, each refereed separately (`proofs/stage3.md`).
 
 - **Result.** Subset Sum is decided deterministically in poly(n, L) 2^{E3 n} with **E3 <= 0.499990922021** (gain
   >= 9.0779e-6, about 5.4 times Stage 2's). Non-explicit, as Stage 2. A solution is found in the same time.
-  [proof, given Sec. 1 and the [arg] rounding/window steps of Sec. 2.2 of `PROOF/stage3.md`]
+  [proof, given Sec. 1 and the [arg] rounding/window steps of Sec. 2.2 of `proofs/stage3.md`]
   N' >= 2.2035e22 is a lower bound only: Cor. 3.2 needs a sufficiently large even kappa.
 - **What changed.**
   - *Outside-sum dedupe.* The record lists hold distinct block sums, which repays the filter's 1/N loss for every
@@ -65,7 +65,7 @@ Every known algorithm that beats it is randomized. We give three deterministic r
     bounds, for the fit and Lemma 3.5, as in Stage 2), it gives E <= 0.4999950006.
 - **Review.** Each component had two clean referee passes, CONFIRMED WITH FIXES, and all fixes are applied. The
   combined package has not been refereed as a whole.
-- **Lean.** Every inequality of `cert/cert_stage3.py` is kernel-checked. This includes the xi certificate itself:
+- **Lean.** Every inequality of `certificates/cert_stage3.py` is kernel-checked. This includes the xi certificate itself:
   Gibbs majorants over the whole colour polygon, Lemma 3.4's line hypothesis, and the refuted "no line beats
   xi_max". Standard axioms only. These are 47 more theorems in 2 more modules than the counts in Sec. 2 below.
 - **Checks.** `make stage3` runs the certificate, a brute-force check with sorted merges and solution recovery, and a
@@ -89,7 +89,7 @@ evidence, not proof.
 
 - **Stage 1: Xi Chen, Ce Jin, Tim Randolph and Rocco A. Servedio** (arXiv 2301.07134).
   - The algorithm, its constants, every lemma used, and the cost accounting are theirs. They are cited fact by fact
-    in `PROOF/stage1.md` Sec. 1.
+    in `proofs/stage1.md` Sec. 1.
   - **New here:** the deterministic prime (Lemma 2.1), the bound on W'(T) for every T at once (Lemma 2.2), and the
     universal residue covering with the best shift (Lemmas 2.3 and 2.4). Together these replace CJRS's random
     prime and their s(l) random residues. Also new: the certificate.
@@ -104,17 +104,17 @@ evidence, not proof.
     - layer families defined by a residue threshold;
     - one universal covering per layer, from Stage 1.
   - Also new: the re-derivation of Ye–Li's exponent at prefix 0.2499 n, the certificate, and an inclusion-exclusion
-    replacement for Alman–Li Thm 6.1 (`PROOF/stage2.md` Sec. 9).
+    replacement for Alman–Li Thm 6.1 (`proofs/stage2.md` Sec. 9).
 - **OpenAI's openai/math preprint** (October 2026) gave the randomized 2^{0.489995 n} Subset Sum construction (problem
   #138). Auditing where that construction uses randomness is what led us to the covering tool used here.
-  This package does not derandomise that construction (`CLOSED_IDEAS.md`).
+  This package does not derandomise that construction (`docs/CLOSED_IDEAS.md`).
 - The Lean log bounds (`lean/SubsetsumLean/Basic.lean`) are copied from our 3SUM package. They rest on Mathlib.
 
 `NOTICE` lists exactly what is new.
 
 ## 1. Results
 
-**Theorem 1 (Stage 1; `PROOF/stage1.md`).** For every constant gamma < gamma* := g(eps1*, eps2*), there is a
+**Theorem 1 (Stage 1; `proofs/stage1.md`).** For every constant gamma < gamma* := g(eps1*, eps2*), there is a
 deterministic algorithm that decides Subset Sum on n integers in time O(2^{n/2} n^{-gamma}). It finds a solution in
 the same time. Here (eps1*, eps2*) is the root of CJRS's Equations (3) and (4), and
 
@@ -132,22 +132,22 @@ Not claimed:
 
 The word RAM version (Corollary 2) rests on CJRS's Observation 4, which CJRS only sketch.
 
-**Theorem 2 (Stage 2; `PROOF/stage2.md`).** There is a deterministic algorithm that decides Subset Sum in
+**Theorem 2 (Stage 2; `proofs/stage2.md`).** There is a deterministic algorithm that decides Subset Sum in
 O(2^{0.49999834 n}) bit operations on every input of total length 2^{o(n)}. Its time is poly(n, L) 2^{E n} with
 E <= 0.4999983316, at prefix m = 0.2499 n. It finds a solution in the same time.
 
 The theorem has three conditions (Theorem 2b below removes the second and third):
 - It is conditional on Ye–Li Prop. 4.2, through its proof and its dL/dR table. We audited Prop. 4.2
-  (`PROOF/ye-li-audit/`), but did not re-prove it.
+  (`proofs/ye-li-audit/`), but did not re-prove it.
 - The program is **non-explicit**. It hardcodes an exact integer circuit for P_{N', 1/2} with
   N' = kappa^2 + 2 kappa >= 2.2035e22. Ye–Li's proof shows that this circuit exists, but does not construct it. So
-  we can prove that the program exists, but we cannot write it down or run it (`PROOF/stage2.md` Sec. 8).
+  we can prove that the program exists, but we cannot write it down or run it (`proofs/stage2.md` Sec. 8).
 - The O(.) constant is ineffective.
 
 The deterministic covering costs 2^{2m}, which forces the prefix down from Ye–Li's n/3 to 0.2499 n. So the saving
 is about xi/12, against Ye–Li's randomized xi/9.
 
-**Theorem 2b (Stage 2b; `PROOF/stage2b-explicit.md`).** There is an explicit deterministic algorithm that
+**Theorem 2b (Stage 2b; `proofs/stage2b-explicit.md`).** There is an explicit deterministic algorithm that
 decides Subset Sum in time 2^{c N0} poly(n, L) 2^{E n}, with E <= 0.4999983316 (as in Theorem 2), N0 = k(k+2),
 k = 10045215487480163574218750 and c = 4858. It builds an input-independent circuit in at most 2^{4 N0} bit
 operations (Lemma E6), then runs Stage 2 with that circuit enumerated implicitly.
@@ -169,20 +169,20 @@ N' only measures how far the circuit is from explicit.
     make lean         # Lean 4 kernel check; needs elan (Lean v4.34.1), ~4 min, peak RSS < 3 GB
     make all          # all three
 
-- `cert/cert_gamma.py` is the Stage 1 exponent certificate. It uses exact-rational interval arithmetic with outward
+- `certificates/cert_gamma.py` is the Stage 1 exponent certificate. It uses exact-rational interval arithmetic with outward
   rounding, and checks [A], [B] and the must-fail controls [C1] and [C2].
-- `cert/cert_eps.py` is the Stage 2 exponent certificate. It uses exact rationals, and covers [A], [B], the block
+- `certificates/cert_eps.py` is the Stage 2 exponent certificate. It uses exact rationals, and covers [A], [B], the block
   length [K], and the must-fail controls [C1] to [C8].
-- `cert/cert_explicit.py` is the Stage 2b design certificate: exact rationals with certified ln 2 and entropy
+- `certificates/cert_explicit.py` is the Stage 2b design certificate: exact rationals with certified ln 2 and entropy
   bounds, Certificate [A] (the design, the constant c and n0) and must-fail controls [C1] to [C7].
-- `cert/cert_explicit_b16.py` (Sec. 12) and `cert/cert_explicit_b17.py` (Sec. 13) certify the smaller-n0 variants:
+- `certificates/cert_explicit_b16.py` (Sec. 12) and `certificates/cert_explicit_b17.py` (Sec. 13) certify the smaller-n0 variants:
   the per-pair rebalancing constant, the halving splitter, the anchors at new (a, b) by concavity, the POS union and
   the ladder. Each table row's E and n0 is checked as an upper bound; controls D1, D2 and K1 to K9.
-  `cert/toy_explicit.py` builds Lemmas E1 to E4 gate by gate at N = 8 and multiplies L R out against M, with four
+  `certificates/toy_explicit.py` builds Lemmas E1 to E4 gate by gate at N = 8 and multiplies L R out against M, with four
   must-fail controls (`make explicit`).
-- `cert/check_stage1.py` and `cert/check_stage2.py` run the algorithms against brute force at toy sizes, with
+- `certificates/check_stage1.py` and `certificates/check_stage2.py` run the algorithms against brute force at toy sizes, with
   negative controls that must miss. They check logic, not asymptotics.
-- `PROOF/ye-li-audit/yl_*.py` are the numeric checks of our Ye–Li audit.
+- `proofs/ye-li-audit/yl_*.py` are the numeric checks of our Ye–Li audit.
 - `lean/` holds the kernel check. `lean/LEAN_SCOPE.md` says exactly what is kernel-checked and what stays paper
   proof. In short, it checks every inequality of the five certificates, with refuted controls. All 94 theorems use
   only `propext`, `Classical.choice` and `Quot.sound` (or a subset), and `leanchecker` replays all 11 modules.
@@ -196,17 +196,17 @@ N' only measures how far the circuit is from explicit.
 
 | path | content |
 |---|---|
-| `PROOF/stage1.md` | Theorem 1, full proof, every claim labelled |
-| `PROOF/stage2.md` | Theorem 2, full proof, non-explicitness stated precisely |
-| `PROOF/stage2b-explicit.md` | Theorem 2b: the explicit construction, Lemmas E1 to E6, referee fixes; Secs. 12-13, smaller n0 |
-| `PROOF/ye-li-audit/` | our adversarial audit of Ye–Li Prop. 4.2 and its scripts |
-| `cert/` | the five certificates (with transcripts `*.out`), the two logic checks and the Stage 2b toy test |
+| `proofs/stage1.md` | Theorem 1, full proof, every claim labelled |
+| `proofs/stage2.md` | Theorem 2, full proof, non-explicitness stated precisely |
+| `proofs/stage2b-explicit.md` | Theorem 2b: the explicit construction, Lemmas E1 to E6, referee fixes; Secs. 12-13, smaller n0 |
+| `proofs/ye-li-audit/` | our adversarial audit of Ye–Li Prop. 4.2 and its scripts |
+| `certificates/` | the five certificates (with transcripts `*.out`), the two logic checks and the Stage 2b toy test |
 | `lean/` | Lake project (Lean v4.34.1, Mathlib v4.34.1), generators `gen_stage1.py` / `gen_stage2.py` / `gen_explicit.py` / `gen_explicit_n0.py`, `LEAN_SCOPE.md` |
-| `CLOSED_IDEAS.md` | routes to deterministic Subset Sum that we closed, with reasons |
+| `docs/CLOSED_IDEAS.md` | routes to deterministic Subset Sum that we closed, with reasons |
 
 Some cross-references in the proofs point to working notes that are not included here: `../AUDIT.md`,
 `../JUDGE_S1.md`, `../RANDOMNESS_LEDGER.md` and `../judge_checks/`. Others refer to files by bare name.
-`cert_gamma.py`, `cert_eps.py`, `check_stage1.py` and `check_stage2.py` are in `cert/`. `AUDIT_YELI.md` and
-`yl_*.py` are in `PROOF/ye-li-audit/`.
+`cert_gamma.py`, `cert_eps.py`, `check_stage1.py` and `check_stage2.py` are in `certificates/`. `AUDIT_YELI.md` and
+`yl_*.py` are in `proofs/ye-li-audit/`.
 
-**Working on this problem?** Read `CLOSED_IDEAS.md` first.
+**Working on this problem?** Read `docs/CLOSED_IDEAS.md` first.

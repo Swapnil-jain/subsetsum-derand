@@ -1,5 +1,5 @@
 """Generate SubsetsumLean/ExplicitAnchors.lean and SubsetsumLean/ExplicitN0.lean, the kernel check of
-cert_explicit_b16.py (PROOF Sec. 12) and cert_explicit_b17.py (PROOF Sec. 13).
+cert_explicit_b16.py (proofs/stage2b-explicit.md Sec. 12) and cert_explicit_b17.py (proofs/stage2b-explicit.md Sec. 13).
 
 Pure standard library. Both certificates are run first (each must exit 0); only their inputs are read from them:
 the rounded-up anchors, the points x0 of Lemma V, and each row's N0 and window half-width e. Lean recomputes every
@@ -17,10 +17,7 @@ import math
 import os
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-# The packaged layout keeps the certificates in ../cert; the working tree keeps them in ~/subsetsum-exp/explicit.
-CERT_DIR = os.path.join(HERE, "..", "cert")
-if not os.path.exists(os.path.join(CERT_DIR, "cert_explicit_b17.py")):
-    CERT_DIR = os.path.expanduser("~/subsetsum-exp/explicit")
+CERT_DIR = os.path.join(HERE, "..", "certificates")
 
 NTERMS = 60
 DIG = 34

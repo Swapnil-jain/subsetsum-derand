@@ -1,7 +1,7 @@
 """Generate SubsetsumLean/Stage3.lean, the kernel check of cert_stage3.py (Stage 3).
 
-Pure standard library. Every number is read from cert_stage3.py itself (found in ../cert, else in
-../derand/stage3), and every claim is first re-checked here: the log enclosures are computed with the kernel's own
+Pure standard library. Every number is read from cert_stage3.py itself (in ../certificates), and every claim is first re-checked
+here: the log enclosures are computed with the kernel's own
 formulas (`lsum`, `lrem`, `logOK`, `entOK`, `hhOK`, `hbOK` of Basic.lean / Stage3Defs.lean) in exact rationals, so
 each `decide +kernel` below is known to succeed before Lean runs. Ye-Li's table constants (fallback only) are
 Lean variables, constrained only by the hypotheses each theorem states.
@@ -14,10 +14,7 @@ import os
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-for d in (os.path.join(HERE, "..", "cert"), os.path.join(HERE, "..", "derand", "stage3")):
-    if os.path.exists(os.path.join(d, "cert_stage3.py")):
-        sys.path.insert(0, d)
-        break
+sys.path.insert(0, os.path.join(HERE, "..", "certificates"))
 import cert_stage3 as C  # noqa: E402
 
 L2C = F(693147180559945309417232121458176568075500134, 10 ** 45)

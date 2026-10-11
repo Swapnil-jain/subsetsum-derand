@@ -1,7 +1,7 @@
 import SubsetsumLean.Basic
 
 /-!
-# The explicit Stage 2 design (`cert/cert_explicit.py`, `PROOF/stage2b-explicit.md` Lemmas E2 to E6)
+# The explicit Stage 2 design (`certificates/cert_explicit.py`, `proofs/stage2b-explicit.md` Lemmas E2 to E6)
 
 Every quantity of Certificate [A] is defined here over `ℚ`, by the same formulas as `cert_explicit.py`. The
 integer witnesses (the hole-fixing count `J`, the rebalancing depth `d*`, and upper bounds `ℓ` on `log2 x` with
@@ -80,7 +80,7 @@ def rmax : ℚ := max (d.rAt 0 0) (max (d.rAt d.t1 d.c1) (max (d.rAt d.t2 d.c2) 
 def LD : ℚ := (d.dstar : ℚ) * (d.rmax + 2) + 4 + 3
 def epsL : ℚ := 2 * d.dL / d.k + (1 + 2 / (d.k : ℚ)) * d.epsV + (d.lgk : ℚ) / d.k
 def epsR : ℚ := 2 * d.dR / d.k + (1 + 2 / (d.k : ℚ)) * d.epsV
-/-- `c = L_D + 1 (padding) + 1 (storage) + 1 (additive preprocessing)` (PROOF Sec. 7). -/
+/-- `c = L_D + 1 (padding) + 1 (storage) + 1 (additive preprocessing)` (proofs/stage2b-explicit.md Sec. 7). -/
 def c : ℚ := d.LD + 3
 def gain : ℚ := (xiB - 2 * max d.epsL d.epsR) / (12 + 2 * (xiB - 2 * max d.epsL d.epsR))
 

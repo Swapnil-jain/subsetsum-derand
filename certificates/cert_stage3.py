@@ -1,6 +1,6 @@
 """Exact-rational certificate for Stage 3 (PROOF.md). Pure standard library, one core, < 20 MB, < 1 min.
 
-Stage 3 = Stage 2 (derand/stage2, refereed) with two independently refereed changes:
+Stage 3 = Stage 2 (proofs/stage2.md, refereed) with two independently refereed changes:
   * the outside-sum dedupe (PROOF.md Sec. 3): no few-sums branch, no gamma; Step 6 costs 2^{n/2 - xi' m + 2 eps m};
   * the re-tuned Ye-Li Sec. 3.5 circuit (PROOF.md Sec. 2): lookup sets of size q = ceil(r u), a0 zeros and a1 ones
     outside D, at (a0, a1, 1-b, r) = (1/1842, 1/1474, 1/83, 29/17). This gives a pair (dL, dR) with

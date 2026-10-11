@@ -1,4 +1,4 @@
-"""Generate SubsetsumLean/Stage2.lean, the kernel check of derand/stage2/cert_eps.py.
+"""Generate SubsetsumLean/Stage2.lean, the kernel check of certificates/cert_eps.py.
 
 Pure standard library. The constants (Ye-Li's table truncations, the rational pair, log2(3) < 317/200) are read
 from cert_eps.py itself, and every claim and control is first re-checked here with cert_eps.check, so the Lean file
@@ -11,7 +11,7 @@ import os
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.join(HERE, "..", "cert"))
+sys.path.insert(0, os.path.join(HERE, "..", "certificates"))
 sys.path.insert(0, HERE)
 import cert_eps as CE  # noqa: E402
 

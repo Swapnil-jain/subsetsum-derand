@@ -5,7 +5,7 @@ Draft, private. Base results:
   numbering is that of v1: Def. 2.1, Thm 2.2, Lemma 3.1, Cor. 3.2, Cor. 3.3, Lemma 3.4, Sec. 3.5,
   Thm 4.1, Prop. 4.2.
 - **AL25**: Alman and Li, arXiv 2509.14489 (FOCS 2025): Appendix B (Thm B.2) and Thm 6.1.
-- Stage 1 of this project (`../stage1/PROOF.md`): a derandomisation of CJRS (arXiv 2301.07134, Sec. 4). Only
+- Stage 1 of this project (`stage1.md`): a derandomisation of CJRS (arXiv 2301.07134, Sec. 4). Only
   its covering lemma and best-shift lemma are reused, and both are stated and proved in Sec. 2 below. Sec. 12
   says what Stage 1 is and how it relates to CJRS; nothing else of Stage 1 is used.
 
@@ -516,7 +516,7 @@ poly(n, L) 2^{E n} with E <= 0.499998331585. Since 0.49999834 - E > 8e-9, the fa
 
 *What the deterministic version loses.* YL's randomized exponent is 1/2 - xi/9 = 0.4999977739 at pi = 1/3.
 Deterministically, the covering costs 2^{2m}. That forces m < n/4, and the gain shrinks from xi/9 to about
-xi/12. A cheaper universal covering would recover part of the gap (`../AUDIT.md`, sec. 5, item 3) [arg].
+xi/12. The routes to a cheaper covering that we examined are closed in `docs/CLOSED_IDEAS.md` Sec. 4.
 
 ## 8. Non-explicitness, stated precisely
 
@@ -730,7 +730,7 @@ exercise PM's speed, which only the real C* provides, nor the prime-number-theor
 
 This section exists so that the document can be read without the other files of the project.
 
-**What Stage 1 is [arg: a description of our own earlier work].** `../stage1/PROOF.md` proves that Subset Sum
+**What Stage 1 is [arg: a description of our own earlier work].** `stage1.md` proves that Subset Sum
 is decided *deterministically* in time O(2^{n/2} n^{-gamma}) for every gamma < 0.010104, in the word-RAM and
 circuit-RAM models of CJRS. It does this by taking the algorithm of Chen, Jin, Randolph and Servedio,
 "Subset Sum in Time 2^{n/2}/poly(n)" (arXiv 2301.07134, CJRS), Sec. 4 (Representation-OV), which is

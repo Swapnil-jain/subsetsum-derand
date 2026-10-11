@@ -1,7 +1,7 @@
 """Gate-level check of the generalised Ye-Li Sec. 3.5 circuit (PROOF.md Sec. 2.1): a0 != a1 outside counts and
 lookup sets of size q(u) != 2u. Self-contained (standard library only).
 
-Adapted from derand/stage2/yl_circuit.py (ours). Generalisation:
+Adapted from proofs/ye-li-audit/yl_circuit.py (ours). Generalisation:
   D(y): B-subset leaving exactly A0 zeros and A1 ones of y outside D;
   U ranges over A1(y) <= U <= A1(y) u A0(y), u = |U| in [A1, A1 + A0], sign (-1)^{u - A1};
   calQ[D,u]: q(u)-subsets of comp(D) covering every u-subset (greedy); Q(U) = first member containing U.

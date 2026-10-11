@@ -1,4 +1,4 @@
-"""Gate-level end-to-end toy test of PROOF/stage2b-explicit.md Lemmas E1 + E2 + E3 + E4 at N = 8 (exact integers/rationals).
+"""Gate-level end-to-end toy test of proofs/stage2b-explicit.md Lemmas E1 + E2 + E3 + E4 at N = 8 (exact integers/rationals).
 
 Toy parameters: N = 8, a = 1/8 (A = 1), b = 1/2 (B = 4), window half-width eps' = 1/8: rows of weight 3..5,
 queries with z0 N = 1..3 zeros and z1 N = 4 - z0 N ones (4 stars). M = P_{8,1/2}: rows {0,1}^8, queries with 4
@@ -22,7 +22,7 @@ Part 3, E4. (a) Gate level: a depth-2 tree for M (x) M whose root uses C3 and wh
   satisfy deg_L + lambda deg_R <= G_2(lambda) (Y4). At N = 8 the circuit C3 lies above min(v1, v2) for every tau
   (Ye-Li's construction gains nothing at this size), so the rule itself only picks the trivial pieces.
   (b) The three-piece claim of E4 is therefore tested at degree level on a family in which C3 is on the hull
-  (the YL-shaped family of PROOF/ye-li-audit/yl_rebalance.py): for d <= 14 and 41 values of lambda,
+  (the YL-shaped family of proofs/ye-li-audit/yl_rebalance.py): for d <= 14 and 41 values of lambda,
   G_d(lambda) <= D_d * sum_{tau in A} 2^{N d c(tau)} lambda^{1-tau}, with the induction's
   D_d = prod_{j <= d} (1 + 2^{1 + N(r_max - Delta j)}). This part uses floats for the irrational crossing
   points tau1, tau2 (relative tolerance 1e-9); G_d itself is exact.
@@ -176,7 +176,7 @@ def D_of(y, Dl):
     return None
 
 def right_column(y, Dl, Ql, tag, drop=None):
-    """Sparse column {gate: coef}, gate = (tag, D, Q, sigma); Ye-Li Sec. 3.5 (as derand/stage2/yl_circuit.py)."""
+    """Sparse column {gate: coef}, gate = (tag, D, Q, sigma); Ye-Li Sec. 3.5 (as proofs/ye-li-audit/yl_circuit.py)."""
     z, o = y
     if drop is not None and drop[0] == "D":
         Dl = [d for d in Dl if not Dcovers(d, drop[1])]   # no member fits the query drop[1] any more

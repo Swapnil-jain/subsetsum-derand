@@ -2,7 +2,7 @@ import SubsetsumLean.ExplicitDefs
 import SubsetsumLean.Stage2Defs
 
 /-!
-# Smaller n0 for the explicit Stage 2 (`PROOF/stage2b-explicit.md` Secs. 12-13; `cert/cert_explicit_b16.py`, `cert/cert_explicit_b17.py`)
+# Smaller n0 for the explicit Stage 2 (`proofs/stage2b-explicit.md` Secs. 12-13; `certificates/cert_explicit_b16.py`, `certificates/cert_explicit_b17.py`)
 
 Every rational quantity of the two certificates is defined here over `ℚ`, by the scripts' own formulas, so that
 `decide +kernel` recomputes it: the three-piece structure and its per-pair gaps (Lemma E4'), the hull pair and

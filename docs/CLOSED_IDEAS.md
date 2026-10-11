@@ -27,8 +27,8 @@ send the argument. Corrections will be credited.
 
 | idea | why it fails | status |
 |---|---|---|
-| Stage 2: one covering of the translates of the prefix-sum set, reused in every layer | The layer of a hit depends on the prefix c_pre, so the covering must range over pairs (c_pre, shift) | [exp] toy control `sigma` of `cert/check_stage2.py`: 42 misses |
-| Stage 1 / Stage 2: a single best residue, or a covering of one shift (y = 0) only | It misses solutions | [exp] controls `single` and `oneshift` of `cert/check_stage1.py` and `cert/check_stage2.py` |
+| Stage 2: one covering of the translates of the prefix-sum set, reused in every layer | The layer of a hit depends on the prefix c_pre, so the covering must range over pairs (c_pre, shift) | [exp] toy control `sigma` of `certificates/check_stage2.py`: 42 misses |
+| Stage 1 / Stage 2: a single best residue, or a covering of one shift (y = 0) only | It misses solutions | [exp] controls `single` and `oneshift` of `certificates/check_stage1.py` and `certificates/check_stage2.py` |
 | Stage 2: Ye–Li's own prefix n/3 with the deterministic covering | The covering costs 2^{2m} = 2^{2n/3} > 2^{n/2}. The prefix must stay below n/4 | [cert] control C3 of `cert_eps.py`, `stage2_C3` in Lean |
 | Stage 2: prefix exactly n/4 | The covering then costs 2^{n/2}, so there is no saving | [cert] control C2, `stage2_C2` |
 | Stage 1: CJRS's printed rounding (0.1579, 0.2427) | g < 0.0101 there, so the stated value needs the exact roots or a better rational point | [cert] C1, `stage1_C1` |
