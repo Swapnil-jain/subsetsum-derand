@@ -3,7 +3,7 @@
 Pure standard library. Same method and checker as Stage 4 (gen_stage4_cells.py, `SS4.chk`): the colour polygon is
 covered by a binary tree of boxes, each leaf bounded by Gibbs tangent planes and a chord, checked by `decide +kernel`.
 The problems are the contact claims V(t1) <= t1 hsLo and V(t2) <= (1 - t2)(1 - s) of the seven circuits of
-derand/stage5/cert_stage5.py MENU_DATA. The circuit s = 1/8 is Stage 4's own (same rho, t1, t2: asserted below),
+certificates/stage5/cert_stage5.py MENU_DATA. The circuit s = 1/8 is Stage 4's own (same rho, t1, t2: asserted below),
 so its trees are reused from Stage4Cells_s8_*; the six others are new here.
 Run:  python3 gen_stage5_cells.py   (writes Stage5Probs.lean, the Stage5Cells_* modules and stage5_modules.txt)
 """

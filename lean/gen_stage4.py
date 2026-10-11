@@ -1,5 +1,5 @@
 """Generate SubsetsumLean/Stage4ERows.lean and SubsetsumLean/Stage4.lean: the kernel check of every inequality of
-derand/stage4/cert_stage4.py and cert_stage4plus.py except the cell trees (gen_stage4_cells.py).
+certificates/stage4/cert_stage4.py and cert_stage4plus.py except the cell trees (gen_stage4_cells.py).
 
 Pure standard library. Every number is read from the two certificate scripts, and every claim is first re-checked
 here in exact rationals with the kernel's own formulas (Basic.lean's `logOK`, `hbOK`, Stage3Defs' `hhOK`, and the
@@ -962,7 +962,7 @@ open SS
 STAGE4_TOP = """import SubsetsumLean.Stage4XI
 import SubsetsumLean.Stage4E
 
-/-! Stage 4: the kernel check of `derand/stage4/cert_stage4.py` and `cert_stage4plus.py` (see LEAN_SCOPE.md). -/
+/-! Stage 4: the kernel check of `certificates/stage4/cert_stage4.py` and `cert_stage4plus.py` (see LEAN_SCOPE.md). -/
 """
 
 

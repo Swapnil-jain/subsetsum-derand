@@ -3,7 +3,7 @@ import Mathlib.Tactic.NormNum
 import Mathlib.Tactic.Linarith
 
 /-!
-# Stage 2: the exponent of the deterministic Ye-Li algorithm (`derand/stage2/cert_eps.py`)
+# Stage 2: the exponent of the deterministic Ye-Li algorithm (`certificates/stage2/cert_eps.py`)
 
 Cost terms per unit n at prefix m = pi n (PROOF.md Lemma 6.1), with gamma = 2 xi'/3:
 

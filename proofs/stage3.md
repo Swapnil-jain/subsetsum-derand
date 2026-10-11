@@ -2,9 +2,9 @@
 
 Draft, private. Stage 3 is Stage 2 (`proofs/stage2.md`, refereed, called **S2** below) with two changes, each
 refereed separately by two clean referees (both CONFIRMED WITH FIXES, all fixes applied):
-- **the outside-sum dedupe** (lead A22): the record lists use distinct block sums, which pays back the filter's
+- **the outside-sum dedupe**: the record lists use distinct block sums, which pays back the filter's
   1/N loss for every N, so S2's few-sums branch and its gamma disappear (Sec. 3);
-- **the re-tuned Ye-Li circuit** (lead A15): YL's Sec. 3.5 circuit with lookup sets of size ceil(r u) and with
+- **the re-tuned Ye-Li circuit**: YL's Sec. 3.5 circuit with lookup sets of size ceil(r u) and with
   a0 n zeros and a1 n ones outside D, which raises xi from 2.0035e-5 to 3.6314576e-5 (Sec. 2).
 
 Base results, numbered as in their v1: **YL** = Ye and Li, "Subset Sum via Partial Match", arXiv 2610.10446 (Def. 2.1,
@@ -52,7 +52,7 @@ give the lower bounds kappa >= kappa_0 = 148444531984 and N' >= 2203577907624568
 some larger size, with no explicit threshold. We can prove that the program exists; we cannot write it down or run it (S2 Sec. 8 applies verbatim, with
 the new rational pair in the degree caps).
 
-*History.* The four-block variant (lead A21, E about 1/2 - 3.34e-6) is superseded by
+*History.* The four-block variant (E about 1/2 - 3.34e-6) is superseded by
 the dedupe and is not used. Stage 2 with the re-tune alone (no dedupe) gives E <= 0.499996975544; the dedupe alone
 gives Theorem 3'.
 

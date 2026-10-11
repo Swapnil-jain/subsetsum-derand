@@ -8,7 +8,7 @@ import Mathlib.Tactic.Positivity
 # Rigorous rational bounds on `Real.log` and on binary entropy
 
 The log machinery (`lsum`, `lrem`, `log_one_sub_mem`, `log_two_mem`, `logOK`, `log_mem`) is copied verbatim from
-the 3SUM package (`threesum-derand/lean/ThreesumLean/Basic.lean`). For `|t| < 1`, Mathlib's
+the author's unpublished 3SUM package. For `|t| < 1`, Mathlib's
 `Real.abs_log_sub_add_sum_range_le` bounds `log (1 - t)` by a partial sum of its series; a positive rational `x`
 is written as `x = 2^k (1 - t)`, and `log 2 = -log (1 - 1/2)` is bounded by the same series. The partial sums are
 computed in `ℚ` and compared by `decide +kernel`. Nothing analytic is assumed.

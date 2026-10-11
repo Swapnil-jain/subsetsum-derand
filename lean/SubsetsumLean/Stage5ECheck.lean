@@ -3,7 +3,7 @@ import SubsetsumLean.Stage4ECheck
 /-!
 # Stage 5: the computable checkers behind the exponent rows (rationals only)
 
-`derand/stage5/cert_stage5.py` bounds, per layer kappa, the cost terms of a design `(a, c1, c2, w)`: a core fraction
+`certificates/stage5/cert_stage5.py` bounds, per layer kappa, the cost terms of a design `(a, c1, c2, w)`: a core fraction
 `a` from the row's menu, two menu circuits `c1, c2` (density `s`, line values `l = line(1)`, `r = line(0)`) and an outer
 split `w`. With `t = (kappa - a (s1 + 1 - s2)/2) / (1 - a)`:
 - `base = H(kappa) - (1 - a) H(t)/2 + (1 - a)/2 - 1 + lambda`,

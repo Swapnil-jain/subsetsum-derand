@@ -21,7 +21,7 @@ fact all served by the central layer), and d is anything in [0, 1]. So the sup r
 and symmetric cores pay the curvature (1 - a)(1 - h(t))/2 off-centre. That is why R1 saves only ~ mu xi/2 (binding
 at alpha = 1/2 near kappa = 0.47), not A39's ceiling mu alpha xi; control K6 rejects the ceiling for R1. And A39's
 design set {0, alpha} leaves a gap just outside the last feasible menu pair (control K5): intermediate alphas are needed.
-Arithmetic: stage4_cert_vendored.py (a verbatim copy of derand/stage4/cert_stage4.py): outward-rounded intervals and the colour-landscape prover Land.
+Arithmetic: stage4_cert_vendored.py (a verbatim copy of certificates/stage4/cert_stage4.py): outward-rounded intervals and the colour-landscape prover Land.
 Run: nice -n 15 /usr/bin/python3 -B -E cert_stage5.py        (about 3-6 min under load, < 100 MB)
 """
 import hashlib
@@ -262,7 +262,7 @@ ROWS = {
 
 def main():
     sha = hashlib.sha256(open(os.path.join(HERE, "stage4_cert_vendored.py"), "rb").read()).hexdigest()[:16]
-    print(f"Stage 5 certificate (uses stage4_cert_vendored.py = copy of derand/stage4/cert_stage4.py, sha256 {sha}...)")
+    print(f"Stage 5 certificate (uses stage4_cert_vendored.py = copy of certificates/stage4/cert_stage4.py, sha256 {sha}...)")
     print("[XI] circuits (Stage 4's branch-and-bound prover):")
     s4 = XI_DATA[F(11, 100)]
     single = cert_single(F(11, 100), s4["rho"], s4["t1"], s4["t2"], controls=False)

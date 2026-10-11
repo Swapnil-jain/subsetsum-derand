@@ -1,6 +1,6 @@
 # Deterministic Subset Sum below meet-in-the-middle
 
-**Swapnil Jain. Private draft, not published.**
+**Swapnil Jain. Preprint, not peer reviewed.**
 
 Horowitz and Sahni's meet-in-the-middle (1974) decides Subset Sum deterministically in 2^{n/2} poly(n) time. Every
 known algorithm that beats it is randomized. This repository gives deterministic algorithms below it, in six stages.
@@ -8,11 +8,10 @@ known algorithm that beats it is randomized. This repository gives deterministic
 **Headline.** Subset Sum is decided deterministically, and a solution is found, in poly(n, L) 2^{(E + eps) n} bit
 operations for every eps > 0, with
 
-    E <= 0.4986298176        (gain 1/2 - E >= 1.3702e-3; Stage 5b)
+    E <= 0.4986298176        (gain 1/2 - E >= 1.3702e-3; Stage 5b; one internal referee pass; not peer reviewed)
 
 The algorithm is **non-explicit**: it is one fixed, finite program that uses no randomness, but it hardcodes an exact
-integer circuit that is only proven to exist. It is built on Ye and Li's unpublished "Record 3" reduction, which we
-reconstructed, proved and re-certified (Credits). It has had one internal referee pass.
+integer circuit that is only proven to exist. It is built on Ye and Li's unpublished "Record 3" reduction, which we read in their linked Record 3 transcript, re-derived, proved and re-certified (Credits). It has had one internal referee pass.
 
 **Working on this problem?** Read [docs/CLOSED_IDEAS.md](docs/CLOSED_IDEAS.md) first: it lists the routes we closed,
 with the reason for each.
@@ -112,8 +111,8 @@ eps > 0, and the round-family loss (lambda, at piece length 8e9) is inside every
     0.499664500303... at 06:42, where the complete formal proof is explicitly still pending". The same passage says
     the project had moved from s = 1/2 to s = 1/8 and that "the broader criterion allows any fixed s in (0, 1/2]". So
     the reduction is credited, by its authors, to an AI model working in their project, and it is unproved there.
-  - **What we reconstructed and re-certified.** The specifics were read in a shared chat transcript of Record 3, which
-    is not part of the paper or of any publication, so their attribution cannot be checked from anything published.
+  - **What we reconstructed and re-certified.** The specifics were read in Record 3's transcript, which the paper's
+    AI-disclosure section links (Records table, row 3: https://chatgpt.com/share/6ac5a437-5d0c-83e8-afea-fcc450b322b0), so readers can check the attribution.
     We re-derived every one of them and certified the numbers independently; the ideas remain Record 3's (Ye and Li's
     project), not ours:
     - the block representation (c_i = l_i + r_i with l in {0,1}, r in {-1,0,1}) on a mu n block, few/many sums on the
@@ -142,7 +141,7 @@ eps > 0, and the round-family loss (lambda, at piece length 8e9) is inside every
     their disclosure, proof pending there), only the number is public, and we claim as ours only the proofs of the
     [arg] steps, the repairs, the certificates and the deterministic port.
 - **Mathlib** (leanprover-community) and Lean 4. The Lean log bounds (`lean/SubsetsumLean/Basic.lean`) are copied
-  from our 3SUM package and rest on Mathlib.
+  from unpublished code of the author and rest on Mathlib.
 
 `NOTICE` lists exactly what is whose. A literature search on 2026-10-10 found no earlier deterministic algorithm
 below meet-in-the-middle; that is evidence, not proof.
@@ -166,7 +165,7 @@ fails unless every printed theorem uses only `propext`, `Classical.choice` and `
 `native_decide`.
 
 What is kernel-checked and what stays a paper proof is in `lean/LEAN_SCOPE.md`. In short, Lean checks every
-inequality of every certificate, with the must-fail controls proved false. That the certified terms are the running
+inequality of every certificate, except as listed in `lean/LEAN_SCOPE.md`, with the must-fail controls proved false. That the certified terms are the running
 times of the algorithms is a paper proof, and so are the cited facts.
 
 ## Files

@@ -2,7 +2,7 @@ import SubsetsumLean.Stage4EDefs
 import SubsetsumLean.Stage5ECheck
 
 /-!
-# Stage 5: the exponent terms of `derand/stage5/cert_stage5.py` over the reals, and the soundness of the checkers
+# Stage 5: the exponent terms of `certificates/stage5/cert_stage5.py` over the reals, and the soundness of the checkers
 
 `Good R lam claim a c1 c2 w κ`: the design `(a, c1, c2, w)` is valid at layer kappa and its terms P3, P4, P6 (with
 `lambda = lam`, real binary entropy and the real `log2 3`) are at most `claim`. `Covered R κ`: some design of the row's

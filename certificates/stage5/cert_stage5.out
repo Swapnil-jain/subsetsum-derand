@@ -1,4 +1,4 @@
-Stage 5 certificate (uses stage4_cert_vendored.py = copy of derand/stage4/cert_stage4.py, sha256 ec7cc5adc295cfe0...)
+Stage 5 certificate (uses stage4_cert_vendored.py = copy of certificates/stage4/cert_stage4.py, sha256 ec7cc5adc295cfe0...)
 [XI] circuits (Stage 4's branch-and-bound prover):
    s = 11/100    rho = 549/200: V(t1) <= t1 h(s) True, V(t2) <= (1-t2)(1-s) True, slope/l/r ok True; l <= 0.2752598107, r <= 0.1056863398, xi >= 0.0044849038
    s = 2/25      rho = 57/20 : V(t1) <= t1 h(s) True, V(t2) <= (1-t2)(1-s) True, slope/l/r ok True; l <= 0.2354543010, r <= 0.0789023091, xi >= 0.0039112901; controls C1/C2 (contacts moved 1e-04 outward) refuted: True True

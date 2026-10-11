@@ -1,7 +1,7 @@
 """Generate the Stage 5 kernel check except the cell trees (gen_stage5_cells.py): the circuit and row data, the exponent
 pieces, the must-fail refutations, and the analysis modules Stage5XI, Stage5Ctl, Stage5E, Stage5, Stage5Axioms.
 
-Pure standard library. Every number comes from derand/stage5/cert_stage5.py (MENU_DATA, ROWS, the controls) or from
+Pure standard library. Every number comes from certificates/stage5/cert_stage5.py (MENU_DATA, ROWS, the controls) or from
 Stage 4's Lean data, and every claim is first re-checked here by an exact mirror of the Lean checkers
 (Stage5ECheck.lean: `Row.pieceOK`, `Row.refOne`), so each `decide +kernel` is known to succeed before Lean runs.
 Run:  python3 gen_stage5.py   (after gen_stage5_cells.py; about 3 min; writes stage5_light_modules.txt)
@@ -894,7 +894,7 @@ import SubsetsumLean.Stage5Ctl_0
 import SubsetsumLean.Stage5Ctl_1
 import SubsetsumLean.Stage5E
 
-/-! Stage 5: the kernel check of `derand/stage5/cert_stage5.py` (see LEAN_SCOPE.md). -/
+/-! Stage 5: the kernel check of `certificates/stage5/cert_stage5.py` (see LEAN_SCOPE.md). -/
 """)
     # axioms audit
     thms = []

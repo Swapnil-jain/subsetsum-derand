@@ -13,16 +13,14 @@ Four separate things, kept apart because only the first two can be checked by a 
 
 - **Public: the number.** The only Record 3 result in print is the numerical candidate 0.499664500303..., quoted in
   the AI disclosure of Ye and Li (Lixi Ye, Baitian Li), arXiv 2610.10446 v1, "Subset Sum via Partial Match"
-  (main.tex:663-669). No reduction, circuit or proof of it is published.
+  (section "AI disclosure and timestamps"). No reduction, circuit or proof of it is published.
 - **What we read in that disclosure.** Inside Ye-Li's project, on 28 September 2026, the AI model "GPT-6 astra
   ultra" found "a reduction showing that ordinary subset sum could also break meet-in-the-middle using the same P_1
   circuit improvement"; "Record 3 contains a detailed reduction at 06:22, and the numerical candidate
   0.499664500303... at 06:42, where the complete formal proof is explicitly still pending". The same passage says the
   project had moved from s = 1/2 to s = 1/8 and that "the broader criterion allows any fixed s in (0, 1/2]". So the
   reduction is credited, by its authors, to an AI model working in Ye-Li's project, and it is unproved there.
-- **Reconstructed by us, from an unpublished source.** The specifics were read in a shared chat transcript of
-  Record 3 (not part of the paper or of any publication), so their attribution cannot
-  be checked from anything published. We re-derived every one of them and certified the numbers independently; the ideas
+- **Reconstructed by us, from the linked Record 3 transcript.** The specifics were read in the Record 3 transcript that the paper's "AI disclosure and timestamps" section links (https://chatgpt.com/share/6ac5a437-5d0c-83e8-afea-fcc450b322b0), so readers can check the attribution. We re-derived every one of them and certified the numbers independently; the ideas
   remain Record 3's (Ye-Li's project), not ours:
   - the block representation (c_i = l_i + r_i with l in {0,1}, r in {-1,0,1}) on a mu n block, few/many sums on the
     block, the kappa-layer pigeonhole and enumeration;

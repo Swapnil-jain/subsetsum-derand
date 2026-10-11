@@ -5,7 +5,7 @@ import Mathlib.Analysis.SpecialFunctions.Log.NegMulLog
 /-!
 # Stage 4: soundness of the cell checker, the colour profile, and the general lemmas
 
-`derand/stage4/PROOF.md` Secs. 3.5-3.6 and 8. The colour profile of the one-pass covering circuit at density `s`
+`certificates/stage4/PROOF.md` Secs. 3.5-3.6 and 8. The colour profile of the one-pass covering circuit at density `s`
 (`k = s/2`, block size `b(m) = k + rho (m - k)`), per coordinate, on the polygon
 `Poly4 = {k ≤ m ≤ 2k, m ≤ d ≤ b(m)}`:
 - `L4 = h(1/2, d) + h(1/2, b - d) - h(1 - m, b - m)` (left), `R4 = h(k, m - k) + h(b - m, d - m)` (right);

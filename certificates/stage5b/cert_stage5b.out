@@ -1,6 +1,6 @@
 Stage 5b certificate
    stage4_cert_vendored.py: sha256 ec7cc5adc295cfe0..., identical to ../stage4/cert_stage4.py: True
-   stage5_cert_vendored.py: sha256 c0a645d88e7fc119..., identical to ../stage5/cert_stage5.py: True
+   stage5_cert_vendored.py: sha256 4bd24a75da2ef970..., identical to ../stage5/cert_stage5.py: True
 [XI] Stage 5's seven single menu circuits, Stage 4's single 11/100 circuit and the Stage 4+ pair, re-proved with Stage 5's own functions:
    s = 2/25      rho = 57/20 : V(t1) <= t1 h(s) True, V(t2) <= (1-t2)(1-s) True, slope/l/r ok True; l <= 0.2354543010, r <= 0.0789023091, xi >= 0.0039112901
    s = 19/200    rho = 14/5  : V(t1) <= t1 h(s) True, V(t2) <= (1-t2)(1-s) True, slope/l/r ok True; l <= 0.2565364934, r <= 0.0927417625, xi >= 0.0043321462

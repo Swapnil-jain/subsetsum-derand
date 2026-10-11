@@ -208,7 +208,7 @@ everything (the certificate uses log2 e >= 1.4426, certified). The cost is in Le
 Then (L) gives an exact coloured circuit C3 for P_{N,1/2} with
 Upsilon_C3(tau) <= 2^{N(Vbar(tau) + eps_V)}, where eps_V := eps_win + J/N + eps_poly.
 
-*Alternative (lead B7) [arg].* Interval flips (Hobby-Rice) plus a rectangle-partition protocol, with no
+*Alternative [arg].* Interval flips (Hobby-Rice) plus a rectangle-partition protocol, with no
 inclusion-exclusion. This would make the hole term about 1/eps' instead of 1/eps'^2. It is not needed here:
 at the design of Sec. 6 the hole term J/N0 is about 9e-25.
 
@@ -434,10 +434,10 @@ At N = 8, a = 1/8, b = 1/2 and eps' = 1/8 (9 window types), exact integers and r
 `../lean/SubsetsumLean/Explicit.lean` kernel-checks Certificate [A]'s inequalities and its controls, without
 `sorry` or `native_decide`. `../lean/LEAN_SCOPE.md` lists what is kernel-checked and what stays on paper.
 
-## 12. Improvement (lead B16): a sharper rebalancing constant [proof; certificate `../certificates/cert_explicit_b16.py`, its inequalities Lean-checked (Sec. 13.8)]
+## 12. Improvement: a sharper rebalancing constant [proof; certificate `../certificates/cert_explicit_b16.py`, its inequalities Lean-checked (Sec. 13.8)]
 
 This section is separate from Theorem E, whose statement (c = 4858) stays as certified and kernel-checked above.
-It re-derives lead B16 (from our internal list of leads) and certifies it at design [A].
+It re-derives this improvement and certifies it at design [A].
 
 **Lemma E4' (per-pair form of E4).** Same family, rule and A as E4, with fixed dyadic thresholds x1, x2. For
 piece t and an off point tau_j of A, let delta_{t,j} be the least value, over piece t's threshold region of ell,
@@ -479,7 +479,7 @@ below 1/2 - 0.4999983316; the run time is then below 2^{0.4999991667 n} poly(n, 
 **Not folded into this section.** B17 (A9's halving splitter in place of YL Lemma 3.1, N0 = q) and A19 (a ladder of base
 lengths) change Lemma E5's reduction itself. They are written out in Sec. 13 (refereed twice, fixes applied).
 
-## 13. Smaller n0 (leads B17 and A19, and the small-q + POS variant) [certificate `../certificates/cert_explicit_b17.py`, its inequalities Lean-checked (Sec. 13.8); two clean referees, fixes applied]
+## 13. Smaller n0 (the small-q + POS variant) [certificate `../certificates/cert_explicit_b17.py`, its inequalities Lean-checked (Sec. 13.8); two clean referees, fixes applied]
 
 This section is separate from Theorem E (Secs. 0-11) and from Sec. 12. Each variant below is a different explicit
 algorithm with its own exponent E, its own constant and its own n0. n0 is Sec. 12's threshold,

@@ -1,6 +1,6 @@
 """Generate the cell certificates for Stage 4's [XI] (SubsetsumLean/Stage4Cells*.lean), checked by the kernel.
 
-Pure standard library. The Python certificate (derand/stage4/cert_stage4.py, cert_stage4plus.py) proves each contact
+Pure standard library. The Python certificate (certificates/stage4/cert_stage4.py, cert_stage4plus.py) proves each contact
 claim V(tau) <= target by branch and bound with natural interval bounds, thousands of boxes and float logs. That is
 not a shape Lean can check cheaply, so this file builds a different certificate for the SAME claims:
 
